@@ -19,7 +19,7 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import Chroma
 import constants as ct
-
+from langchain.schema import Document as LLMDocument
 
 ############################################################
 # 設定関連
@@ -111,20 +111,26 @@ def initialize_retriever():
     
     # RAGの参照先となるデータソースの読み込み
     docs_all = load_data_sources()
+    # print("docs_all:", docs_all)
 
     # OSがWindowsの場合、Unicode正規化と、cp932（Windows用の文字コード）で表現できない文字を除去
     for doc in docs_all:
-        doc.page_content = adjust_string(doc.page_content)
-        for key in doc.metadata:
-            doc.metadata[key] = adjust_string(doc.metadata[key])
-    
+        if not doc.page_content == "":
+            doc.page_content = adjust_string(doc.page_content)
+            for key in doc.metadata:
+                doc.metadata[key] = adjust_string(doc.metadata[key])
+
+
     # 埋め込みモデルの用意
     embeddings = OpenAIEmbeddings()
     
     # チャンク分割用のオブジェクトを作成
+    # 【問題2】のため修正
     text_splitter = CharacterTextSplitter(
-        chunk_size=500,
-        chunk_overlap=50,
+        # chunk_size=500,
+        # chunk_overlap=50,
+        chunk_size=ct.CHUNK_SIZE,
+        chunk_overlap=ct.CHUNK_OVERLAP,
         separator="\n"
     )
 
@@ -135,7 +141,28 @@ def initialize_retriever():
     db = Chroma.from_documents(splitted_docs, embedding=embeddings)
 
     # ベクターストアを検索するRetrieverの作成
-    st.session_state.retriever = db.as_retriever(search_kwargs={"k": 3})
+    # ======================================================================================
+    # 【問題1】 
+    #  チャット送信後、ベクターストアから関連ドキュメントを取り出すRAGの処理が実装されていますが、
+    #  現在、ベクターストアから取り出してプロンプトに埋め込む関連ドキュメントの数が「3」となっています。
+    #  これを「5」に変更してください。
+    # =======================================================================================
+    # 【回答1】
+    # 　"k": 3 →　"k": 5
+    # st.session_state.retriever = db.as_retriever(search_kwargs={"k": 5})
+
+
+    # if st.session_state.mode == ct.ANSWER_MODE_1:
+    #     # モードが「社内文書検索」の場合
+    #     print("mode:", st.session_state.mode)
+    #     st.session_state.retriever = db.as_retriever(search_kwargs={"k": ct.DOCUMENT_NUMBER})
+    # else:
+    #     # モードが「社内問い合わせ」の場合
+    #     print("mode:", st.session_state.mode)
+    #     st.session_state.retriever = db.as_retriever(search_kwargs={"k": 10})
+
+    st.session_state.retriever = db.as_retriever(search_kwargs={"k": ct.DOCUMENT_NUMBER})
+
 
 
 def initialize_session_state():
@@ -158,8 +185,16 @@ def load_data_sources():
     """
     # データソースを格納する用のリスト
     docs_all = []
+    shain_csv_docs = []
     # ファイル読み込みの実行（渡した各リストにデータが格納される）
-    recursive_file_check(ct.RAG_TOP_FOLDER_PATH, docs_all)
+    recursive_file_check(ct.RAG_TOP_FOLDER_PATH, docs_all, shain_csv_docs)
+    # print("docs_all:", docs_all)
+    # print("shain_csv_docs:", shain_csv_docs)
+    exdoc = merge_documents(shain_csv_docs)
+    # exdoc = LLMDocument(page_content="島根県", metadata={"source": "shimane"})
+    # print("exdoc:", exdoc)
+    docs_all.append(exdoc)
+    # print("docs_all:", docs_all)
 
     web_docs_all = []
     # ファイルとは別に、指定のWebページ内のデータも読み込み
@@ -176,13 +211,14 @@ def load_data_sources():
     return docs_all
 
 
-def recursive_file_check(path, docs_all):
+def recursive_file_check(path, docs_all, shain_csv_docs):
     """
     RAGの参照先となるデータソースの読み込み
 
     Args:
         path: 読み込み対象のファイル/フォルダのパス
         docs_all: データソースを格納する用のリスト
+        shain_csv_docs: 社員名簿のデータソースを格納する用のリスト
     """
     # パスがフォルダかどうかを確認
     if os.path.isdir(path):
@@ -193,19 +229,20 @@ def recursive_file_check(path, docs_all):
             # ファイル/フォルダ名だけでなく、フルパスを取得
             full_path = os.path.join(path, file)
             # フルパスを渡し、再帰的にファイル読み込みの関数を実行
-            recursive_file_check(full_path, docs_all)
+            recursive_file_check(full_path, docs_all, shain_csv_docs)
     else:
         # パスがファイルの場合、ファイル読み込み
-        file_load(path, docs_all)
+        file_load(path, docs_all, shain_csv_docs)
 
 
-def file_load(path, docs_all):
+def file_load(path, docs_all, shain_csv_docs):
     """
     ファイル内のデータ読み込み
 
     Args:
         path: ファイルパス
         docs_all: データソースを格納する用のリスト
+        shain_csv_docs: 社員名簿のデータソースを格納する用のリスト
     """
     # ファイルの拡張子を取得
     file_extension = os.path.splitext(path)[1]
@@ -217,8 +254,29 @@ def file_load(path, docs_all):
         # ファイルの拡張子に合ったdata loaderを使ってデータ読み込み
         loader = ct.SUPPORTED_EXTENSIONS[file_extension](path)
         docs = loader.load()
-        docs_all.extend(docs)
 
+        if file_name in ct.EMPLOYEE_LIST_CSV:
+        # if file_name in "社員名簿.csv":
+            shain_csv_docs.extend(docs)
+        else:
+            docs_all.extend(docs)
+
+        # 【問題5】の確認
+        print(f"Loaded {len(docs)} documents from {file_name}.")
+
+
+
+# ####################################################################
+def merge_documents(docs):
+    content = "\n".join(doc.page_content.replace("\n", ",") for doc in docs)
+    metadata = {
+        "merged_from": len(docs),
+        "source_files": list({doc.metadata["source"] for doc in docs})
+    }
+    # return LLMDocument(page_content=content, metadata=metadata)
+    return LLMDocument(page_content=content, metadata={"source": ct.EMPLOYEE_LIST_CSV_PATH})
+    # return LLMDocument(page_content=content, metadata={"source": "./data\社員について\社員名簿.csv"})
+# ####################################################################
 
 def adjust_string(s):
     """

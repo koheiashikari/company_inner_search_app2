@@ -26,6 +26,7 @@ WARNING_ICON = ":material/warning:"
 ERROR_ICON = ":material/error:"
 SPINNER_TEXT = "回答生成中..."
 
+RIYOU_MOKUTEKI = "利用目的"
 
 # ==========================================
 # ログ出力系
@@ -50,7 +51,9 @@ RAG_TOP_FOLDER_PATH = "./data"
 SUPPORTED_EXTENSIONS = {
     ".pdf": PyMuPDFLoader,
     ".docx": Docx2txtLoader,
-    ".csv": lambda path: CSVLoader(path, encoding="utf-8")
+    ".csv": lambda path: CSVLoader(path, encoding="utf-8"),
+    # 【問題5】の対応
+    ".txt": lambda path: TextLoader(path, encoding="utf-8")
 }
 WEB_URL_LOAD_TARGETS = [
     "https://generative-ai.web-camp.io/"
@@ -110,3 +113,22 @@ NO_DOC_MATCH_MESSAGE = """
 CONVERSATION_LOG_ERROR_MESSAGE = "過去の会話履歴の表示に失敗しました。"
 GET_LLM_RESPONSE_ERROR_MESSAGE = "回答生成に失敗しました。"
 DISP_ANSWER_ERROR_MESSAGE = "回答表示に失敗しました。"
+
+# ==========================================
+# 【問題2】
+#  現在、「問題1」で変更した数値と、ドキュメントのチャンク分割を行う際に指定する「chunk_size」、また「chunk_overlap」の数値が、マジックナンバーとなっています。
+#  これらの数値を、適切なファイルで変数化して使うように修正してください。
+# ==========================================
+DOCUMENT_NUMBER = 5
+CHUNK_SIZE = 500
+CHUNK_OVERLAP = 50
+
+# ==========================================
+# 【問題6】
+#  社員名簿.csvを定数化
+#  社員名簿.csvのパスを定数化
+#  人事のに所属する社員を全員分取得するため、一旦k=100とする
+# ==========================================
+EMPLOYEE_LIST_CSV = "社員名簿.csv"
+EMPLOYEE_LIST_CSV_PATH = "./data\社員について\社員名簿.csv"
+EMPLOYEE_NUMBER = 100

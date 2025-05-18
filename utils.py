@@ -86,9 +86,11 @@ def get_llm_response(chat_message):
     if st.session_state.mode == ct.ANSWER_MODE_1:
         # モードが「社内文書検索」の場合のプロンプト
         question_answer_template = ct.SYSTEM_PROMPT_DOC_SEARCH
+        st.session_state.retriever.search_kwargs["k"] = ct.DOCUMENT_NUMBER
     else:
         # モードが「社内問い合わせ」の場合のプロンプト
         question_answer_template = ct.SYSTEM_PROMPT_INQUIRY
+        st.session_state.retriever.search_kwargs["k"] = ct.EMPLOYEE_NUMBER
     # LLMから回答を取得する用のプロンプトテンプレートを作成
     question_answer_prompt = ChatPromptTemplate.from_messages(
         [
@@ -97,6 +99,7 @@ def get_llm_response(chat_message):
             ("human", "{input}")
         ]
     )
+
 
     # 会話履歴なしでもLLMに理解してもらえる、独立した入力テキストを取得するためのRetrieverを作成
     history_aware_retriever = create_history_aware_retriever(
@@ -107,10 +110,18 @@ def get_llm_response(chat_message):
     question_answer_chain = create_stuff_documents_chain(llm, question_answer_prompt)
     # 「RAG x 会話履歴の記憶機能」を実現するためのChainを作成
     chain = create_retrieval_chain(history_aware_retriever, question_answer_chain)
+    # print("chain", chain)
 
     # LLMへのリクエストとレスポンス取得
     llm_response = chain.invoke({"input": chat_message, "chat_history": st.session_state.chat_history})
+    print("llm_response：", llm_response)
+    # 【問題1】の回答確認
+    # print("len(llm_response[""context""])：", len(llm_response["context"]))
+    
     # LLMレスポンスを会話履歴に追加
     st.session_state.chat_history.extend([HumanMessage(content=chat_message), llm_response["answer"]])
+
+    # print("llm_response：", llm_response)
+
 
     return llm_response
