@@ -267,6 +267,8 @@ def file_load(path, docs_all, shain_csv_docs):
 
 
 # ####################################################################
+# 社員名簿をマージする関数
+# ####################################################################
 def merge_documents(docs):
     content = "\n".join(doc.page_content.replace("\n", ",") for doc in docs)
     metadata = {
