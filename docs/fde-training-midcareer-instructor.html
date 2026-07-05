@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FDE研修 中途コース 講師用ガイド・演習解答例</title>
+<style>
+  :root {
+    --navy: #1a2b4a;
+    --navy-light: #2d4370;
+    --accent: #e8734a;
+    --accent-soft: #fdf0ea;
+    --teal: #2a7f7f;
+    --teal-soft: #e8f4f4;
+    --bg: #ffffff;
+    --paper: #f7f6f2;
+    --text: #2b2b2b;
+    --muted: #6b6b6b;
+    --line: #ddd8d0;
+    --term-bg: #1e2430;
+    --term-text: #d8e0ea;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+    color: var(--text);
+    background: var(--paper);
+    line-height: 1.75;
+  }
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    background: var(--bg);
+    padding: 48px 56px 64px;
+  }
+  h1 { font-size: 30px; color: var(--navy); line-height: 1.4; }
+  h2 { font-size: 24px; color: var(--navy); margin: 0 0 6px; line-height: 1.4; }
+  h3 {
+    font-size: 19px; color: var(--navy);
+    margin: 34px 0 12px;
+    padding-left: 12px;
+    border-left: 6px solid var(--accent);
+    line-height: 1.5;
+  }
+  h4 { font-size: 16.5px; color: var(--navy); margin: 20px 0 8px; }
+  p { font-size: 15.5px; margin-bottom: 10px; }
+  ul, ol { font-size: 15.5px; padding-left: 24px; margin-bottom: 12px; }
+  li { margin-bottom: 5px; }
+  strong { color: var(--navy); }
+  small, .small { font-size: 13px; color: var(--muted); }
+  code {
+    font-family: "SF Mono", Consolas, Menlo, monospace;
+    font-size: .88em;
+    background: #efede8;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 1px 6px;
+  }
+
+  /* ---------- chapter header ---------- */
+  .chapter {
+    background: var(--navy);
+    color: #fff;
+    border-radius: 12px;
+    padding: 26px 32px;
+    margin: 56px 0 26px;
+    page-break-before: always;
+    break-before: page;
+    position: relative;
+    overflow: hidden;
+  }
+  .chapter:first-of-type { page-break-before: auto; break-before: auto; }
+  .chapter .ch-num {
+    position: absolute; right: 24px; top: 8px;
+    font-size: 64px; font-weight: 800; color: rgba(255,255,255,.12);
+  }
+  .chapter .ch-week {
+    display: inline-block;
+    background: var(--accent); color: #fff;
+    font-size: 12.5px; font-weight: 700;
+    border-radius: 20px; padding: 2px 14px;
+    margin-bottom: 8px; letter-spacing: .05em;
+  }
+  .chapter h2 { color: #fff; }
+  .chapter p { color: #c9d2e4; font-size: 14.5px; margin: 4px 0 0; }
+
+  /* ---------- goal / boxes ---------- */
+  .goal {
+    background: var(--accent-soft);
+    border: 2px solid var(--accent);
+    border-radius: 10px;
+    padding: 14px 20px;
+    margin: 14px 0 20px;
+  }
+  .goal .goal-title { font-size: 13px; font-weight: 700; color: var(--accent); letter-spacing: .1em; margin-bottom: 4px; }
+  .goal ul { margin-bottom: 0; }
+
+  .check {
+    background: var(--teal-soft);
+    border-left: 6px solid var(--teal);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 18px;
+    margin: 14px 0;
+    break-inside: avoid;
+  }
+  .check .check-title { font-size: 13px; font-weight: 700; color: var(--teal); letter-spacing: .08em; margin-bottom: 4px; }
+  .check p, .check li { font-size: 14.5px; }
+  .check ul { margin-bottom: 0; }
+
+  .trouble {
+    background: #fdf3f0;
+    border-left: 6px solid #c0442a;
+    border-radius: 0 8px 8px 0;
+    padding: 12px 18px;
+    margin: 14px 0;
+    break-inside: avoid;
+  }
+  .trouble .trouble-title { font-size: 13px; font-weight: 700; color: #c0442a; letter-spacing: .08em; margin-bottom: 6px; }
+  .trouble table { margin: 0; }
+  .trouble td, .trouble th { font-size: 13.5px; padding: 6px 10px; }
+
+  .note {
+    background: #fffbe8;
+    border-left: 6px solid #d9a520;
+    border-radius: 0 8px 8px 0;
+    padding: 10px 16px;
+    margin: 12px 0;
+    font-size: 14px;
+    break-inside: avoid;
+  }
+
+  /* ---------- steps ---------- */
+  .step {
+    display: flex; gap: 14px;
+    margin: 18px 0;
+    break-inside: avoid;
+  }
+  .step .step-num {
+    flex: 0 0 34px; height: 34px;
+    background: var(--navy); color: #fff;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 16px;
+    margin-top: 2px;
+  }
+  .step .step-body { flex: 1; min-width: 0; }
+  .step .step-title { font-size: 16.5px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .step p { font-size: 14.5px; }
+
+  /* ---------- code block ---------- */
+  pre {
+    background: #f2f0ea;
+    border: 1px solid var(--line);
+    border-left: 5px solid var(--navy);
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-family: "SF Mono", Consolas, Menlo, monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-x: auto;
+    margin: 10px 0;
+    white-space: pre;
+    break-inside: avoid;
+  }
+  pre .cm { color: #7a7a72; }   /* comment */
+  pre .kw { color: #9d3c9d; font-weight: 700; }  /* keyword */
+  pre .st { color: #b0561f; }   /* string */
+  pre .fn { color: #1f5fb0; }   /* function */
+  .code-label {
+    display: inline-block;
+    background: var(--navy); color: #fff;
+    font-size: 11.5px; font-weight: 700;
+    border-radius: 6px 6px 0 0;
+    padding: 3px 14px;
+    margin: 10px 0 0;
+  }
+  .code-label + pre { margin-top: 0; border-top-left-radius: 0; }
+
+  /* ============================================================
+     SCREEN MOCKUPS(画面イメージ)
+  ============================================================ */
+  .screen {
+    margin: 16px 0 4px;
+    break-inside: avoid;
+  }
+  .screen-caption {
+    font-size: 12.5px; color: var(--muted);
+    margin: 6px 0 16px;
+    padding-left: 4px;
+  }
+  .screen-caption::before { content: "▲ 画面イメージ:"; color: var(--accent); font-weight: 700; margin-right: 4px; }
+
+  .window {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #b9b4aa;
+    box-shadow: 0 4px 16px rgba(0,0,0,.14);
+    font-size: 13px;
+  }
+  .win-titlebar {
+    display: flex; align-items: center; gap: 7px;
+    padding: 8px 12px;
+    background: linear-gradient(#e9e6df, #dcd8cf);
+    border-bottom: 1px solid #b9b4aa;
+  }
+  .win-titlebar .dot { width: 11px; height: 11px; border-radius: 50%; }
+  .dot.r { background: #f36b5c; } .dot.y { background: #f5bd4f; } .dot.g { background: #61c455; }
+  .win-titlebar .win-title { flex: 1; text-align: center; font-size: 12px; color: #555; }
+
+  /* terminal */
+  .terminal .win-titlebar { background: linear-gradient(#3a4150, #2c3340); border-bottom-color: #1a1f28; }
+  .terminal .win-title { color: #aab4c2; }
+  .term-body {
+    background: var(--term-bg);
+    color: var(--term-text);
+    font-family: "SF Mono", Consolas, Menlo, monospace;
+    font-size: 12.5px;
+    line-height: 1.7;
+    padding: 14px 16px;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  .term-body .ps { color: #7fd47f; font-weight: 700; }   /* prompt */
+  .term-body .cmd { color: #ffffff; font-weight: 700; }
+  .term-body .out { color: #aab7c6; }
+  .term-body .ok { color: #7fd47f; }
+  .term-body .warn { color: #f5bd4f; }
+  .term-body .err { color: #f37c6c; }
+
+  /* browser */
+  .browser .urlbar {
+    display: flex; align-items: center; gap: 8px;
+    background: #f2f0ea;
+    padding: 7px 12px;
+    border-bottom: 1px solid #ccc7bd;
+  }
+  .browser .urlbar .navbtn { color: #999; font-size: 13px; letter-spacing: 2px; }
+  .browser .urlbar .url {
+    flex: 1;
+    background: #fff;
+    border: 1px solid #ccc7bd;
+    border-radius: 14px;
+    font-size: 12px;
+    color: #444;
+    padding: 3px 14px;
+    font-family: Consolas, Menlo, monospace;
+  }
+  .browser-body { background: #fff; }
+
+  /* streamlit app */
+  .stl { display: flex; min-height: 300px; }
+  .stl-sidebar {
+    flex: 0 0 190px;
+    background: #f0f2f6;
+    padding: 14px;
+    border-right: 1px solid #e2e4e8;
+    font-size: 12.5px;
+  }
+  .stl-sidebar .stl-side-title { font-weight: 700; font-size: 13px; margin-bottom: 10px; color: #31333f; }
+  .stl-radio { margin: 6px 0; color: #31333f; display: flex; gap: 7px; align-items: flex-start; }
+  .stl-radio .rb { width: 13px; height: 13px; border: 2px solid #c3c8d4; border-radius: 50%; margin-top: 3px; flex: 0 0 13px; }
+  .stl-radio.sel .rb { border-color: #ff4b4b; box-shadow: inset 0 0 0 3px #fff, inset 0 0 0 8px #ff4b4b; }
+  .stl-main { flex: 1; padding: 18px 22px; font-size: 13px; color: #31333f; }
+  .stl-h1 { font-size: 20px; font-weight: 800; margin-bottom: 10px; color: #0e1117; }
+  .stl-info {
+    background: #e8f0fe; color: #1a4a8f;
+    border-radius: 8px; padding: 9px 14px; font-size: 12.5px; margin: 8px 0;
+  }
+  .stl-warn {
+    background: #fff8e1; color: #8a6d1a;
+    border-radius: 8px; padding: 9px 14px; font-size: 12.5px; margin: 8px 0;
+  }
+  .stl-chat-user, .stl-chat-ai {
+    display: flex; gap: 10px; margin: 12px 0; align-items: flex-start;
+  }
+  .stl-avatar {
+    flex: 0 0 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; background: #ffe3d3;
+  }
+  .stl-chat-ai .stl-avatar { background: #d8e8e8; }
+  .stl-bubble { flex: 1; background: #f0f2f6; border-radius: 10px; padding: 9px 14px; font-size: 12.5px; line-height: 1.65; }
+  .stl-src { font-size: 11.5px; color: #1a7f4f; background: #e7f6ee; border-radius: 6px; padding: 5px 10px; margin-top: 6px; }
+  .stl-input {
+    margin-top: 16px;
+    border: 1px solid #d5d9e2; border-radius: 22px;
+    padding: 9px 18px; color: #9aa0ab; font-size: 12.5px;
+    display: flex; justify-content: space-between;
+  }
+  .stl-btn {
+    display: inline-block; background: #fff; border: 1px solid #d5d9e2;
+    border-radius: 8px; padding: 4px 14px; font-size: 12.5px; color: #31333f; margin: 4px 0;
+  }
+  .stl-btn.primary { background: #ff4b4b; border-color: #ff4b4b; color: #fff; }
+  .stl-textinput {
+    border: 1px solid #d5d9e2; border-radius: 8px;
+    padding: 7px 12px; font-size: 12.5px; color: #31333f;
+    background: #fff; margin: 4px 0 10px;
+  }
+  .stl-textinput .ph { color: #9aa0ab; }
+  .stl-table { width: 100%; border-collapse: collapse; margin: 8px 0; }
+  .stl-table th { background: #f0f2f6; color: #31333f; font-size: 12px; border: 1px solid #e2e4e8; padding: 5px 10px; text-align: left; }
+  .stl-table td { font-size: 12px; border: 1px solid #e2e4e8; padding: 5px 10px; }
+
+  /* github */
+  .gh { background: #f6f8fa; font-size: 13px; }
+  .gh-header {
+    background: #24292f; color: #fff;
+    padding: 9px 16px; font-size: 13px;
+    display: flex; gap: 14px; align-items: center;
+  }
+  .gh-header .gh-logo { font-size: 17px; }
+  .gh-header .gh-crumb { color: #c9d1d9; }
+  .gh-header .gh-crumb b { color: #fff; }
+  .gh-body { padding: 16px 20px; }
+  .gh-pr-title { font-size: 17px; font-weight: 700; color: #1f2328; margin-bottom: 4px; }
+  .gh-pr-title .gh-prnum { color: #656d76; font-weight: 400; }
+  .gh-badge {
+    display: inline-block; background: #1a7f37; color: #fff;
+    border-radius: 20px; padding: 2px 12px; font-size: 12px; font-weight: 700;
+    margin-right: 8px;
+  }
+  .gh-badge.merged { background: #8250df; }
+  .gh-meta { color: #656d76; font-size: 12.5px; margin-bottom: 12px; }
+  .gh-box { background: #fff; border: 1px solid #d0d7de; border-radius: 8px; margin: 10px 0; overflow: hidden; }
+  .gh-box-head { background: #f6f8fa; border-bottom: 1px solid #d0d7de; padding: 7px 14px; font-weight: 700; font-size: 12.5px; color: #1f2328; }
+  .gh-box-body { padding: 10px 14px; font-size: 12.5px; color: #1f2328; line-height: 1.65; }
+  .gh-comment-meta { font-size: 12px; color: #656d76; margin-bottom: 3px; }
+  .gh-diff { font-family: Consolas, Menlo, monospace; font-size: 11.5px; line-height: 1.6; }
+  .gh-diff .add { background: #dafbe1; display: block; padding: 0 10px; }
+  .gh-diff .del { background: #ffebe9; display: block; padding: 0 10px; }
+  .gh-diff .ctx { display: block; padding: 0 10px; color: #57606a; }
+  .gh-btn {
+    display: inline-block; background: #1f883d; color: #fff;
+    border-radius: 6px; padding: 5px 14px; font-size: 12.5px; font-weight: 700; margin: 4px 0;
+  }
+  .gh-field {
+    background: #fff; border: 1px solid #d0d7de; border-radius: 6px;
+    padding: 6px 12px; font-size: 12.5px; color: #1f2328; margin: 6px 0;
+  }
+  .gh-field .ph { color: #8b949e; }
+
+  /* editor (VS Code) */
+  .vsc { display: flex; background: #1e1e28; min-height: 240px; }
+  .vsc-side {
+    flex: 0 0 170px; background: #22222e; color: #b8bcc8;
+    font-size: 12px; padding: 10px 0;
+    border-right: 1px solid #33333f;
+  }
+  .vsc-side .vsc-side-title { font-size: 10.5px; letter-spacing: .1em; color: #8a8fa0; padding: 0 14px 6px; }
+  .vsc-side .f { padding: 2.5px 14px; }
+  .vsc-side .f.dir { color: #d0b26a; }
+  .vsc-side .f.sel { background: #34344a; color: #fff; }
+  .vsc-side .f.indent { padding-left: 28px; }
+  .vsc-main { flex: 1; min-width: 0; }
+  .vsc-tabs { display: flex; background: #191924; }
+  .vsc-tab { padding: 6px 18px; font-size: 12px; color: #8a8fa0; border-right: 1px solid #33333f; }
+  .vsc-tab.sel { background: #1e1e28; color: #fff; border-top: 2px solid var(--accent); }
+  .vsc-code {
+    font-family: "SF Mono", Consolas, Menlo, monospace;
+    font-size: 12px; line-height: 1.7;
+    color: #d4d4d4; padding: 12px 16px;
+    white-space: pre; overflow-x: auto;
+  }
+  .vsc-code .ln { color: #5a5a6e; display: inline-block; width: 26px; }
+  .vsc-code .kw { color: #c586c0; } .vsc-code .st { color: #ce9178; }
+  .vsc-code .fn { color: #dcdcaa; } .vsc-code .cm { color: #6a9955; }
+
+  /* logic tree mock */
+  .ltree { display: flex; align-items: center; gap: 16px; margin: 14px 0; break-inside: avoid; }
+  .ltree .root {
+    background: var(--navy); color: #fff; border-radius: 10px;
+    padding: 14px 16px; font-size: 13.5px; font-weight: 700;
+    flex: 0 0 170px; text-align: center;
+  }
+  .ltree .l2col { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .ltree .branch { display: flex; align-items: center; gap: 10px; }
+  .ltree .b2 {
+    background: var(--teal-soft); border: 2px solid var(--teal);
+    border-radius: 8px; padding: 8px 12px; font-size: 12.5px; font-weight: 700; color: var(--navy);
+    flex: 0 0 180px; text-align: center;
+  }
+  .ltree .b3list { display: flex; flex-direction: column; gap: 5px; flex: 1; }
+  .ltree .b3 {
+    background: #fff; border: 1px solid var(--line);
+    border-radius: 6px; padding: 5px 10px; font-size: 12px;
+  }
+  .ltree .conn { color: var(--accent); font-weight: 700; font-size: 16px; }
+
+  /* doc mock (要件定義書など) */
+  .docmock {
+    background: #fff;
+    border: 1px solid #b9b4aa;
+    box-shadow: 0 4px 16px rgba(0,0,0,.12);
+    border-radius: 4px;
+    padding: 26px 32px;
+    font-size: 13px;
+    break-inside: avoid;
+  }
+  .docmock .doc-title { font-size: 17px; font-weight: 800; color: var(--navy); text-align: center; margin-bottom: 4px; }
+  .docmock .doc-meta { text-align: right; font-size: 11.5px; color: var(--muted); margin-bottom: 12px; }
+  .docmock table { width: 100%; }
+  .docmock th { width: 160px; background: #eef1f6; color: var(--navy); font-size: 12.5px; }
+  .docmock td, .docmock th { border: 1px solid #c9ccd4; padding: 7px 12px; font-size: 12.5px; vertical-align: top; }
+
+  /* ---------- tables ---------- */
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+  th, td { border: 1px solid var(--line); padding: 8px 12px; font-size: 14px; text-align: left; vertical-align: top; line-height: 1.6; }
+  th { background: var(--navy); color: #fff; font-size: 13px; }
+  tr:nth-child(even) td { background: #faf9f6; }
+
+  /* ---------- cover / toc ---------- */
+  .cover {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    color: #fff; border-radius: 14px;
+    padding: 60px 48px;
+    margin-bottom: 36px;
+  }
+  .cover .bar { width: 80px; height: 8px; background: var(--accent); border-radius: 4px; margin-bottom: 22px; }
+  .cover h1 { color: #fff; font-size: 34px; margin-bottom: 8px; }
+  .cover .cov-sub { color: #c9d2e4; font-size: 17px; margin-bottom: 30px; }
+  .cover .cov-meta { color: #8fa0c0; font-size: 13px; }
+  .toc { columns: 2; column-gap: 40px; font-size: 14.5px; }
+  .toc li { margin-bottom: 6px; }
+
+  .weekmap { display: flex; gap: 5px; margin: 14px 0 20px; }
+  .weekmap .wm { color: #fff; font-size: 12px; font-weight: 700; padding: 8px 6px; border-radius: 6px; text-align: center; line-height: 1.4; }
+  .weekmap .wm small { display: block; font-weight: 400; font-size: 10.5px; color: rgba(255,255,255,.85); }
+
+  /* ---------- print ---------- */
+  @media print {
+    @page { size: A4; margin: 13mm 11mm; }
+    body { background: #fff; }
+    .page { max-width: none; padding: 0; }
+    .window, .docmock { box-shadow: none; }
+    h3 { break-after: avoid; }
+    .screen, .step, pre, .check, .trouble, .note { break-inside: avoid; }
+  }
+
+  /* ---------- instructor guide additions ---------- */
+  .confidential {
+    display: inline-block;
+    background: #7a1f1f; color: #fff;
+    font-size: 13px; font-weight: 700;
+    border-radius: 6px; padding: 5px 14px;
+    margin-bottom: 18px; letter-spacing: .04em;
+  }
+  .answer {
+    background: #eef7ee;
+    border: 1px solid #bcd9bc;
+    border-left: 6px solid #2e7d32;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 14px 0;
+    break-inside: avoid;
+  }
+  .answer .answer-title {
+    font-size: 13px; font-weight: 700; color: #2e7d32;
+    letter-spacing: .06em; margin-bottom: 8px;
+  }
+  .answer pre { background: #f7fbf7; border-left-color: #2e7d32; }
+  .answer table { background: #fff; margin: 8px 0; }
+  .answer p, .answer li { font-size: 14.5px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ================= COVER ================= -->
+<div class="cover">
+  <div class="bar"></div>
+  <div class="confidential">🔒 講師用 — 受講者には配布・公開しないでください(解答例・判定基準の内部運用を含みます)</div>
+  <h1>FDE研修 中途コース<br>講師用ガイド・演習解答例</h1>
+  <p class="cov-sub">アセスメント実施要領/ロールプレイ演技ガイド/課題の模範解答/判定会議の運営</p>
+  <p class="cov-meta">対応教材:docs/fde-training-midcareer-handbook.html(受講者用・全6章)/ 想定講師:シニアFDE(アセスメント判定者を兼ねる)</p>
+</div>
+
+<h2>講師の役割と運営原則</h2>
+<ul>
+  <li>相手は経験3年以上のプロです。<strong>「教える」より「当社の基準を示し、差分を一緒に埋める」</strong>スタンスで。前職流のやり方には敬意を払いつつ、当社ルールの「理由」を必ず説明します。</li>
+  <li>経験者特有のリスクは2つ:<strong>①プライドによる質問回避</strong>(詰まりを隠す)<strong>②前職の型の過剰適用</strong>。1on1で「今週、前職とやり方が違って戸惑った点」を定例質問にすると両方を検知できます。</li>
+  <li>アセスメント(第1章)の結果は<strong>選別ではなく処方箋</strong>。本人への開示は必ず「強み → 補強点 → プラン」の順で。</li>
+</ul>
+
+<!-- ============================================================ -->
+<div class="chapter">
+  <div class="ch-num">01</div>
+  <span class="ch-week">第 1 週</span>
+  <h2>第1章 アセスメント — 実施要領と模範解答</h2>
+  <p>3種目(コーディング/ケース面接/模擬レビュー)の実施ガイドです。評価のブレを防ぐため、必ず2名で採点し独立に点を付けてから突き合わせてください。</p>
+</div>
+
+<h3>1-1. コーディングテストの課題と模範解答</h3>
+<div class="answer">
+  <div class="answer-title">✎ 出題(90分中40分)と模範解答</div>
+  <p><strong>課題:</strong>「売上明細CSV(日付, 顧客名, 商品, 金額)を読み込み、顧客ごとの合計金額を高い順に出力せよ。ただし金額欄には『1,200円』『(空欄)』などの汚れが混ざっている」</p>
+  <pre><span class="kw">import</span> csv
+
+<span class="kw">def</span> <span class="fn">parse_amount</span>(raw):
+    <span class="cm"># 「1,200円」「 1200 」等を整数化。空欄・解釈不能は None を返して呼び出し側で集計</span>
+    cleaned = raw.replace(<span class="st">","</span>, <span class="st">""</span>).replace(<span class="st">"円"</span>, <span class="st">""</span>).strip()
+    <span class="kw">if</span> <span class="kw">not</span> cleaned:
+        <span class="kw">return</span> <span class="kw">None</span>
+    <span class="kw">try</span>:
+        <span class="kw">return</span> <span class="fn">int</span>(cleaned)
+    <span class="kw">except</span> ValueError:
+        <span class="kw">return</span> <span class="kw">None</span>
+
+totals, skipped = {}, []
+<span class="kw">with</span> <span class="fn">open</span>(<span class="st">"sales.csv"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> f:
+    <span class="kw">for</span> i, row <span class="kw">in</span> <span class="fn">enumerate</span>(csv.DictReader(f), start=2):
+        amount = parse_amount(row[<span class="st">"金額"</span>])
+        <span class="kw">if</span> amount <span class="kw">is</span> <span class="kw">None</span>:
+            skipped.append(i)          <span class="cm"># 汚れ行は握りつぶさず記録</span>
+            <span class="kw">continue</span>
+        totals[row[<span class="st">"顧客名"</span>]] = totals.get(row[<span class="st">"顧客名"</span>], 0) + amount
+
+<span class="kw">for</span> name, total <span class="kw">in</span> <span class="fn">sorted</span>(totals.items(), key=<span class="kw">lambda</span> x: x[1], reverse=<span class="kw">True</span>):
+    <span class="fn">print</span>(<span class="st">f"{name}: {total:,}円"</span>)
+<span class="kw">if</span> skipped:
+    <span class="fn">print</span>(<span class="st">f"※ 金額を解釈できず除外した行: {skipped}"</span>)</pre>
+  <table>
+    <tr><th style="width:190px;">採点観点(各5点)</th><th>満点の状態</th></tr>
+    <tr><td>正しく動く</td><td>汚れデータでも落ちず、集計が正しい</td></tr>
+    <tr><td>汚れの扱い</td><td>除外・補正の方針を<strong>自分で決めて明示</strong>している(黙って捨てない)</td></tr>
+    <tr><td>可読性</td><td>関数分割・命名が適切(parse_amount の切り出し等)</td></tr>
+    <tr><td>口頭説明</td><td>「なぜ None 方式にしたか」「行番号を2始まりにした理由」等の設計判断を語れる</td></tr>
+  </table>
+</div>
+
+<h3>1-2. ケース面接の評価ガイド</h3>
+<div class="answer">
+  <div class="answer-title">✎ お題「社内の問い合わせ対応が回らない(中堅製造業)」— 面接官用</div>
+  <ul>
+    <li><strong>高評価の質問例:</strong>「問い合わせは誰から誰に、月何件来ていますか」「多い問い合わせ上位3つは」「回らないと、業務に何が起きていますか」— 事実・定量・影響を確認しに行く</li>
+    <li><strong>低評価のサイン:</strong>開始5分以内に「チャットボットを入れましょう」等の解決策を提示/仮説なしに質問を乱発/「AIで解決できます」と手段が先行</li>
+    <li><strong>揺さぶり(全員に1回):</strong>「で、結局いくらかかるの?」— 期待対応は「概算の前提を作るための逆質問」または「持ち帰りの宣言+期日」。適当な金額の即答は減点</li>
+  </ul>
+</div>
+
+<h3>1-3. 模擬レビューの仕込みバグ一覧</h3>
+<div class="answer">
+  <div class="answer-title">✎ レビュー対象PRに仕込む問題(受講者には非公開)</div>
+  <table>
+    <tr><th style="width:290px;">仕込み</th><th>気づけたら</th></tr>
+    <tr><td>APIキーがコードに直書きされている</td><td><strong>必須検出。</strong>見逃したら他が満点でも要注意と記録</td></tr>
+    <tr><td>except で例外を握りつぶしている(pass)</td><td>検出+「最低限ログに残す」の代案が出れば加点</td></tr>
+    <tr><td>コメントと実装の不一致(コメントは昇順、実装は降順)</td><td>検出できれば加点(差分を読む深さの指標)</td></tr>
+    <tr><td>動くが冗長なループ(こちらは正解のない好みの問題)</td><td>指摘の「トーン」を見る。断定・攻撃的なら伝え方を面談で扱う</td></tr>
+  </table>
+</div>
+
+<!-- ============================================================ -->
+<div class="chapter">
+  <div class="ch-num">02</div>
+  <span class="ch-week">第 2〜3 週(エンジニア出身)</span>
+  <h2>第2章 ブリッジ研修(コンサル力)— 演技ガイドと模範解答</h2>
+  <p>受講者用教材に掲載した「予算2割減」カード以外の、残り2枚のシナリオカードを収録します。ロールプレイは1日1カード・録画必須です。</p>
+</div>
+
+<h3>交渉ロールプレイ:追加シナリオカード</h3>
+<div class="answer">
+  <div class="answer-title">✎ カード②「納期半減」(受講者には非公開)</div>
+  <table>
+    <tr><th style="width:170px;">顧客役の要求</th><td>「役員会が前倒しになった。2週間の計画を1週間にできない?」</td></tr>
+    <tr><th>期待する対応例</th><td>スコープの段階分割を返す:「1週間で『人事部の主要50文書のみ・検索と参照元表示まで』は出せます。残り(全文書・説明会)は役員会後の第2週に。役員会でお見せしたいのはどの部分ですか?」— <strong>目的(役員会で何を見せたいか)を聞き返せたら加点</strong></td></tr>
+    <tr><th>NG対応</th><td>「徹夜すれば…」等の根性論/品質・テストを黙って削る(削るなら明示的に合意を取るのが正解)</td></tr>
+  </table>
+</div>
+<div class="answer">
+  <div class="answer-title">✎ カード③「他社比較」(受講者には非公開)</div>
+  <table>
+    <tr><th style="width:170px;">顧客役の要求</th><td>「他社は同じものを半額でやると言っている。おたくは高くない?」</td></tr>
+    <tr><th>期待する対応例</th><td>価格でなく前提の differences を確認:「その内容、対象文書数と定着支援の範囲を伺えますか。当社の見積りには導入後1ヶ月の利用定着支援が含まれており、そこが御社の課題(使われないシステムの回避)に直結すると考えています」— <strong>値引きせず価値軸に戻す</strong></td></tr>
+    <tr><th>NG対応</th><td>他社の悪口/根拠のないその場値引き/「では失注でも仕方ないです」と早々に降りる</td></tr>
+  </table>
+</div>
+
+<h3>「翻訳」トレーニングの模範解答(受講者記入欄の解答例)</h3>
+<div class="answer">
+  <div class="answer-title">✎ 追加3行の解答例(前職頻出用語)</div>
+  <table>
+    <tr><th style="width:290px;">エンジニアの言葉</th><th>顧客の言葉への翻訳例</th></tr>
+    <tr><td>「ステージング環境で検証してから本番反映します」</td><td>「本番と同じ条件の練習場で試してから、皆さんの環境に反映します。万一の不具合が業務に及ばない進め方です」</td></tr>
+    <tr><td>「APIのレートリミットに当たる可能性があります」</td><td>「一度に大量に使うと、サービス側の利用制限で一時的に待ち時間が発生することがあります。ピーク時間を避ける運用をご提案します」</td></tr>
+    <tr><td>「この要件だと工数が非線形に増えます」</td><td>「この追加は、見た目の小ささに対して作業が数倍になる種類のものです。理由をご説明しますので、優先度を一緒に判断させてください」</td></tr>
+  </table>
+</div>
+
+<!-- ============================================================ -->
+<div class="chapter">
+  <div class="ch-num">03</div>
+  <span class="ch-week">第 2〜3 週(コンサル出身)</span>
+  <h2>第3章 ブリッジ研修(実装力)— PR課題の模範解答</h2>
+  <p>ブートキャンプの解答は未経験者コース講師ガイドを流用してください。ここでは中途固有のPR課題②③の模範解答を示します。</p>
+</div>
+
+<h3>PR課題②「会話履歴の永続化」の模範解答(組み込み側)</h3>
+<div class="answer">
+  <div class="answer-title">✎ 模範解答:chat_log.py(教材掲載)に加えた、アプリへの組み込み</div>
+  <pre><span class="cm"># --- initialize.py: 表示用メッセージ初期化部の変更 ---</span>
+<span class="cm"># 変更前: st.session_state.messages = []</span>
+<span class="kw">import</span> chat_log
+<span class="kw">if</span> <span class="st">"messages"</span> <span class="kw">not</span> <span class="kw">in</span> st.session_state:
+    st.session_state.messages = chat_log.load_history()   <span class="cm"># 前回分を復元</span>
+    <span class="kw">if</span> st.session_state.messages:
+        st.session_state.restored = <span class="kw">True</span>   <span class="cm"># 「復元しました」表示用のフラグ</span>
+
+<span class="cm"># --- main.py: 回答表示後に保存を追加 ---</span>
+st.session_state.messages.append({<span class="st">"role"</span>: <span class="st">"assistant"</span>, <span class="st">"content"</span>: answer_text})
+chat_log.save_history(st.session_state.messages)          <span class="cm"># 送受信のたびに上書き保存</span>
+
+<span class="cm"># --- components.py: サイドバーにクリアボタン(発展課題) ---</span>
+<span class="kw">if</span> st.button(<span class="st">"🗑 会話履歴をクリア"</span>):
+    st.session_state.messages = []
+    chat_log.save_history([])
+    st.rerun()</pre>
+  <p class="small">レビューの要点:①<strong>保存するのは表示用テキストのみ</strong>(LangChainのメッセージオブジェクトをそのままJSON化しようとして詰まるのが最頻出。「表示用」と「LLM文脈用」の2つの履歴の区別に気づかせる)②logs/ を .gitignore に追加したか(会話ログのコミットは情報漏えい)③初回起動(ファイルなし)で壊れないか。</p>
+</div>
+
+<h3>PR課題③「検索精度の改善」の模範解答(結論の書き方)</h3>
+<div class="answer">
+  <div class="answer-title">✎ 「顧客への説明」形式の模範例</div>
+  <p style="font-size:14px; background:#fff; border:1px solid var(--line); border-radius:8px; padding:12px 16px;">「検索の設定を3案比較した結果、<strong>現行設定から検索件数のみ5→7に変更</strong>することを推奨します。効果は『複数部署にまたがる質問』の正答が10問中6→8問に改善すること、代償は回答が平均2秒遅くなることです。日常の単純な質問には影響がありません。来月データが増えた時点で再測定します。」</p>
+  <p class="small">評価基準:効果とトレードオフが顧客の言葉で両方書かれているか/再測定の計画(運用視点)があるか。数値がなく「良くなった気がします」は差し戻し。</p>
+</div>
+
+<!-- ============================================================ -->
+<div class="chapter">
+  <div class="ch-num">04</div>
+  <span class="ch-week">第 2〜3 週(共通・毎夕)</span>
+  <h2>第4章 ケーススタディ — ファシリテーションガイド</h2>
+  <p>講師は司会に徹し、結論を先に言わないこと。登壇する当時の担当FDEには「失敗も含めて話す」ことを事前に合意しておきます。</p>
+</div>
+
+<div class="answer">
+  <div class="answer-title">✎ 討議の問いかけ台本(2日目・60分)</div>
+  <ol>
+    <li>(冒頭10分)「分析シートの『最初の兆候』、全員の答えを並べます」— 兆候の位置が人によって違うことを見せる</li>
+    <li>(20分)「その兆候の時点で、あなたが担当FDEなら<strong>明日の朝一番に</strong>何をしますか」— 抽象論を禁止し、行動レベルで言わせる</li>
+    <li>(20分)当時の担当FDEへの質疑。講師から必ず1問:「当時、兆候に気づいていましたか。気づいていたのに動けなかったとしたら、何が止めましたか」— <strong>構造(納期プレッシャー・言い出しにくさ)の話に到達させる</strong></li>
+    <li>(10分)「自分の前職で似た構造を見たことは?」— 経験者ならではの接続で締める</li>
+  </ol>
+  <p class="small">炎上案件の討議が「担当者の力量不足」という結論に流れたら必ず介入:「同じ人が成功案件も担当しています。差は人ではなく何でしたか?」</p>
+</div>
+
+<!-- ============================================================ -->
+<div class="chapter">
+  <div class="ch-num">05</div>
+  <span class="ch-week">第 4〜5 週</span>
+  <h2>第5章 実案件シャドーイング — 受け入れ運営</h2>
+  <p>この2週間の成否は受け入れ側(担当FDE)の準備で決まります。講師(研修事務局)は受け入れ側との調整が主業務になります。</p>
+</div>
+
+<div class="answer">
+  <div class="answer-title">✎ 受け入れFDEへの依頼チェックリスト(アサイン確定時に送付)</div>
+  <ul>
+    <li>☐ 顧客に「研修中のメンバーが準メンバーとして参加します」と事前合意を取る</li>
+    <li>☐ 受講者用の切り出しタスクを<strong>2週間で3〜4件</strong>用意(1件=2日以内・失敗しても案件が止まらないもの)</li>
+    <li>☐ 議事録は「受講者が書く → あなたが確認 → 顧客送付」のフローを初回に説明する</li>
+    <li>☐ 会議前30秒の「今日の見どころ」共有と、会議後5分の答え合わせに協力する</li>
+    <li>☐ 週次で講師に一言共有(様子・気になる点)。<strong>評価は講師でなく現場の実感を最優先します</strong></li>
+  </ul>
+</div>
+
+<h3>議事録の品質チェック基準(講師・受け入れFDE共通)</h3>
+<table>
+  <tr><th style="width:230px;">観点</th><th>合格</th><th>差し戻し</th></tr>
+  <tr><td>宿題の明確さ</td><td>誰が・何を・いつまでに、が全宿題に揃っている</td><td>「検討する」で終わる項目がある(誰が?いつ?)</td></tr>
+  <tr><td>速度</td><td>会議当日中に確認依頼が来る</td><td>翌日以降(記憶が薄れ、確認負荷が上がる)</td></tr>
+  <tr><td>要約力</td><td>決定と発言が区別されている</td><td>発言の書き起こしになっている</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<div class="chapter">
+  <div class="ch-num">06</div>
+  <span class="ch-week">第 6 週</span>
+  <h2>第6章 独り立ち判定 — 判定会議の運営</h2>
+  <p>判定は「合格させるための儀式」ではありません。基準未達のまま送り出すと、本人と顧客の両方が不幸になります。迷ったら補習に倒してください。</p>
+</div>
+
+<h3>判定会議の進め方(金曜の報告会後、60分)</h3>
+<ol>
+  <li>出席:メンター講師・受け入れ担当FDE・研修事務局の3者。<strong>採点は会議前に各自独立で記入</strong>(4項目×3段階、受講者用教材に掲載の基準を使用)</li>
+  <li>点差が出た項目だけ議論する(全項目をなめ直さない)。「事実(何を見たか)→ 評価」の順で話す</li>
+  <li>合格(全項目2点以上):正式アサイン先と、最初の3ヶ月のフォロー担当を即決定</li>
+  <li>1項目でも1点:該当領域の補習プラン(下表)を作成し、1〜2週間後に<strong>その項目のみ再判定</strong></li>
+</ol>
+
+<div class="answer">
+  <div class="answer-title">✎ ボーダー事例の判断例(過去の判定より)</div>
+  <table>
+    <tr><th style="width:290px;">事例</th><th>判定と理由</th></tr>
+    <tr><td>実装は完璧だが、完了条件を文書確認せず着手し、報告相手を間違えた</td><td><strong>補習。</strong>「要件把握」は独り立ちの生命線。技術力では代替できない</td></tr>
+    <tr><td>実装で1日遅延したが、火曜時点でリスクを報告しスコープ調整を自ら提案した</td><td><strong>合格。</strong>遅延そのものより「早期報告と調整」ができることが基準(期日管理=3点の行動)</td></tr>
+    <tr><td>デモは見事だが、質疑で不明点を推測で即答した(後で誤りと判明)</td><td><strong>補習。</strong>顧客の前での「誠実な持ち帰り」ができないのは事故リスク。ロールプレイ集中補習1週間</td></tr>
+  </table>
+</div>
+
+<h3>補習プランの標準メニュー</h3>
+<table>
+  <tr><th style="width:190px;">未達項目</th><th>補習内容(1〜2週間)</th></tr>
+  <tr><td>要件把握</td><td>着手前確認のチェックリスト運用+切り出しタスク2件で再訓練</td></tr>
+  <tr><td>実装品質</td><td>未経験者/新卒コース教材の該当章+レビュー観点の写経(良いPRを3本読む)</td></tr>
+  <tr><td>説明の分かりやすさ</td><td>第2章の交渉ロールプレイを毎日1本(録画必須)</td></tr>
+  <tr><td>期日管理</td><td>日次の見積り・実績記録+「危険信号を出す練習」をメンター同席で</td></tr>
+</table>
+
+<div class="note">📎 <strong>修了後の運用:</strong>修了者は次期研修(未経験者・新卒コース)のメンター候補に登録します。メンター初回は本ガイドと各コース講師用ガイドを引き継ぎ、シニアFDEがメンターのメンターとして1ヶ月伴走してください。</div>
+
+<p class="small" style="margin-top:40px; text-align:center;">FDE実践研修プログラム 中途コース 講師用ガイド(取り扱い注意)</p>
+
+</div>
+
+</body>
+</html>
