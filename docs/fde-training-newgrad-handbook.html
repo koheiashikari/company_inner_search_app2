@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FDE研修 新卒コース ハンズオン教材</title>
+<style>
+  :root {
+    --navy: #1a2b4a;
+    --navy-light: #2d4370;
+    --accent: #e8734a;
+    --accent-soft: #fdf0ea;
+    --teal: #2a7f7f;
+    --teal-soft: #e8f4f4;
+    --bg: #ffffff;
+    --paper: #f7f6f2;
+    --text: #2b2b2b;
+    --muted: #6b6b6b;
+    --line: #ddd8d0;
+    --term-bg: #1e2430;
+    --term-text: #d8e0ea;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+    color: var(--text);
+    background: var(--paper);
+    line-height: 1.75;
+  }
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    background: var(--bg);
+    padding: 48px 56px 64px;
+  }
+  h1 { font-size: 30px; color: var(--navy); line-height: 1.4; }
+  h2 { font-size: 24px; color: var(--navy); margin: 0 0 6px; line-height: 1.4; }
+  h3 {
+    font-size: 19px; color: var(--navy);
+    margin: 34px 0 12px;
+    padding-left: 12px;
+    border-left: 6px solid var(--accent);
+    line-height: 1.5;
+  }
+  h4 { font-size: 16.5px; color: var(--navy); margin: 20px 0 8px; }
+  p { font-size: 15.5px; margin-bottom: 10px; }
+  ul, ol { font-size: 15.5px; padding-left: 24px; margin-bottom: 12px; }
+  li { margin-bottom: 5px; }
+  strong { color: var(--navy); }
+  small, .small { font-size: 13px; color: var(--muted); }
+  code {
+    font-family: "SF Mono", Consolas, Menlo, monospace;
+    font-size: .88em;
+    background: #efede8;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 1px 6px;
+  }
+
+  /* ---------- chapter header ---------- */
+  .chapter {
+    background: var(--navy);
+    color: #fff;
+    border-radius: 12px;
+    padding: 26px 32px;
+    margin: 56px 0 26px;
+    page-break-before: always;
+    break-before: page;
+    position: relative;
+    overflow: hidden;
+  }
+  .chapter:first-of-type { page-break-before: auto; break-before: auto; }
+  .chapter .ch-num {
+    position: absolute; right: 24px; top: 8px;
+    font-size: 64px; font-weight: 800; color: rgba(255,255,255,.12);
+  }
+  .chapter .ch-week {
+    display: inline-block;
+    background: var(--accent); color: #fff;
+    font-size: 12.5px; font-weight: 700;
+    border-radius: 20px; padding: 2px 14px;
+    margin-bottom: 8px; letter-spacing: .05em;
+  }
+  .chapter h2 { color: #fff; }
+  .chapter p { color: #c9d2e4; font-size: 14.5px; margin: 4px 0 0; }
+
+  /* ---------- goal / boxes ---------- */
+  .goal {
+    background: var(--accent-soft);
+    border: 2px solid var(--accent);
+    border-radius: 10px;
+    padding: 14px 20px;
+    margin: 14px 0 20px;
+  }
+  .goal .goal-title { font-size: 13px; font-weight: 700; color: var(--accent); letter-spacing: .1em; margin-bottom: 4px; }
+  .goal ul { margin-bottom: 0; }
+
+  .check {
+    background: var(--teal-soft);
+    border-left: 6px solid var(--teal);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 18px;
+    margin: 14px 0;
+    break-inside: avoid;
+  }
+  .check .check-title { font-size: 13px; font-weight: 700; color: var(--teal); letter-spacing: .08em; margin-bottom: 4px; }
+  .check p, .check li { font-size: 14.5px; }
+  .check ul { margin-bottom: 0; }
+
+  .trouble {
+    background: #fdf3f0;
+    border-left: 6px solid #c0442a;
+    border-radius: 0 8px 8px 0;
+    padding: 12px 18px;
+    margin: 14px 0;
+    break-inside: avoid;
+  }
+  .trouble .trouble-title { font-size: 13px; font-weight: 700; color: #c0442a; letter-spacing: .08em; margin-bottom: 6px; }
+  .trouble table { margin: 0; }
+  .trouble td, .trouble th { font-size: 13.5px; padding: 6px 10px; }
+
+  .note {
+    background: #fffbe8;
+    border-left: 6px solid #d9a520;
+    border-radius: 0 8px 8px 0;
+    padding: 10px 16px;
+    margin: 12px 0;
+    font-size: 14px;
+    break-inside: avoid;
+  }
+
+  /* ---------- steps ---------- */
+  .step {
+    display: flex; gap: 14px;
+    margin: 18px 0;
+    break-inside: avoid;
+  }
+  .step .step-num {
+    flex: 0 0 34px; height: 34px;
+    background: var(--navy); color: #fff;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 16px;
+    margin-top: 2px;
+  }
+  .step .step-body { flex: 1; min-width: 0; }
+  .step .step-title { font-size: 16.5px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .step p { font-size: 14.5px; }
+
+  /* ---------- code block ---------- */
+  pre {
+    background: #f2f0ea;
+    border: 1px solid var(--line);
+    border-left: 5px solid var(--navy);
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-family: "SF Mono", Consolas, Menlo, monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-x: auto;
+    margin: 10px 0;
+    white-space: pre;
+    break-inside: avoid;
+  }
+  pre .cm { color: #7a7a72; }   /* comment */
+  pre .kw { color: #9d3c9d; font-weight: 700; }  /* keyword */
+  pre .st { color: #b0561f; }   /* string */
+  pre .fn { color: #1f5fb0; }   /* function */
+  .code-label {
+    display: inline-block;
+    background: var(--navy); color: #fff;
+    font-size: 11.5px; font-weight: 700;
+    border-radius: 6px 6px 0 0;
+    padding: 3px 14px;
+    margin: 10px 0 0;
+  }
+  .code-label + pre { margin-top: 0; border-top-left-radius: 0; }
+
+  /* ============================================================
+     SCREEN MOCKUPS(画面イメージ)
+  ============================================================ */
+  .screen {
+    margin: 16px 0 4px;
+    break-inside: avoid;
+  }
+  .screen-caption {
+    font-size: 12.5px; color: var(--muted);
+    margin: 6px 0 16px;
+    padding-left: 4px;
+  }
+  .screen-caption::before { content: "▲ 画面イメージ:"; color: var(--accent); font-weight: 700; margin-right: 4px; }
+
+  .window {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #b9b4aa;
+    box-shadow: 0 4px 16px rgba(0,0,0,.14);
+    font-size: 13px;
+  }
+  .win-titlebar {
+    display: flex; align-items: center; gap: 7px;
+    padding: 8px 12px;
+    background: linear-gradient(#e9e6df, #dcd8cf);
+    border-bottom: 1px solid #b9b4aa;
+  }
+  .win-titlebar .dot { width: 11px; height: 11px; border-radius: 50%; }
+  .dot.r { background: #f36b5c; } .dot.y { background: #f5bd4f; } .dot.g { background: #61c455; }
+  .win-titlebar .win-title { flex: 1; text-align: center; font-size: 12px; color: #555; }
+
+  /* terminal */
+  .terminal .win-titlebar { background: linear-gradient(#3a4150, #2c3340); border-bottom-color: #1a1f28; }
+  .terminal .win-title { color: #aab4c2; }
+  .term-body {
+    background: var(--term-bg);
+    color: var(--term-text);
+    font-family: "SF Mono", Consolas, Menlo, monospace;
+    font-size: 12.5px;
+    line-height: 1.7;
+    padding: 14px 16px;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  .term-body .ps { color: #7fd47f; font-weight: 700; }   /* prompt */
+  .term-body .cmd { color: #ffffff; font-weight: 700; }
+  .term-body .out { color: #aab7c6; }
+  .term-body .ok { color: #7fd47f; }
+  .term-body .warn { color: #f5bd4f; }
+  .term-body .err { color: #f37c6c; }
+
+  /* browser */
+  .browser .urlbar {
+    display: flex; align-items: center; gap: 8px;
+    background: #f2f0ea;
+    padding: 7px 12px;
+    border-bottom: 1px solid #ccc7bd;
+  }
+  .browser .urlbar .navbtn { color: #999; font-size: 13px; letter-spacing: 2px; }
+  .browser .urlbar .url {
+    flex: 1;
+    background: #fff;
+    border: 1px solid #ccc7bd;
+    border-radius: 14px;
+    font-size: 12px;
+    color: #444;
+    padding: 3px 14px;
+    font-family: Consolas, Menlo, monospace;
+  }
+  .browser-body { background: #fff; }
+
+  /* streamlit app */
+  .stl { display: flex; min-height: 300px; }
+  .stl-sidebar {
+    flex: 0 0 190px;
+    background: #f0f2f6;
+    padding: 14px;
+    border-right: 1px solid #e2e4e8;
+    font-size: 12.5px;
+  }
+  .stl-sidebar .stl-side-title { font-weight: 700; font-size: 13px; margin-bottom: 10px; color: #31333f; }
+  .stl-radio { margin: 6px 0; color: #31333f; display: flex; gap: 7px; align-items: flex-start; }
+  .stl-radio .rb { width: 13px; height: 13px; border: 2px solid #c3c8d4; border-radius: 50%; margin-top: 3px; flex: 0 0 13px; }
+  .stl-radio.sel .rb { border-color: #ff4b4b; box-shadow: inset 0 0 0 3px #fff, inset 0 0 0 8px #ff4b4b; }
+  .stl-main { flex: 1; padding: 18px 22px; font-size: 13px; color: #31333f; }
+  .stl-h1 { font-size: 20px; font-weight: 800; margin-bottom: 10px; color: #0e1117; }
+  .stl-info {
+    background: #e8f0fe; color: #1a4a8f;
+    border-radius: 8px; padding: 9px 14px; font-size: 12.5px; margin: 8px 0;
+  }
+  .stl-warn {
+    background: #fff8e1; color: #8a6d1a;
+    border-radius: 8px; padding: 9px 14px; font-size: 12.5px; margin: 8px 0;
+  }
+  .stl-chat-user, .stl-chat-ai {
+    display: flex; gap: 10px; margin: 12px 0; align-items: flex-start;
+  }
+  .stl-avatar {
+    flex: 0 0 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; background: #ffe3d3;
+  }
+  .stl-chat-ai .stl-avatar { background: #d8e8e8; }
+  .stl-bubble { flex: 1; background: #f0f2f6; border-radius: 10px; padding: 9px 14px; font-size: 12.5px; line-height: 1.65; }
+  .stl-src { font-size: 11.5px; color: #1a7f4f; background: #e7f6ee; border-radius: 6px; padding: 5px 10px; margin-top: 6px; }
+  .stl-input {
+    margin-top: 16px;
+    border: 1px solid #d5d9e2; border-radius: 22px;
+    padding: 9px 18px; color: #9aa0ab; font-size: 12.5px;
+    display: flex; justify-content: space-between;
+  }
+  .stl-btn {
+    display: inline-block; background: #fff; border: 1px solid #d5d9e2;
+    border-radius: 8px; padding: 4px 14px; font-size: 12.5px; color: #31333f; margin: 4px 0;
+  }
+  .stl-btn.primary { background: #ff4b4b; border-color: #ff4b4b; color: #fff; }
+  .stl-textinput {
+    border: 1px solid #d5d9e2; border-radius: 8px;
+    padding: 7px 12px; font-size: 12.5px; color: #31333f;
+    background: #fff; margin: 4px 0 10px;
+  }
+  .stl-textinput .ph { color: #9aa0ab; }
+  .stl-table { width: 100%; border-collapse: collapse; margin: 8px 0; }
+  .stl-table th { background: #f0f2f6; color: #31333f; font-size: 12px; border: 1px solid #e2e4e8; padding: 5px 10px; text-align: left; }
+  .stl-table td { font-size: 12px; border: 1px solid #e2e4e8; padding: 5px 10px; }
+
+  /* github */
+  .gh { background: #f6f8fa; font-size: 13px; }
+  .gh-header {
+    background: #24292f; color: #fff;
+    padding: 9px 16px; font-size: 13px;
+    display: flex; gap: 14px; align-items: center;
+  }
+  .gh-header .gh-logo { font-size: 17px; }
+  .gh-header .gh-crumb { color: #c9d1d9; }
+  .gh-header .gh-crumb b { color: #fff; }
+  .gh-body { padding: 16px 20px; }
+  .gh-pr-title { font-size: 17px; font-weight: 700; color: #1f2328; margin-bottom: 4px; }
+  .gh-pr-title .gh-prnum { color: #656d76; font-weight: 400; }
+  .gh-badge {
+    display: inline-block; background: #1a7f37; color: #fff;
+    border-radius: 20px; padding: 2px 12px; font-size: 12px; font-weight: 700;
+    margin-right: 8px;
+  }
+  .gh-badge.merged { background: #8250df; }
+  .gh-meta { color: #656d76; font-size: 12.5px; margin-bottom: 12px; }
+  .gh-box { background: #fff; border: 1px solid #d0d7de; border-radius: 8px; margin: 10px 0; overflow: hidden; }
+  .gh-box-head { background: #f6f8fa; border-bottom: 1px solid #d0d7de; padding: 7px 14px; font-weight: 700; font-size: 12.5px; color: #1f2328; }
+  .gh-box-body { padding: 10px 14px; font-size: 12.5px; color: #1f2328; line-height: 1.65; }
+  .gh-comment-meta { font-size: 12px; color: #656d76; margin-bottom: 3px; }
+  .gh-diff { font-family: Consolas, Menlo, monospace; font-size: 11.5px; line-height: 1.6; }
+  .gh-diff .add { background: #dafbe1; display: block; padding: 0 10px; }
+  .gh-diff .del { background: #ffebe9; display: block; padding: 0 10px; }
+  .gh-diff .ctx { display: block; padding: 0 10px; color: #57606a; }
+  .gh-btn {
+    display: inline-block; background: #1f883d; color: #fff;
+    border-radius: 6px; padding: 5px 14px; font-size: 12.5px; font-weight: 700; margin: 4px 0;
+  }
+  .gh-field {
+    background: #fff; border: 1px solid #d0d7de; border-radius: 6px;
+    padding: 6px 12px; font-size: 12.5px; color: #1f2328; margin: 6px 0;
+  }
+  .gh-field .ph { color: #8b949e; }
+
+  /* editor (VS Code) */
+  .vsc { display: flex; background: #1e1e28; min-height: 240px; }
+  .vsc-side {
+    flex: 0 0 170px; background: #22222e; color: #b8bcc8;
+    font-size: 12px; padding: 10px 0;
+    border-right: 1px solid #33333f;
+  }
+  .vsc-side .vsc-side-title { font-size: 10.5px; letter-spacing: .1em; color: #8a8fa0; padding: 0 14px 6px; }
+  .vsc-side .f { padding: 2.5px 14px; }
+  .vsc-side .f.dir { color: #d0b26a; }
+  .vsc-side .f.sel { background: #34344a; color: #fff; }
+  .vsc-side .f.indent { padding-left: 28px; }
+  .vsc-main { flex: 1; min-width: 0; }
+  .vsc-tabs { display: flex; background: #191924; }
+  .vsc-tab { padding: 6px 18px; font-size: 12px; color: #8a8fa0; border-right: 1px solid #33333f; }
+  .vsc-tab.sel { background: #1e1e28; color: #fff; border-top: 2px solid var(--accent); }
+  .vsc-code {
+    font-family: "SF Mono", Consolas, Menlo, monospace;
+    font-size: 12px; line-height: 1.7;
+    color: #d4d4d4; padding: 12px 16px;
+    white-space: pre; overflow-x: auto;
+  }
+  .vsc-code .ln { color: #5a5a6e; display: inline-block; width: 26px; }
+  .vsc-code .kw { color: #c586c0; } .vsc-code .st { color: #ce9178; }
+  .vsc-code .fn { color: #dcdcaa; } .vsc-code .cm { color: #6a9955; }
+
+  /* logic tree mock */
+  .ltree { display: flex; align-items: center; gap: 16px; margin: 14px 0; break-inside: avoid; }
+  .ltree .root {
+    background: var(--navy); color: #fff; border-radius: 10px;
+    padding: 14px 16px; font-size: 13.5px; font-weight: 700;
+    flex: 0 0 170px; text-align: center;
+  }
+  .ltree .l2col { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .ltree .branch { display: flex; align-items: center; gap: 10px; }
+  .ltree .b2 {
+    background: var(--teal-soft); border: 2px solid var(--teal);
+    border-radius: 8px; padding: 8px 12px; font-size: 12.5px; font-weight: 700; color: var(--navy);
+    flex: 0 0 180px; text-align: center;
+  }
+  .ltree .b3list { display: flex; flex-direction: column; gap: 5px; flex: 1; }
+  .ltree .b3 {
+    background: #fff; border: 1px solid var(--line);
+    border-radius: 6px; padding: 5px 10px; font-size: 12px;
+  }
+  .ltree .conn { color: var(--accent); font-weight: 700; font-size: 16px; }
+
+  /* doc mock (要件定義書など) */
+  .docmock {
+    background: #fff;
+    border: 1px solid #b9b4aa;
+    box-shadow: 0 4px 16px rgba(0,0,0,.12);
+    border-radius: 4px;
+    padding: 26px 32px;
+    font-size: 13px;
+    break-inside: avoid;
+  }
+  .docmock .doc-title { font-size: 17px; font-weight: 800; color: var(--navy); text-align: center; margin-bottom: 4px; }
+  .docmock .doc-meta { text-align: right; font-size: 11.5px; color: var(--muted); margin-bottom: 12px; }
+  .docmock table { width: 100%; }
+  .docmock th { width: 160px; background: #eef1f6; color: var(--navy); font-size: 12.5px; }
+  .docmock td, .docmock th { border: 1px solid #c9ccd4; padding: 7px 12px; font-size: 12.5px; vertical-align: top; }
+
+  /* ---------- tables ---------- */
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+  th, td { border: 1px solid var(--line); padding: 8px 12px; font-size: 14px; text-align: left; vertical-align: top; line-height: 1.6; }
+  th { background: var(--navy); color: #fff; font-size: 13px; }
+  tr:nth-child(even) td { background: #faf9f6; }
+
+  /* ---------- cover / toc ---------- */
+  .cover {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    color: #fff; border-radius: 14px;
+    padding: 60px 48px;
+    margin-bottom: 36px;
+  }
+  .cover .bar { width: 80px; height: 8px; background: var(--accent); border-radius: 4px; margin-bottom: 22px; }
+  .cover h1 { color: #fff; font-size: 34px; margin-bottom: 8px; }
+  .cover .cov-sub { color: #c9d2e4; font-size: 17px; margin-bottom: 30px; }
+  .cover .cov-meta { color: #8fa0c0; font-size: 13px; }
+  .toc { columns: 2; column-gap: 40px; font-size: 14.5px; }
+  .toc li { margin-bottom: 6px; }
+
+  .weekmap { display: flex; gap: 5px; margin: 14px 0 20px; }
+  .weekmap .wm { color: #fff; font-size: 12px; font-weight: 700; padding: 8px 6px; border-radius: 6px; text-align: center; line-height: 1.4; }
+  .weekmap .wm small { display: block; font-weight: 400; font-size: 10.5px; color: rgba(255,255,255,.85); }
+
+  /* ---------- print ---------- */
+  @media print {
+    @page { size: A4; margin: 13mm 11mm; }
+    body { background: #fff; }
+    .page { max-width: none; padding: 0; }
+    .window, .docmock { box-shadow: none; }
+    h3 { break-after: avoid; }
+    .screen, .step, pre, .check, .trouble, .note { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ================= COVER ================= -->
+<div class="cover">
+  <div class="bar"></div>
+  <h1>FDE研修 新卒コース<br>ハンズオン教材(全9章)</h1>
+  <p class="cov-sub">画面イメージと作業手順で学ぶ、12週間の実践テキスト</p>
+  <p class="cov-meta">対象:新卒コース受講者(プログラミング基礎習得済み・実務経験なし)/ 教材リポジトリ:company_inner_search_app2<br>
+  関連資料:docs/fde-training-program.md(カリキュラム全体)、docs/fde-training-beginner-handbook.html(未経験者コース教材)</p>
+</div>
+
+<h2>本書の使い方</h2>
+<ul>
+  <li>本書は新卒コース(12週間)を <strong>9つの章</strong>に分け、「学習ゴール → 作業手順 → 画面イメージ → 確認ポイント」の順で解説します。Python・Gitの文法解説は含みません(不安がある場合は未経験者コース教材の第1〜2章で補習)。</li>
+  <li>このコースのテーマは<strong>「動くコードが書ける」から「実務で通用する」への進化</strong>です。個々の課題は「提出して終わり」ではなく、レビュー・発表・振り返りまでがセットです。</li>
+  <li><strong>画面イメージ</strong>(<span style="color:var(--accent); font-weight:700;">▲マークの図</span>)は、その手順を正しく実行できたときに見えるはずの画面です。</li>
+</ul>
+
+<div class="weekmap">
+  <div class="wm" style="flex:1; background:#1a2b4a;">第1週<small>①チーム開発</small></div>
+  <div class="wm" style="flex:1; background:#22355a;">第2週<small>②コード読解</small></div>
+  <div class="wm" style="flex:1; background:#2a3d68;">第3週<small>③テスト・ログ</small></div>
+  <div class="wm" style="flex:1; background:#2d4370;">第4週<small>④RAG評価</small></div>
+  <div class="wm" style="flex:1; background:#2a7f7f;">第5週<small>⑤オントロジー</small></div>
+  <div class="wm" style="flex:1; background:#348a82;">第6週<small>⑥パイプライン</small></div>
+  <div class="wm" style="flex:1; background:#3a9188;">第7週<small>⑦デプロイ</small></div>
+  <div class="wm" style="flex:2; background:#b0682f;">第8〜9週<small>⑧コンサル実践</small></div>
+  <div class="wm" style="flex:3; background:#e8734a;">第10〜12週<small>⑨模擬プロジェクト</small></div>
+</div>
+
+<h2>目次</h2>
+<ol class="toc">
+  <li><strong>第1章</strong> チーム開発の作法(第1週)<br><small>Issue駆動開発/ブランチ・コミット・PRの規約</small></li>
+  <li><strong>第2章</strong> コードリーディング(第2週)<br><small>教材アプリの責務分離を読み解き、図解する</small></li>
+  <li><strong>第3章</strong> テスト・ログ・エラーハンドリング(第3週)<br><small>pytestでutils.pyにテストを追加する</small></li>
+  <li><strong>第4章</strong> RAGの内部理解とチューニング評価(第4週)<br><small>チャンクサイズ・top-k・モデルの比較実験</small></li>
+  <li><strong>第5章</strong> データ基盤とオントロジー(第5週)<br><small>Palantir OSDK検証スクリプトを題材に学ぶ</small></li>
+  <li><strong>第6章</strong> データパイプライン演習(第6週)<br><small>雑多なファイル群を構造化データに変換する</small></li>
+  <li><strong>第7章</strong> クラウドデプロイ基礎(第7週)<br><small>Streamlit Cloudへの公開とシークレット管理</small></li>
+  <li><strong>第8章</strong> コンサルティング実践(第8〜9週)<br><small>要件が変わるロールプレイ/シャドーイング</small></li>
+  <li><strong>第9章</strong> 模擬プロジェクト(第10〜12週)<br><small>チーム開発・週次デモ・360度フィードバック</small></li>
+</ol>
+
+<!-- ============================================================ -->
+<!-- 第1章 チーム開発の作法 -->
+<!-- ============================================================ -->
+<div class="chapter">
+  <div class="ch-num">01</div>
+  <span class="ch-week">第 1 週</span>
+  <h2>第1章 チーム開発の作法</h2>
+  <p>個人開発とチーム開発の最大の違いは「作業がすべて記録され、他人に引き継げる形になっていること」。Issue駆動の開発サイクルを初週で体に入れます。</p>
+</div>
+
+<div class="goal">
+  <div class="goal-title">🎯 この章の学習ゴール</div>
+  <ul>
+    <li>作業を始める前に Issue を起票し、「何を・なぜやるか」を文書化できる</li>
+    <li>チームの規約(ブランチ名・コミットメッセージ・PR説明)に沿って開発できる</li>
+    <li>レビューで指摘する側・される側の両方を経験する</li>
+  </ul>
+</div>
+
+<h3>1-1. Issue 駆動開発のサイクル</h3>
+<p>今週は「教材アプリの改善タスク」を毎日1件、次のサイクルで回します。<strong>コードを書く前に必ずIssueを書く</strong>のがルールです。</p>
+
+<div class="step"><div class="step-num">1</div><div class="step-body">
+  <div class="step-title">Issue を起票する</div>
+  <p>GitHub リポジトリの「Issues」タブ →「New issue」。<strong>背景(なぜ)・やること(何を)・完了条件(どうなったら終わりか)</strong>の3点セットで書きます。</p>
+</div></div>
+
+<div class="screen">
+  <div class="window browser">
+    <div class="win-titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">GitHub — Issue 作成</span></div>
+    <div class="urlbar"><span class="navbtn">← → ⟳</span><span class="url">https://github.com/koheiashikari/company_inner_search_app2/issues/new</span></div>
+    <div class="browser-body gh">
+      <div class="gh-header"><span class="gh-logo">🐙</span><span class="gh-crumb">koheiashikari / <b>company_inner_search_app2</b></span></div>
+      <div class="gh-body">
+        <div class="gh-field">起動時のエラーメッセージに対処方法へのリンクを追加したい</div>
+        <div class="gh-field" style="min-height:120px;">## 背景(なぜ)<br>環境構築でエラーになった研修生が、原因の切り分けに平均30分かかっている。<br><br>## やること(何を)<br>初期化失敗時のエラーメッセージに、社内Wikiのトラブルシュートページへの案内文を追加する。<br><br>## 完了条件<br>- [ ] `.env` 未設定の状態で起動し、案内文つきエラーが表示される<br>- [ ] 正常時の動作に影響がない</div>
+        <span class="gh-btn">Submit new issue</span>
+      </div>
+    </div>
+  </div>
+  <div class="screen-caption">Issueの記入例。完了条件をチェックボックスで書いておくと、PRレビュー時に「できた/できていない」の判断が明確になります。</div>
+</div>
+
+<div class="step"><div class="step-num">2</div><div class="step-body">
+  <div class="step-title">規約に沿ってブランチを切り、コミットする</div>
+  <p>ブランチ名は <code>種類/issue番号-内容</code>、コミットメッセージは <code>1行目に要約、3行目以降に理由</code> がチーム規約です。</p>
+  <pre>git switch -c fix/23-error-message-guide
+<span class="cm"># --- 編集後 ---</span>
+git add components.py
+git commit -m "初期化エラー時にトラブルシュートページへの案内を追加
+
+環境構築でつまずいた際の自己解決率を上げるため。
+関連Issue: #23"</pre>
+</div></div>
+
+<div class="step"><div class="step-num">3</div><div class="step-body">
+  <div class="step-title">PR を出し、Issue と紐づける</div>
+  <p>PR説明の冒頭に <code>Closes #23</code> と書くと、マージ時にIssueが自動で閉じます。「変更内容・確認方法・スクリーンショット」を必ず添付します。</p>
+</div></div>
+
+<div class="step"><div class="step-num">4</div><div class="step-body">
+  <div class="step-title">相互レビュー:指摘する側も経験する</div>
+  <p>今週は同期のPRを<strong>毎日1件レビュー</strong>します。観点:①Issueの完了条件を満たすか ②動作確認手順で再現できるか ③命名やコメントは他人が読んで分かるか。指摘は「提案形」で書きます(例:「〜にするとより意図が伝わりそうです」)。</p>
+</div></div>
+
+<div class="check">
+  <div class="check-title">✅ 確認ポイント(第1週修了の条件)</div>
+  <ul>
+    <li>Issue起票 → PR → マージのサイクルを5回完走した(1日1件)</li>
+    <li>同期のPRに、相手が「なるほど」と返したレビューコメントを5件以上書いた</li>
+    <li>自分のコミット履歴だけを見て、1週間の作業内容を口頭で再現できる</li>
+  </ul>
+</div>
+
+<!-- ============================================================ -->
+<!-- 第2章 コードリーディング -->
+<!-- ============================================================ -->
+<div class="chapter">
+  <div class="ch-num">02</div>
+  <span class="ch-week">第 2 週</span>
+  <h2>第2章 コードリーディング</h2>
+  <p>実務では「書く時間」より「読む時間」の方が長い。教材アプリの責務分離を読み解き、アーキテクチャ図を作成して発表します。</p>
+</div>
+
+<div class="goal">
+  <div class="goal-title">🎯 この章の学習ゴール</div>
+  <ul>
+    <li>初見のコードベースを「入口から」体系的に読む手順を身につける</li>
+    <li>教材アプリの4ファイルの責務と依存関係をA4一枚の図に整理できる</li>
+    <li>「なぜこう分けたのか」という設計意図を推測し、自分の言葉で説明できる</li>
+  </ul>
+</div>
+
+<h3>2-1. 読解の手順</h3>
+
+<div class="step"><div class="step-num">1</div><div class="step-body">
+  <div class="step-title">入口(main.py)から実行順に読む</div>
+  <p>アプリの入口 <code>main.py</code> を上から読み、「起動してから回答が表示されるまで」に呼ばれる関数を紙に書き出します。<strong>読みながらVS Codeの「定義へ移動」(F12)で関数の中身へ潜り、「戻る」(Alt+←)で帰ってくる</strong>のが基本動作です。</p>
+</div></div>
+
+<div class="step"><div class="step-num">2</div><div class="step-body">
+  <div class="step-title">「どこで使われているか」を横断検索する</div>
+  <p>気になる関数や定数(例: <code>get_llm_response</code>、<code>st.session_state</code>)を全体検索(Ctrl+Shift+F)し、定義と利用箇所の対応表を作ります。</p>
+</div></div>
+
+<div class="screen">
+  <div class="window">
+    <div class="win-titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">company_inner_search_app2 — Visual Studio Code(全体検索)</span></div>
+    <div class="vsc">
+      <div class="vsc-side">
+        <div class="vsc-side-title">検索: get_llm_response</div>
+        <div class="f dir">▾ 3件の結果(2ファイル)</div>
+        <div class="f indent">🐍 main.py</div>
+        <div class="f indent sel">&nbsp;&nbsp;llm_response = utils.get_llm_…</div>
+        <div class="f indent">🐍 utils.py</div>
+        <div class="f indent">&nbsp;&nbsp;def get_llm_response(chat_…</div>
+      </div>
+      <div class="vsc-main">
+        <div class="vsc-tabs"><div class="vsc-tab sel">main.py</div><div class="vsc-tab">utils.py</div></div>
+        <div class="vsc-code"><span class="ln">…</span><span class="cm"># 5. チャット送信時の処理</span>
+<span class="ln">…</span><span class="kw">if</span> chat_message:
+<span class="ln">…</span>    <span class="cm"># LLMから回答を取得(処理の本体は utils.py 側)</span>
+<span class="ln">…</span>    llm_response = utils.<span class="fn">get_llm_response</span>(chat_message)</div>
+      </div>
+    </div>
+  </div>
+  <div class="screen-caption">全体検索で「定義1か所・利用1か所」と分かれば、main.py は流れの制御だけを担い、処理の本体は utils.py にある——という責務分離が見えてきます。</div>
+</div>
+
+<div class="step"><div class="step-num">3</div><div class="step-body">
+  <div class="step-title">アーキテクチャ図を描いて発表する(金曜)</div>
+  <p>調べた内容をA4一枚の図にまとめ、10分で発表します。箱=ファイル、矢印=呼び出し・参照の向き。<strong>「もし〇〇を変更したら、どのファイルを触ることになるか」という質問に図で答えられること</strong>が合格ラインです。</p>
+</div></div>
+
+<div class="screen">
+  <div class="ltree">
+    <div class="root">main.py<br><small style="font-weight:400;">入口・画面全体の流れ</small></div>
+    <div class="conn">─</div>
+    <div class="l2col">
+      <div class="branch">
+        <div class="b2">initialize.py<br><small style="font-weight:400;">起動時の準備</small></div>
+        <div class="conn">─</div>
+        <div class="b3list">
+          <div class="b3">data/ の文書読み込み → チャンク分割 → Embedding → 検索用DB作成</div>
+          <div class="b3">st.session_state に retriever・会話履歴を保存</div>
+        </div>
+      </div>
+      <div class="branch">
+        <div class="b2">components.py<br><small style="font-weight:400;">画面の部品(表示)</small></div>
+        <div class="conn">─</div>
+        <div class="b3list">
+          <div class="b3">サイドバー・チャット欄・回答と参照元の表示</div>
+        </div>
+      </div>
+      <div class="branch">
+        <div class="b2">utils.py<br><small style="font-weight:400;">処理の本体</small></div>
+        <div class="conn">─</div>
+        <div class="b3list">
+          <div class="b3">get_llm_response():RAG+会話履歴でLLMに問い合わせ</div>
+          <div class="b3">get_source_icon() / build_error_message()</div>
+        </div>
+      </div>
+      <div class="branch">
+        <div class="b2">constants.py<br><small style="font-weight:400;">設定値のまとめ</small></div>
+        <div class="conn">─</div>
+        <div class="b3list">
+          <div class="b3">モデル名・プロンプト・検索件数などを一元管理(全ファイルから参照される)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="screen-caption">アーキテクチャ図の完成イメージ。「設定を変えたいなら constants.py だけ」「見た目なら components.py だけ」——変更が局所化されるのが良い設計、という気づきまで到達するのが理想です。</div>
+</div>
+
+<div class="check">
+  <div class="check-title">✅ 確認ポイント(第2週修了の条件)</div>
+  <ul>
+    <li>「質問を1回送信すると、どのファイルのどの関数がどの順で動くか」を図なしで口頭説明できる</li>
+    <li>発表で受けた質問のうち、答えられなかったものを翌日までに調べて回答した</li>
+  </ul>
+</div>
+
+<!-- ============================================================ -->
+<!-- 第3章 テスト -->
+<!-- ============================================================ -->
+<div class="chapter">
+  <div class="ch-num">03</div>
+  <span class="ch-week">第 3 週</span>
+  <h2>第3章 テスト・ログ・エラーハンドリング</h2>
+  <p>「動く」と「壊れていないと言い切れる」は別物。教材リポジトリの test_parantia_ontology.py を参考に、utils.py へ pytest のテストを追加します。</p>
+</div>
+
+<div class="goal">
+  <div class="goal-title">🎯 この章の学習ゴール</div>
+  <ul>
+    <li>pytest でテストを書き、自動実行できる</li>
+    <li>「テストしやすい関数・しにくい関数」の違い(外部依存の有無)を説明できる</li>
+    <li>障害発生を想定したログ・エラーメッセージの設計観点を持つ</li>
+  </ul>
+</div>
+
+<h3>3-1. pytest でテストを書く</h3>
+
+<div class="step"><div class="step-num">1</div><div class="step-body">
+  <div class="step-title">テスト対象を選ぶ:まず「純粋な関数」から</div>
+  <p><code>utils.py</code> には3つの関数があります。<code>get_llm_response()</code> はLLM・画面状態に依存するためテストが難しい。一方 <code>get_source_icon()</code> と <code>build_error_message()</code> は「入力を渡せば出力が決まる」<strong>純粋な関数</strong>なので、最初のテスト対象に最適です。</p>
+</div></div>
+
+<div class="step"><div class="step-num">2</div><div class="step-body">
+  <div class="step-title">テストコードを書く</div>
+  <p><code>tests/test_utils.py</code> を作成します。テスト関数名は <code>test_〇〇</code> で始め、<strong>「正常系」だけでなく「境界・異常系」も書く</strong>のがポイントです。</p>
+  <span class="code-label">tests/test_utils.py</span>
+  <pre><span class="kw">import</span> utils
+<span class="kw">import</span> constants <span class="kw">as</span> ct
+
+<span class="cm"># --- get_source_icon: 参照元の種類でアイコンが切り替わるか ---</span>
+<span class="kw">def</span> <span class="fn">test_get_source_icon_web</span>():
+    <span class="cm"># Webページ(http始まり)ならリンク用アイコン</span>
+    <span class="kw">assert</span> utils.get_source_icon(<span class="st">"https://example.com/rule"</span>) == ct.LINK_SOURCE_ICON
+
+<span class="kw">def</span> <span class="fn">test_get_source_icon_file</span>():
+    <span class="cm"># ファイルパスなら文書用アイコン</span>
+    <span class="kw">assert</span> utils.get_source_icon(<span class="st">"data/社員について/社員名簿.csv"</span>) == ct.DOC_SOURCE_ICON
+
+<span class="kw">def</span> <span class="fn">test_get_source_icon_tricky</span>():
+    <span class="cm"># 境界ケース: 「http」を途中に含むだけのファイル名は文書扱いのはず</span>
+    <span class="kw">assert</span> utils.get_source_icon(<span class="st">"data/httpサーバー設定.txt"</span>) == ct.DOC_SOURCE_ICON
+
+<span class="cm"># --- build_error_message: 問い合わせ文が連結されるか ---</span>
+<span class="kw">def</span> <span class="fn">test_build_error_message</span>():
+    result = utils.build_error_message(<span class="st">"初期化に失敗しました"</span>)
+    <span class="kw">assert</span> result.startswith(<span class="st">"初期化に失敗しました"</span>)
+    <span class="kw">assert</span> ct.COMMON_ERROR_MESSAGE <span class="kw">in</span> result</pre>
+</div></div>
+
+<div class="step"><div class="step-num">3</div><div class="step-body">
+  <div class="step-title">実行して全件PASSさせる</div>
+  <pre>pip install pytest
+pytest tests/ -v</pre>
+</div></div>
+
+<div class="screen">
+  <div class="window terminal">
+    <div class="win-titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">ターミナル — pytest 実行結果</span></div>
+    <div class="term-body"><span class="ok">(.venv)</span> <span class="ps">PS ...\company_inner_search_app2></span> <span class="cmd">pytest tests/ -v</span>
+<span class="out">========================= test session starts =========================
+collected 4 items
+
+tests/test_utils.py::test_get_source_icon_web </span><span class="ok">PASSED</span><span class="out">        [ 25%]
+tests/test_utils.py::test_get_source_icon_file </span><span class="ok">PASSED</span><span class="out">       [ 50%]
+tests/test_utils.py::test_get_source_icon_tricky </span><span class="ok">PASSED</span><span class="out">     [ 75%]
+tests/test_utils.py::test_build_error_message </span><span class="ok">PASSED</span><span class="out">        [100%]</span>
+<span class="ok">========================== 4 passed in 0.42s ==========================</span>
+<span class="ok">(.venv)</span> <span class="ps">PS ...\company_inner_search_app2></span> _</div>
+  </div>
+  <div class="screen-caption">全件PASSの状態。以後、コードを変更するたびにこのコマンド一発で「壊していないこと」を確認できます。わざと utils.py を壊してFAILの画面も見ておきましょう。</div>
+</div>
+
+<h3>3-2. ログとエラーハンドリングのレビュー演習</h3>
+<div class="step"><div class="step-num">1</div><div class="step-body">
+  <div class="step-title">「深夜に障害対応する自分」を想像してログを読む</div>
+  <p>教材アプリを起動し、わざと <code>.env</code> を外す・data/ を空にする、などの異常を起こしてログ出力を観察します。次のチェックリストで評価し、改善案を1件PRにします。</p>
+  <table>
+    <tr><th style="width:330px;">チェック観点</th><th>悪い例 → 良い例</th></tr>
+    <tr><td>いつ・どこで・何が起きたか分かるか</td><td>「エラーが発生しました」→「初期化処理でdata/の読み込みに失敗(対象: 社員名簿.csv)」</td></tr>
+    <tr><td>利用者向けと開発者向けが分離されているか</td><td>画面には対処方法を、ログには技術的詳細(スタックトレース)を出す</td></tr>
+    <tr><td>秘密情報が漏れていないか</td><td>APIキーや個人情報をログに出力しない</td></tr>
+  </table>
+</div></div>
+
+<div class="check">
+  <div class="check-title">✅ 確認ポイント(第3週修了の条件)</div>
+  <ul>
+    <li>tests/ のテストが4件以上あり、全件PASSしている(PR提出済み)</li>
+    <li>「get_llm_response() のテストはなぜ難しいか」を外部依存という言葉で説明できる</li>
+    <li>ログ改善のPRが1件マージされた</li>
+  </ul>
+</div>
+
+<!-- ============================================================ -->
+<!-- 第4章 RAG評価 -->
+<!-- ============================================================ -->
+<div class="chapter">
+  <div class="ch-num">04</div>
+  <span class="ch-week">第 4 週</span>
+  <h2>第4章 RAGの内部理解とチューニング評価</h2>
+  <p>「なんとなく動く」から「根拠を持って調整できる」へ。チャンクサイズ・検索件数(top-k)・Embeddingモデルを変えて回答品質を比較し、評価レポートを作成します。</p>
+</div>
+
+<div class="goal">
+  <div class="goal-title">🎯 この章の学習ゴール</div>
+  <ul>
+    <li>RAGの品質を決める3つのパラメータの役割とトレードオフを説明できる</li>
+    <li>評価用の質問セットを設計し、条件を変えて定量比較できる</li>
+    <li>実験結果から「この設定を推奨する。理由は〜」と意思決定できる</li>
+  </ul>
+</div>
+
+<h3>4-1. 実験の設計</h3>
+<div class="step"><div class="step-num">1</div><div class="step-body">
+  <div class="step-title">評価用の質問セット(10問)を作る</div>
+  <p>data/ の文書から答えられる質問を10問、<strong>正解(期待する回答)つきで</strong>用意します。簡単な事実確認(「〇〇さんの部署は?」)から、複数文書をまたぐ質問(「営業部で議事録に登場した社員は?」)までレベルを混ぜます。</p>
+</div></div>
+<div class="step"><div class="step-num">2</div><div class="step-body">
+  <div class="step-title">変更するパラメータと実験計画を決める</div>
+  <p>設定値は <code>constants.py</code> に集約されています(第2章の読解が活きる場面)。<strong>1回の実験で変えるのは1つだけ</strong>が実験の鉄則です。</p>
+  <table>
+    <tr><th style="width:190px;">パラメータ</th><th style="width:190px;">試す値</th><th>予想されるトレードオフ</th></tr>
+    <tr><td>チャンクサイズ</td><td>300 / 500 / 1000文字</td><td>小さい=ピンポイントだが文脈が切れる/大きい=文脈は残るがノイズ混入</td></tr>
+    <tr><td>検索件数(top-k)</td><td>3 / 5 / 10件</td><td>少ない=根拠不足のリスク/多い=無関係文書が回答を乱す</td></tr>
+    <tr><td>Embeddingモデル</td><td>small / large</td><td>大きいモデルは精度が上がるが、コストと処理時間が増える</td></tr>
+  </table>
+</div></div>
+<div class="step"><div class="step-num">3</div><div class="step-body">
+  <div class="step-title">実験 → 採点 → レポート</div>
+  <p>各条件で10問を実行し、<strong>正確性(0〜2点)と根拠の適切さ(0〜2点)</strong>で採点して記録します。金曜に「推奨設定と、その根拠」を1枚にまとめて発表します。</p>
+</div></div>
+
+<div class="screen">
+  <div class="docmock">
+    <div class="doc-title">RAGチューニング評価レポート(記入例・抜粋)</div>
+    <div class="doc-meta">実験者:研修生 | 質問セット:10問 | 評価:正確性0〜2点 + 根拠0〜2点(満点40点)</div>
+    <table>
+      <tr><th style="width:200px;">条件(変更点のみ)</th><td style="width:110px;"><b>スコア</b></td><td>気づき</td></tr>
+      <tr><th>基準設定(500字 / k=5 / small)</th><td>31 / 40</td><td>単純な事実確認は全問正解。議事録をまたぐ質問で根拠漏れ</td></tr>
+      <tr><th>チャンク300字</th><td>27 / 40</td><td>表データの行が泣き別れになり、社員名簿系の質問が悪化</td></tr>
+      <tr><th>チャンク1000字</th><td>29 / 40</td><td>回答に無関係な文が混ざる。参照元の特定が曖昧に</td></tr>
+      <tr><th>k=10</th><td>28 / 40</td><td>「それらしいが違う」文書が根拠に混入。回答が長くなり焦点がぼける</td></tr>
+      <tr><th><b>結論</b></th><td colspan="2"><b>500字 / k=5 を推奨。</b>表形式データが多い本データセットではチャンクを小さくする恩恵がなく、kを増やすとノイズが支配的になるため。</td></tr>
+    </table>
+  </div>
+  <div class="screen-caption">評価レポートの完成イメージ。数字と「なぜそうなったか」の考察がセットになっていることが重要。この形式は実案件の精度改善レポートでそのまま使えます。</div>
+</div>
+
+<div class="check">
+  <div class="check-title">✅ 確認ポイント(第4週修了の条件)</div>
+  <ul>
+    <li>3パラメータ×計5条件以上の実験を完了し、スコアを記録した</li>
+    <li>「顧客に費用を抑えたいと言われたら、どの設定をどう妥協するか」に即答できる</li>
+  </ul>
+</div>
+
+<!-- ============================================================ -->
+<!-- 第5章 オントロジー -->
+<!-- ============================================================ -->
+<div class="chapter">
+  <div class="ch-num">05</div>
+  <span class="ch-week">第 5 週</span>
+  <h2>第5章 データ基盤とオントロジー(Palantir OSDK)</h2>
+  <p>個々のアプリから一段上がり、「企業のデータをどう地図化するか」というプラットフォームの視点を獲得します。教材の test_parantia_ontology.py を動かしながら学びます。</p>
+</div>
+
+<div class="goal">
+  <div class="goal-title">🎯 この章の学習ゴール</div>
+  <ul>
+    <li>オントロジーの3要素(Object / Link / Action)を具体例で説明できる</li>
+    <li>OSDK検証スクリプトを実行し、SDKの構造(クライアント・モデル)を読み解ける</li>
+    <li>教材アプリの data/ を題材に、自分でオントロジーを設計できる</li>
+  </ul>
+</div>
+
+<h3>5-1. 概念:オントロジー=業務の地図</h3>
+<p>Palantir Foundry などのデータ基盤では、バラバラのデータを「業務の言葉」で整理し直します。これがオントロジーです。</p>
+<table>
+  <tr><th style="width:130px;">要素</th><th style="width:250px;">意味</th><th>data/ フォルダでの例</th></tr>
+  <tr><td><strong>Object</strong></td><td>業務に登場する「モノ」</td><td>社員、部署、顧客、サービス、会議(議事録)</td></tr>
+  <tr><td><strong>Link</strong></td><td>モノ同士の「つながり」</td><td>社員は部署に<b>所属する</b>/顧客はサービスを<b>契約する</b>/社員は会議に<b>出席する</b></td></tr>
+  <tr><td><strong>Action</strong></td><td>業務上の「操作」(データを変える行為)</td><td>社員を異動させる/契約を更新する</td></tr>
+</table>
+
+<h3>5-2. OSDK検証スクリプトを動かす</h3>
+<div class="step"><div class="step-num">1</div><div class="step-body">
+  <div class="step-title">スクリプトを実行する</div>
+  <p>教材リポジトリの <code>test_parantia_ontology.py</code> は、Foundry SDK(foundry-platform-sdk)のオントロジー関連機能を、<strong>実際のFoundry接続なしで</strong>検証するスクリプトです。</p>
+  <pre>pip install foundry-platform-sdk
+python test_parantia_ontology.py</pre>
+</div></div>
+
+<div class="screen">
+  <div class="window terminal">
+    <div class="win-titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">ターミナル — OSDK検証スクリプト</span></div>
+    <div class="term-body"><span class="ok">(.venv)</span> <span class="ps">PS ...\company_inner_search_app2></span> <span class="cmd">python test_parantia_ontology.py</span>
+<span class="out">=== 1. SDK インポート確認 ===
+         version = 1.28.0
+  [</span><span class="ok">PASS</span><span class="out">] foundry_sdk バージョン確認
+  [</span><span class="ok">PASS</span><span class="out">] FoundryClient クラスのインポート
+  [</span><span class="ok">PASS</span><span class="out">] OntologiesClient クラスのインポート
+
+=== 2. オントロジーモデル定義確認 ===
+  [</span><span class="ok">PASS</span><span class="out">] モデル OntologyObjectV2 が存在する
+  [</span><span class="ok">PASS</span><span class="out">] モデル ActionTypeV2 が存在する
+  ...(以下略)</span>
+<span class="ok">(.venv)</span> <span class="ps">PS ...\company_inner_search_app2></span> _</div>
+  </div>
+  <div class="screen-caption">検証スクリプトの実行結果。PASS/FAIL形式の出力は第3章で学んだテストの考え方そのもの。「OntologyObjectV2」「ActionTypeV2」など、5-1の概念がSDKのクラス名に対応していることを確認します。</div>
+</div>
+
+<div class="step"><div class="step-num">2</div><div class="step-body">
+  <div class="step-title">スクリプトを読解する</div>
+  <p><code>check(label, fn)</code> という仕組み(検証の共通化)と、<code>OntologyClient</code> / <code>ObjectTypeClient</code> / <code>OntologyObjectClient</code> の役割分担を読み解き、「SDKはオントロジーをどんな階層で扱っているか」をメモにまとめます。</p>
+</div></div>
+
+<div class="step"><div class="step-num">3</div><div class="step-body">
+  <div class="step-title">設計演習:data/ のオントロジーを描く</div>
+  <p>data/ フォルダ(社員・顧客・サービス・議事録)を題材に、Object・Link・Action を洗い出した<strong>オントロジー設計図</strong>を作成し、レビュー会で発表します。「RAG(文書のまま検索)とオントロジー(構造化して整理)、それぞれ何が得意か」の比較考察を必ず含めます。</p>
+</div></div>
+
+<div class="check">
+  <div class="check-title">✅ 確認ポイント(第5週修了の条件)</div>
+  <ul>
+    <li>Object / Link / Action を、顧客業務(例:製造業)の例で3つずつ挙げられる</li>
+    <li>「全文検索のRAGだけでは解けない質問」の例(例:集計・追跡系の質問)を挙げ、オントロジーが有効な理由を説明できる</li>
+  </ul>
+</div>
+
+<!-- ============================================================ -->
+<!-- 第6章 パイプライン -->
+<!-- ============================================================ -->
+<div class="chapter">
+  <div class="ch-num">06</div>
+  <span class="ch-week">第 6 週</span>
+  <h2>第6章 データパイプライン演習</h2>
+  <p>実案件は「きれいなデータ」から始まらない。data/ 配下の雑多なファイル(PDF / Word / CSV / 議事録)を、検索・分析に使える構造化データへ変換するパイプラインを作ります。</p>
+</div>
+
+<div class="goal">
+  <div class="goal-title">🎯 この章の学習ゴール</div>
+  <ul>
+    <li>「収集 → 抽出 → 変換 → 検証 → 出力」というパイプラインの型で処理を設計できる</li>
+    <li>形式の異なるファイルからテキスト・表データを抽出できる</li>
+    <li>「汚いデータ」(表記ゆれ・欠損)への対処を実装できる</li>
+  </ul>
+</div>
+
+<h3>6-1. 演習:議事録から「会議マスタ」を作る</h3>
+
+<div class="step"><div class="step-num">1</div><div class="step-body">
+  <div class="step-title">まずデータの棚卸しをする</div>
+  <p>コードを書く前に、対象ファイルの一覧と形式・件数・状態(文字化け・命名のばらつき等)を表にします。<strong>実案件ではこの棚卸し表が顧客への最初の報告物</strong>になります。</p>
+  <pre>ls -R data/</pre>
+</div></div>
+
+<div class="step"><div class="step-num">2</div><div class="step-body">
+  <div class="step-title">パイプラインを実装する</div>
+  <p>MTG議事録フォルダの全ファイルを読み、「開催日・会議名・出席者」を抽出して1枚のCSVにまとめます。</p>
+  <span class="code-label">pipeline_minutes.py(骨格)</span>
+  <pre><span class="kw">import</span> re, csv
+<span class="kw">from</span> pathlib <span class="kw">import</span> Path
+<span class="kw">from</span> docx <span class="kw">import</span> Document          <span class="cm"># python-docx: Word文書の読み取り</span>
+
+records, errors = [], []
+<span class="kw">for</span> path <span class="kw">in</span> <span class="fn">sorted</span>(Path(<span class="st">"data/MTG議事録"</span>).glob(<span class="st">"*.docx"</span>)):
+    <span class="kw">try</span>:
+        text = <span class="st">"\n"</span>.join(p.text <span class="kw">for</span> p <span class="kw">in</span> Document(path).paragraphs)
+        record = {
+            <span class="st">"ファイル名"</span>: path.name,
+            <span class="cm"># 「2026年6月3日」「2026/06/03」など表記ゆれを吸収して抽出</span>
+            <span class="st">"開催日"</span>: extract_date(text),
+            <span class="st">"会議名"</span>: extract_title(text),
+            <span class="st">"出席者"</span>: extract_members(text),   <span class="cm"># 「山田/山田太郎」の名寄せもここで</span>
+        }
+        validate(record)                   <span class="cm"># 欠損チェック(検証は必ず入れる)</span>
+        records.append(record)
+    <span class="kw">except</span> Exception <span class="kw">as</span> e:
+        errors.append((path.name, <span class="fn">str</span>(e)))  <span class="cm"># 失敗は握りつぶさず記録する</span>
+
+write_csv(<span class="st">"output/meetings.csv"</span>, records)
+<span class="fn">print</span>(<span class="st">f"成功 {len(records)}件 / 失敗 {len(errors)}件"</span>)</pre>
+</div></div>
+
+<div class="screen">
+  <div class="window terminal">
+    <div class="win-titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">ターミナル — パイプライン実行</span></div>
+    <div class="term-body"><span class="ok">(.venv)</span> <span class="ps">PS ...\company_inner_search_app2></span> <span class="cmd">python pipeline_minutes.py</span>
+<span class="out">[抽出] 議事録_営業定例_20260603.docx ... OK
+[抽出] 議事録_製品開発MTG_0610.docx ... OK
+[抽出] mtg_memo_保留.docx ... </span><span class="warn">WARN: 開催日が抽出できず(手動確認リストへ)</span>
+<span class="out">成功 11件 / 失敗 1件
+output/meetings.csv に出力しました</span>
+<span class="ok">(.venv)</span> <span class="ps">PS ...\company_inner_search_app2></span> _</div>
+  </div>
+  <div class="screen-caption">実行結果のイメージ。ポイントは「失敗1件」を隠さず出していること。100%自動化に固執せず、機械で9割+人手で1割、と割り切るのも実務の判断です。</div>
+</div>
+
+<div class="step"><div class="step-num">3</div><div class="step-body">
+  <div class="step-title">品質レポートを添えてPR提出</div>
+  <p>出力CSVとあわせて「何件処理し、何件失敗し、失敗の原因は何か。データの持ち主に何を確認すべきか」を書いた品質メモを添えます。<strong>発展:</strong>作ったmeetings.csvを教材アプリの検索対象に加え、「先週の営業定例の決定事項は?」が答えられるようになるか試します。</p>
+</div></div>
+
+<div class="check">
+  <div class="check-title">✅ 確認ポイント(第6週修了の条件)</div>
+  <ul>
+    <li>全ファイルを一括処理するパイプラインがPRとして提出され、失敗ケースの扱いが実装されている</li>
+    <li>「表記ゆれの名寄せをどこまで自動化すべきか」について自分の判断基準を言える</li>
+  </ul>
+</div>
+
+<!-- ============================================================ -->
+<!-- 第7章 デプロイ -->
+<!-- ============================================================ -->
+<div class="chapter">
+  <div class="ch-num">07</div>
+  <span class="ch-week">第 7 週</span>
+  <h2>第7章 クラウドデプロイ基礎</h2>
+  <p>「自分のPCでしか動かない」を卒業する週。教材アプリを Streamlit Community Cloud にデプロイし、環境変数・シークレット管理を実践します。</p>
+</div>
+
+<div class="goal">
+  <div class="goal-title">🎯 この章の学習ゴール</div>
+  <ul>
+    <li>ローカルとクラウドの環境差(パス・環境変数・リソース)を意識した構成にできる</li>
+    <li>APIキーをシークレット機能で安全に設定できる(コードに書かない)</li>
+    <li>デプロイ後の動作確認・ログ確認・更新反映の流れを一人で回せる</li>
+  </ul>
+</div>
+
+<h3>7-1. デプロイ手順</h3>
+
+<div class="step"><div class="step-num">1</div><div class="step-body">
+  <div class="step-title">デプロイ前チェック</div>
+  <ul>
+    <li><code>requirements</code> ファイルが最新か(ローカルで <code>pip install -r</code> し直して起動確認)</li>
+    <li><code>.env</code> や APIキーがリポジトリに<strong>含まれていない</strong>か(<code>git log --all -- .env</code> で履歴も確認)</li>
+    <li>デプロイ用ブランチを最新のmainから作成</li>
+  </ul>
+</div></div>
+
+<div class="step"><div class="step-num">2</div><div class="step-body">
+  <div class="step-title">Streamlit Community Cloud でアプリを作成する</div>
+  <p>share.streamlit.io にGitHubアカウントでログイン →「New app」→ リポジトリ・ブランチ・<code>main.py</code> を指定します。</p>
+</div></div>
+
+<div class="step"><div class="step-num">3</div><div class="step-body">
+  <div class="step-title">シークレットを設定してデプロイする</div>
+  <p>「Advanced settings → Secrets」に APIキーを設定します。<strong>ローカルの .env に相当するものをクラウド側の金庫に入れる</strong>イメージです。</p>
+</div></div>
+
+<div class="screen">
+  <div class="window browser">
+    <div class="win-titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">Streamlit Community Cloud — Deploy an app</span></div>
+    <div class="urlbar"><span class="navbtn">← → ⟳</span><span class="url">https://share.streamlit.io/deploy</span></div>
+    <div class="browser-body">
+      <div class="stl-main" style="max-width:620px; margin:0 auto; padding:18px 22px;">
+        <div class="stl-h1">Deploy an app</div>
+        <div style="font-size:12px; margin-bottom:2px;">Repository</div>
+        <div class="stl-textinput">koheiashikari/company_inner_search_app2</div>
+        <div style="font-size:12px; margin-bottom:2px;">Branch / Main file path</div>
+        <div class="stl-textinput">deploy/training &nbsp;&nbsp;/&nbsp;&nbsp; main.py</div>
+        <div style="font-size:12px; margin-bottom:2px;">Advanced settings → Secrets</div>
+        <div class="stl-textinput" style="font-family:Consolas,Menlo,monospace;">OPENAI_API_KEY = "sk-********************"</div>
+        <span class="stl-btn primary">Deploy!</span>
+        <div class="stl-info" style="margin-top:12px;">🎈 Your app is in the oven... 数分でビルドが完了し、公開URL(https://…streamlit.app)が発行されます</div>
+      </div>
+    </div>
+  </div>
+  <div class="screen-caption">デプロイ設定画面のイメージ。Secrets欄に入れた値はアプリから環境変数として読めます。公開URLは研修内限定で共有し、動作確認後は不要なら停止します。</div>
+</div>
+
+<div class="step"><div class="step-num">4</div><div class="step-body">
+  <div class="step-title">デプロイ後の確認と更新</div>
+  <ul>
+    <li>公開URLで質問を3種類実行し、ローカルと同じ回答が返るか確認</li>
+    <li>管理画面のログ(Manage app)でエラーが出ていないか確認</li>
+    <li>小さな修正をpushし、<strong>自動で再デプロイされる</strong>ことを確認(=継続的デリバリーの入口)</li>
+  </ul>
+</div></div>
+
+<div class="trouble">
+  <div class="trouble-title">🔧 つまずきポイントと対処</div>
+  <table>
+    <tr><th style="width:290px;">症状</th><th>原因と対処</th></tr>
+    <tr><td>ローカルでは動くのにクラウドで起動失敗</td><td>requirements の記載漏れが大半。ビルドログの <code>ModuleNotFoundError</code> を確認して追記</td></tr>
+    <tr><td><code>AuthenticationError</code> が出る</td><td>Secretsのキー名がコード側の環境変数名と一致していない。つづりを確認</td></tr>
+    <tr><td>メモリ不足で落ちる</td><td>無料枠はリソースが小さい。data/ を研修用の小さいサブセットに差し替える</td></tr>
+  </table>
+</div>
+
+<!-- ============================================================ -->
+<!-- 第8章 コンサル実践 -->
+<!-- ============================================================ -->
+<div class="chapter">
+  <div class="ch-num">08</div>
+  <span class="ch-week">第 8〜9 週</span>
+  <h2>第8章 コンサルティング実践</h2>
+  <p>教科書どおりに進まない実戦形式。「要件が曖昧で、途中で変わる」ロールプレイと、先輩FDEの現場を観察するシャドーイングの2本立てです。</p>
+</div>
+
+<div class="goal">
+  <div class="goal-title">🎯 この章の学習ゴール</div>
+  <ul>
+    <li>要件変更の要求に対し、感情的にならずスコープ交渉で着地できる</li>
+    <li>「技術的にできること」と「顧客が本当に必要なこと」のギャップを提案書で埋められる</li>
+    <li>先輩FDEの立ち居振る舞いから、質問設計・宿題の引き取り方を盗む</li>
+  </ul>
+</div>
+
+<h3>8-1. 実戦型ロールプレイ(要件が変わる設定)</h3>
+<p>顧客役(先輩FDE)との面談を3回実施します。<strong>2回目の面談で必ず要件変更が飛んでくる</strong>シナリオです。</p>
+<table>
+  <tr><th style="width:120px;">回</th><th>顧客役の動き(受講者には事前非公開)</th><th style="width:250px;">受講者に求められる対応</th></tr>
+  <tr><td>1回目</td><td>「とにかく資料探しが大変で…」と曖昧に困りごとを語る</td><td>ヒアリングで課題を特定し、要件定義書を作成</td></tr>
+  <tr><td>2回目</td><td>「上司がスマホ対応も必須と言っている。あと来週までにできない?」と要求追加</td><td>影響(工数・品質)を説明し、優先順位とスコープを再交渉</td></tr>
+  <tr><td>3回目</td><td>再交渉の結果に対し、納得 or さらに揺さぶり</td><td>合意事項を文書化し、その場で読み合わせて確定</td></tr>
+</table>
+
+<h4>スコープ交渉の基本フレーズ(演習で実際に口に出して練習)</h4>
+<table>
+  <tr><th style="width:290px;">言ってはいけない</th><th>言い換える</th></tr>
+  <tr><td>「それは無理です」</td><td>「実現には〇日かかり、当初予定の△△が遅れます。どちらを優先しますか?」(選択肢を返す)</td></tr>
+  <tr><td>「たぶんできると思います」(安請け合い)</td><td>「持ち帰って影響を確認し、明日までに可否と条件をご連絡します」(宿題として引き取る)</td></tr>
+  <tr><td>「前回そう決まりましたよね」(正論で押す)</td><td>「状況が変わったのですね。目的に立ち返ると〜が最優先という理解で合っていますか?」(目的に戻す)</td></tr>
+</table>
+
+<h3>8-2. シャドーイング(週2回以上)</h3>
+<div class="step"><div class="step-num">1</div><div class="step-body">
+  <div class="step-title">観察ポイントを決めてから同席する</div>
+  <p>先輩FDEの商談・定例に同席します。漫然と聞かず、毎回1つ観察テーマを決めます(例:「難しい質問をどうかわすか」「会議の最後5分で何をするか」)。</p>
+</div></div>
+<div class="step"><div class="step-num">2</div><div class="step-body">
+  <div class="step-title">気づきメモを当日中に提出し、メンターと振り返る</div>
+  <p>「観察したこと(事実)/なぜそうしたと思うか(解釈)/自分ならどうするか(適用)」の3段構成で書きます。</p>
+</div></div>
+
+<div class="check">
+  <div class="check-title">✅ 確認ポイント(第8〜9週修了の条件)</div>
+  <ul>
+    <li>ロールプレイ3回を完走し、最終的な合意文書に顧客役のサインを得た</li>
+    <li>要件変更時に、その場で安請け合いも拒絶もしなかった(録画で振り返り)</li>
+    <li>シャドーイング気づきメモが4件以上提出されている</li>
+  </ul>
+</div>
+
+<!-- ============================================================ -->
+<!-- 第9章 模擬プロジェクト -->
+<!-- ============================================================ -->
+<div class="chapter">
+  <div class="ch-num">09</div>
+  <span class="ch-week">第 10〜12 週</span>
+  <h2>第9章 模擬プロジェクト</h2>
+  <p>3〜4名のチームで実在の社内課題に取り組む総仕上げ。週次で顧客役(マネージャー)にデモし、フィードバックを反映しながら完成に向かいます。</p>
+</div>
+
+<div class="goal">
+  <div class="goal-title">🎯 プロジェクト概要</div>
+  <ul>
+    <li><strong>題材例:</strong>「営業部の過去提案書検索の効率化」(実在の社内課題から選定)</li>
+    <li><strong>体制:</strong>3〜4名チーム。リーダー・顧客窓口・実装リードなどの役割は週替わりで交代</li>
+    <li><strong>ルール:</strong>全員が最低1回は顧客役の前で話す/成果はすべてIssue・PRに記録する</li>
+  </ul>
+</div>
+
+<h3>9-1. 3週間の進め方</h3>
+<table>
+  <tr><th style="width:110px;">週</th><th style="width:260px;">活動</th><th>マイルストーン(毎週金曜)</th></tr>
+  <tr><td><strong>第10週</strong></td><td>ヒアリング → 要件定義 → タスク分解</td><td>キックオフデモ:要件定義書の承認とタスクボードの公開</td></tr>
+  <tr><td><strong>第11週</strong></td><td>実装スプリント①</td><td>中間デモ:コア機能が動く状態で顧客役のフィードバックを得る</td></tr>
+  <tr><td><strong>第12週</strong></td><td>実装スプリント② → リハーサル</td><td>最終発表会:デモ20分+質疑15分/個人振り返り+360度フィードバック</td></tr>
+</table>
+
+<h3>9-2. チーム運営の道具</h3>
+<div class="step"><div class="step-num">1</div><div class="step-body">
+  <div class="step-title">タスクボードで「誰が何をしているか」を見える化する</div>
+  <p>GitHub Projects(かんばん方式)でタスクを管理します。<strong>1タスク=1 Issue=完了までおおむね1日以内</strong>のサイズに分解するのがコツ。大きすぎるタスクは「進捗90%」のまま停滞します。</p>
+</div></div>
+
+<div class="screen">
+  <div class="window browser">
+    <div class="win-titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">GitHub Projects — チームタスクボード</span></div>
+    <div class="urlbar"><span class="navbtn">← → ⟳</span><span class="url">https://github.com/orgs/…/projects/4 — 模擬PJ: 提案書検索</span></div>
+    <div class="browser-body gh">
+      <div class="gh-body" style="display:flex; gap:10px;">
+        <div style="flex:1;">
+          <div style="font-weight:700; font-size:12px; margin-bottom:6px;">📋 Todo(4)</div>
+          <div class="gh-box"><div class="gh-box-body">検索結果に提案書の商談相手を表示 <br><span class="gh-comment-meta">#41 ・未アサイン</span></div></div>
+          <div class="gh-box"><div class="gh-box-body">発表資料の骨子作成<br><span class="gh-comment-meta">#44 ・未アサイン</span></div></div>
+        </div>
+        <div style="flex:1;">
+          <div style="font-weight:700; font-size:12px; margin-bottom:6px;">🔧 In Progress(2)</div>
+          <div class="gh-box"><div class="gh-box-body">提案書PDFの一括取り込み処理<br><span class="gh-comment-meta">#38 ・担当: suzuki</span></div></div>
+          <div class="gh-box"><div class="gh-box-body">年度・部署の絞り込みフィルタ<br><span class="gh-comment-meta">#39 ・担当: yamada</span></div></div>
+        </div>
+        <div style="flex:1;">
+          <div style="font-weight:700; font-size:12px; margin-bottom:6px;">✅ Done(7)</div>
+          <div class="gh-box"><div class="gh-box-body">要件定義書 v1.0 顧客役承認<br><span class="gh-comment-meta">#31 ・closed</span></div></div>
+          <div class="gh-box"><div class="gh-box-body">提案書データの棚卸し表<br><span class="gh-comment-meta">#33 ・closed</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="screen-caption">タスクボードの画面イメージ。毎朝15分の朝会をこのボードの前で行い、「昨日やったこと・今日やること・困っていること」を1人1分で共有します。</div>
+</div>
+
+<div class="step"><div class="step-num">2</div><div class="step-body">
+  <div class="step-title">週次デモは「顧客の業務シナリオ」で行う</div>
+  <p>機能一覧の紹介ではなく、「営業の田中さんが明日の商談前に類似提案を探す」という<strong>業務の物語</strong>に沿ってデモします。フィードバックはその場でIssue化し、翌週の計画に反映します。</p>
+</div></div>
+
+<div class="step"><div class="step-num">3</div><div class="step-body">
+  <div class="step-title">最終発表と360度フィードバック</div>
+  <p>最終週は成果発表会(デモ20分+質疑15分)。終了後、チームメンバー・メンター・顧客役の全員から「続けるべき点/変えるべき点」のフィードバックを受け、個人の振り返りシートにまとめます。これが配属面談の資料になります。</p>
+</div></div>
+
+<div class="check">
+  <div class="check-title">✅ 修了判定(カリキュラム共通基準)</div>
+  <ul>
+    <li>顧客役へのヒアリングから要件定義書を作成できる</li>
+    <li>教材アプリ相当のRAGアプリを自力で改修・機能追加できる</li>
+    <li>成果物を顧客役の前でデモ・プレゼンし、質疑に答えられる</li>
+  </ul>
+  <p style="margin-top:8px; margin-bottom:0;">修了者は配属後3ヶ月間、月1回のフォローアップ会に参加します。模擬プロジェクトのIssue・PR・発表資料はポートフォリオとして蓄積され、アサイン判断に活用されます。</p>
+</div>
+
+<p class="small" style="margin-top:40px; text-align:center;">FDE実践研修プログラム 新卒コース ハンズオン教材 — 関連資料: docs/fde-training-program.md / docs/fde-training-slides.html</p>
+
+</div>
+
+</body>
+</html>

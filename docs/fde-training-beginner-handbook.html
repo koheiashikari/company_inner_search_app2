@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FDE研修 未経験者コース ハンズオン教材</title>
+<style>
+  :root {
+    --navy: #1a2b4a;
+    --navy-light: #2d4370;
+    --accent: #e8734a;
+    --accent-soft: #fdf0ea;
+    --teal: #2a7f7f;
+    --teal-soft: #e8f4f4;
+    --bg: #ffffff;
+    --paper: #f7f6f2;
+    --text: #2b2b2b;
+    --muted: #6b6b6b;
+    --line: #ddd8d0;
+    --term-bg: #1e2430;
+    --term-text: #d8e0ea;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+    color: var(--text);
+    background: var(--paper);
+    line-height: 1.75;
+  }
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    background: var(--bg);
+    padding: 48px 56px 64px;
+  }
+  h1 { font-size: 30px; color: var(--navy); line-height: 1.4; }
+  h2 { font-size: 24px; color: var(--navy); margin: 0 0 6px; line-height: 1.4; }
+  h3 {
+    font-size: 19px; color: var(--navy);
+    margin: 34px 0 12px;
+    padding-left: 12px;
+    border-left: 6px solid var(--accent);
+    line-height: 1.5;
+  }
+  h4 { font-size: 16.5px; color: var(--navy); margin: 20px 0 8px; }
+  p { font-size: 15.5px; margin-bottom: 10px; }
+  ul, ol { font-size: 15.5px; padding-left: 24px; margin-bottom: 12px; }
+  li { margin-bottom: 5px; }
+  strong { color: var(--navy); }
+  small, .small { font-size: 13px; color: var(--muted); }
+  code {
+    font-family: "SF Mono", Consolas, Menlo, monospace;
+    font-size: .88em;
+    background: #efede8;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 1px 6px;
+  }
+
+  /* ---------- chapter header ---------- */
+  .chapter {
+    background: var(--navy);
+    color: #fff;
+    border-radius: 12px;
+    padding: 26px 32px;
+    margin: 56px 0 26px;
+    page-break-before: always;
+    break-before: page;
+    position: relative;
+    overflow: hidden;
+  }
+  .chapter:first-of-type { page-break-before: auto; break-before: auto; }
+  .chapter .ch-num {
+    position: absolute; right: 24px; top: 8px;
+    font-size: 64px; font-weight: 800; color: rgba(255,255,255,.12);
+  }
+  .chapter .ch-week {
+    display: inline-block;
+    background: var(--accent); color: #fff;
+    font-size: 12.5px; font-weight: 700;
+    border-radius: 20px; padding: 2px 14px;
+    margin-bottom: 8px; letter-spacing: .05em;
+  }
+  .chapter h2 { color: #fff; }
+  .chapter p { color: #c9d2e4; font-size: 14.5px; margin: 4px 0 0; }
+
+  /* ---------- goal / boxes ---------- */
+  .goal {
+    background: var(--accent-soft);
+    border: 2px solid var(--accent);
+    border-radius: 10px;
+    padding: 14px 20px;
+    margin: 14px 0 20px;
+  }
+  .goal .goal-title { font-size: 13px; font-weight: 700; color: var(--accent); letter-spacing: .1em; margin-bottom: 4px; }
+  .goal ul { margin-bottom: 0; }
+
+  .check {
+    background: var(--teal-soft);
+    border-left: 6px solid var(--teal);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 18px;
+    margin: 14px 0;
+    break-inside: avoid;
+  }
+  .check .check-title { font-size: 13px; font-weight: 700; color: var(--teal); letter-spacing: .08em; margin-bottom: 4px; }
+  .check p, .check li { font-size: 14.5px; }
+  .check ul { margin-bottom: 0; }
+
+  .trouble {
+    background: #fdf3f0;
+    border-left: 6px solid #c0442a;
+    border-radius: 0 8px 8px 0;
+    padding: 12px 18px;
+    margin: 14px 0;
+    break-inside: avoid;
+  }
+  .trouble .trouble-title { font-size: 13px; font-weight: 700; color: #c0442a; letter-spacing: .08em; margin-bottom: 6px; }
+  .trouble table { margin: 0; }
+  .trouble td, .trouble th { font-size: 13.5px; padding: 6px 10px; }
+
+  .note {
+    background: #fffbe8;
+    border-left: 6px solid #d9a520;
+    border-radius: 0 8px 8px 0;
+    padding: 10px 16px;
+    margin: 12px 0;
+    font-size: 14px;
+    break-inside: avoid;
+  }
+
+  /* ---------- steps ---------- */
+  .step {
+    display: flex; gap: 14px;
+    margin: 18px 0;
+    break-inside: avoid;
+  }
+  .step .step-num {
+    flex: 0 0 34px; height: 34px;
+    background: var(--navy); color: #fff;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 16px;
+    margin-top: 2px;
+  }
+  .step .step-body { flex: 1; min-width: 0; }
+  .step .step-title { font-size: 16.5px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .step p { font-size: 14.5px; }
+
+  /* ---------- code block ---------- */
+  pre {
+    background: #f2f0ea;
+    border: 1px solid var(--line);
+    border-left: 5px solid var(--navy);
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-family: "SF Mono", Consolas, Menlo, monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-x: auto;
+    margin: 10px 0;
+    white-space: pre;
+    break-inside: avoid;
+  }
+  pre .cm { color: #7a7a72; }   /* comment */
+  pre .kw { color: #9d3c9d; font-weight: 700; }  /* keyword */
+  pre .st { color: #b0561f; }   /* string */
+  pre .fn { color: #1f5fb0; }   /* function */
+  .code-label {
+    display: inline-block;
+    background: var(--navy); color: #fff;
+    font-size: 11.5px; font-weight: 700;
+    border-radius: 6px 6px 0 0;
+    padding: 3px 14px;
+    margin: 10px 0 0;
+  }
+  .code-label + pre { margin-top: 0; border-top-left-radius: 0; }
+
+  /* ============================================================
+     SCREEN MOCKUPS(画面イメージ)
+  ============================================================ */
+  .screen {
+    margin: 16px 0 4px;
+    break-inside: avoid;
+  }
+  .screen-caption {
+    font-size: 12.5px; color: var(--muted);
+    margin: 6px 0 16px;
+    padding-left: 4px;
+  }
+  .screen-caption::before { content: "▲ 画面イメージ:"; color: var(--accent); font-weight: 700; margin-right: 4px; }
+
+  .window {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #b9b4aa;
+    box-shadow: 0 4px 16px rgba(0,0,0,.14);
+    font-size: 13px;
+  }
+  .win-titlebar {
+    display: flex; align-items: center; gap: 7px;
+    padding: 8px 12px;
+    background: linear-gradient(#e9e6df, #dcd8cf);
+    border-bottom: 1px solid #b9b4aa;
+  }
+  .win-titlebar .dot { width: 11px; height: 11px; border-radius: 50%; }
+  .dot.r { background: #f36b5c; } .dot.y { background: #f5bd4f; } .dot.g { background: #61c455; }
+  .win-titlebar .win-title { flex: 1; text-align: center; font-size: 12px; color: #555; }
+
+  /* terminal */
+  .terminal .win-titlebar { background: linear-gradient(#3a4150, #2c3340); border-bottom-color: #1a1f28; }
+  .terminal .win-title { color: #aab4c2; }
+  .term-body {
+    background: var(--term-bg);
+    color: var(--term-text);
+    font-family: "SF Mono", Consolas, Menlo, monospace;
+    font-size: 12.5px;
+    line-height: 1.7;
+    padding: 14px 16px;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  .term-body .ps { color: #7fd47f; font-weight: 700; }   /* prompt */
+  .term-body .cmd { color: #ffffff; font-weight: 700; }
+  .term-body .out { color: #aab7c6; }
+  .term-body .ok { color: #7fd47f; }
+  .term-body .warn { color: #f5bd4f; }
+  .term-body .err { color: #f37c6c; }
+
+  /* browser */
+  .browser .urlbar {
+    display: flex; align-items: center; gap: 8px;
+    background: #f2f0ea;
+    padding: 7px 12px;
+    border-bottom: 1px solid #ccc7bd;
+  }
+  .browser .urlbar .navbtn { color: #999; font-size: 13px; letter-spacing: 2px; }
+  .browser .urlbar .url {
+    flex: 1;
+    background: #fff;
+    border: 1px solid #ccc7bd;
+    border-radius: 14px;
+    font-size: 12px;
+    color: #444;
+    padding: 3px 14px;
+    font-family: Consolas, Menlo, monospace;
+  }
+  .browser-body { background: #fff; }
+
+  /* streamlit app */
+  .stl { display: flex; min-height: 300px; }
+  .stl-sidebar {
+    flex: 0 0 190px;
+    background: #f0f2f6;
+    padding: 14px;
+    border-right: 1px solid #e2e4e8;
+    font-size: 12.5px;
+  }
+  .stl-sidebar .stl-side-title { font-weight: 700; font-size: 13px; margin-bottom: 10px; color: #31333f; }
+  .stl-radio { margin: 6px 0; color: #31333f; display: flex; gap: 7px; align-items: flex-start; }
+  .stl-radio .rb { width: 13px; height: 13px; border: 2px solid #c3c8d4; border-radius: 50%; margin-top: 3px; flex: 0 0 13px; }
+  .stl-radio.sel .rb { border-color: #ff4b4b; box-shadow: inset 0 0 0 3px #fff, inset 0 0 0 8px #ff4b4b; }
+  .stl-main { flex: 1; padding: 18px 22px; font-size: 13px; color: #31333f; }
+  .stl-h1 { font-size: 20px; font-weight: 800; margin-bottom: 10px; color: #0e1117; }
+  .stl-info {
+    background: #e8f0fe; color: #1a4a8f;
+    border-radius: 8px; padding: 9px 14px; font-size: 12.5px; margin: 8px 0;
+  }
+  .stl-warn {
+    background: #fff8e1; color: #8a6d1a;
+    border-radius: 8px; padding: 9px 14px; font-size: 12.5px; margin: 8px 0;
+  }
+  .stl-chat-user, .stl-chat-ai {
+    display: flex; gap: 10px; margin: 12px 0; align-items: flex-start;
+  }
+  .stl-avatar {
+    flex: 0 0 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; background: #ffe3d3;
+  }
+  .stl-chat-ai .stl-avatar { background: #d8e8e8; }
+  .stl-bubble { flex: 1; background: #f0f2f6; border-radius: 10px; padding: 9px 14px; font-size: 12.5px; line-height: 1.65; }
+  .stl-src { font-size: 11.5px; color: #1a7f4f; background: #e7f6ee; border-radius: 6px; padding: 5px 10px; margin-top: 6px; }
+  .stl-input {
+    margin-top: 16px;
+    border: 1px solid #d5d9e2; border-radius: 22px;
+    padding: 9px 18px; color: #9aa0ab; font-size: 12.5px;
+    display: flex; justify-content: space-between;
+  }
+  .stl-btn {
+    display: inline-block; background: #fff; border: 1px solid #d5d9e2;
+    border-radius: 8px; padding: 4px 14px; font-size: 12.5px; color: #31333f; margin: 4px 0;
+  }
+  .stl-btn.primary { background: #ff4b4b; border-color: #ff4b4b; color: #fff; }
+  .stl-textinput {
+    border: 1px solid #d5d9e2; border-radius: 8px;
+    padding: 7px 12px; font-size: 12.5px; color: #31333f;
+    background: #fff; margin: 4px 0 10px;
+  }
+  .stl-textinput .ph { color: #9aa0ab; }
+  .stl-table { width: 100%; border-collapse: collapse; margin: 8px 0; }
+  .stl-table th { background: #f0f2f6; color: #31333f; font-size: 12px; border: 1px solid #e2e4e8; padding: 5px 10px; text-align: left; }
+  .stl-table td { font-size: 12px; border: 1px solid #e2e4e8; padding: 5px 10px; }
+
+  /* github */
+  .gh { background: #f6f8fa; font-size: 13px; }
+  .gh-header {
+    background: #24292f; color: #fff;
+    padding: 9px 16px; font-size: 13px;
+    display: flex; gap: 14px; align-items: center;
+  }
+  .gh-header .gh-logo { font-size: 17px; }
+  .gh-header .gh-crumb { color: #c9d1d9; }
+  .gh-header .gh-crumb b { color: #fff; }
+  .gh-body { padding: 16px 20px; }
+  .gh-pr-title { font-size: 17px; font-weight: 700; color: #1f2328; margin-bottom: 4px; }
+  .gh-pr-title .gh-prnum { color: #656d76; font-weight: 400; }
+  .gh-badge {
+    display: inline-block; background: #1a7f37; color: #fff;
+    border-radius: 20px; padding: 2px 12px; font-size: 12px; font-weight: 700;
+    margin-right: 8px;
+  }
+  .gh-badge.merged { background: #8250df; }
+  .gh-meta { color: #656d76; font-size: 12.5px; margin-bottom: 12px; }
+  .gh-box { background: #fff; border: 1px solid #d0d7de; border-radius: 8px; margin: 10px 0; overflow: hidden; }
+  .gh-box-head { background: #f6f8fa; border-bottom: 1px solid #d0d7de; padding: 7px 14px; font-weight: 700; font-size: 12.5px; color: #1f2328; }
+  .gh-box-body { padding: 10px 14px; font-size: 12.5px; color: #1f2328; line-height: 1.65; }
+  .gh-comment-meta { font-size: 12px; color: #656d76; margin-bottom: 3px; }
+  .gh-diff { font-family: Consolas, Menlo, monospace; font-size: 11.5px; line-height: 1.6; }
+  .gh-diff .add { background: #dafbe1; display: block; padding: 0 10px; }
+  .gh-diff .del { background: #ffebe9; display: block; padding: 0 10px; }
+  .gh-diff .ctx { display: block; padding: 0 10px; color: #57606a; }
+  .gh-btn {
+    display: inline-block; background: #1f883d; color: #fff;
+    border-radius: 6px; padding: 5px 14px; font-size: 12.5px; font-weight: 700; margin: 4px 0;
+  }
+  .gh-field {
+    background: #fff; border: 1px solid #d0d7de; border-radius: 6px;
+    padding: 6px 12px; font-size: 12.5px; color: #1f2328; margin: 6px 0;
+  }
+  .gh-field .ph { color: #8b949e; }
+
+  /* editor (VS Code) */
+  .vsc { display: flex; background: #1e1e28; min-height: 240px; }
+  .vsc-side {
+    flex: 0 0 170px; background: #22222e; color: #b8bcc8;
+    font-size: 12px; padding: 10px 0;
+    border-right: 1px solid #33333f;
+  }
+  .vsc-side .vsc-side-title { font-size: 10.5px; letter-spacing: .1em; color: #8a8fa0; padding: 0 14px 6px; }
+  .vsc-side .f { padding: 2.5px 14px; }
+  .vsc-side .f.dir { color: #d0b26a; }
+  .vsc-side .f.sel { background: #34344a; color: #fff; }
+  .vsc-side .f.indent { padding-left: 28px; }
+  .vsc-main { flex: 1; min-width: 0; }
+  .vsc-tabs { display: flex; background: #191924; }
+  .vsc-tab { padding: 6px 18px; font-size: 12px; color: #8a8fa0; border-right: 1px solid #33333f; }
+  .vsc-tab.sel { background: #1e1e28; color: #fff; border-top: 2px solid var(--accent); }
+  .vsc-code {
+    font-family: "SF Mono", Consolas, Menlo, monospace;
+    font-size: 12px; line-height: 1.7;
+    color: #d4d4d4; padding: 12px 16px;
+    white-space: pre; overflow-x: auto;
+  }
+  .vsc-code .ln { color: #5a5a6e; display: inline-block; width: 26px; }
+  .vsc-code .kw { color: #c586c0; } .vsc-code .st { color: #ce9178; }
+  .vsc-code .fn { color: #dcdcaa; } .vsc-code .cm { color: #6a9955; }
+
+  /* logic tree mock */
+  .ltree { display: flex; align-items: center; gap: 16px; margin: 14px 0; break-inside: avoid; }
+  .ltree .root {
+    background: var(--navy); color: #fff; border-radius: 10px;
+    padding: 14px 16px; font-size: 13.5px; font-weight: 700;
+    flex: 0 0 170px; text-align: center;
+  }
+  .ltree .l2col { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .ltree .branch { display: flex; align-items: center; gap: 10px; }
+  .ltree .b2 {
+    background: var(--teal-soft); border: 2px solid var(--teal);
+    border-radius: 8px; padding: 8px 12px; font-size: 12.5px; font-weight: 700; color: var(--navy);
+    flex: 0 0 180px; text-align: center;
+  }
+  .ltree .b3list { display: flex; flex-direction: column; gap: 5px; flex: 1; }
+  .ltree .b3 {
+    background: #fff; border: 1px solid var(--line);
+    border-radius: 6px; padding: 5px 10px; font-size: 12px;
+  }
+  .ltree .conn { color: var(--accent); font-weight: 700; font-size: 16px; }
+
+  /* doc mock (要件定義書など) */
+  .docmock {
+    background: #fff;
+    border: 1px solid #b9b4aa;
+    box-shadow: 0 4px 16px rgba(0,0,0,.12);
+    border-radius: 4px;
+    padding: 26px 32px;
+    font-size: 13px;
+    break-inside: avoid;
+  }
+  .docmock .doc-title { font-size: 17px; font-weight: 800; color: var(--navy); text-align: center; margin-bottom: 4px; }
+  .docmock .doc-meta { text-align: right; font-size: 11.5px; color: var(--muted); margin-bottom: 12px; }
+  .docmock table { width: 100%; }
+  .docmock th { width: 160px; background: #eef1f6; color: var(--navy); font-size: 12.5px; }
+  .docmock td, .docmock th { border: 1px solid #c9ccd4; padding: 7px 12px; font-size: 12.5px; vertical-align: top; }
+
+  /* ---------- tables ---------- */
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+  th, td { border: 1px solid var(--line); padding: 8px 12px; font-size: 14px; text-align: left; vertical-align: top; line-height: 1.6; }
+  th { background: var(--navy); color: #fff; font-size: 13px; }
+  tr:nth-child(even) td { background: #faf9f6; }
+
+  /* ---------- cover / toc ---------- */
+  .cover {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    color: #fff; border-radius: 14px;
+    padding: 60px 48px;
+    margin-bottom: 36px;
+  }
+  .cover .bar { width: 80px; height: 8px; background: var(--accent); border-radius: 4px; margin-bottom: 22px; }
+  .cover h1 { color: #fff; font-size: 34px; margin-bottom: 8px; }
+  .cover .cov-sub { color: #c9d2e4; font-size: 17px; margin-bottom: 30px; }
+  .cover .cov-meta { color: #8fa0c0; font-size: 13px; }
+  .toc { columns: 2; column-gap: 40px; font-size: 14.5px; }
+  .toc li { margin-bottom: 6px; }
+
+  .weekmap { display: flex; gap: 5px; margin: 14px 0 20px; }
+  .weekmap .wm { color: #fff; font-size: 12px; font-weight: 700; padding: 8px 6px; border-radius: 6px; text-align: center; line-height: 1.4; }
+  .weekmap .wm small { display: block; font-weight: 400; font-size: 10.5px; color: rgba(255,255,255,.85); }
+
+  /* ---------- print ---------- */
+  @media print {
+    @page { size: A4; margin: 13mm 11mm; }
+    body { background: #fff; }
+    .page { max-width: none; padding: 0; }
+    .window, .docmock { box-shadow: none; }
+    h3 { break-after: avoid; }
+    .screen, .step, pre, .check, .trouble, .note { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ================= COVER ================= -->
+<div class="cover">
+  <div class="bar"></div>
+  <h1>FDE研修 未経験者コース<br>ハンズオン教材(全7分野)</h1>
+  <p class="cov-sub">画面イメージと作業手順で学ぶ、16週間の実践テキスト</p>
+  <p class="cov-meta">対象:未経験者コース受講者(プログラミング経験なし)/ 教材リポジトリ:company_inner_search_app2<br>
+  関連資料:docs/fde-training-program.md(カリキュラム全体)、docs/fde-training-slides.html(研修スライド)</p>
+</div>
+
+<h2>本書の使い方</h2>
+<ul>
+  <li>本書は未経験者コース(16週間)の <strong>7つの分野</strong>を、章ごとに「学習ゴール → 作業手順 → 画面イメージ → 確認ポイント → つまずき対処」の順で解説します。</li>
+  <li><strong>画面イメージ</strong>(<span style="color:var(--accent); font-weight:700;">▲マークの図</span>)は、その手順を正しく実行できたときに見えるはずの画面です。自分の画面と見比べながら進めてください。</li>
+  <li>コマンドは <strong>1行ずつ自分の手で入力</strong>してください(コピー&ペーストは、まず手で打って動いた後の2回目以降に)。</li>
+  <li>詰まったら <strong>30分ルール</strong>:30分自力で調べても解決しなければ、必ずメンターに質問しましょう。</li>
+</ul>
+
+<div class="weekmap">
+  <div class="wm" style="flex:2; background:#1a2b4a;">第1〜2週<small>①Python基礎</small></div>
+  <div class="wm" style="flex:1; background:#24395e;">第3週<small>②Git/GitHub</small></div>
+  <div class="wm" style="flex:1; background:#2d4370;">第4週<small>③SQL</small></div>
+  <div class="wm" style="flex:2; background:#2a7f7f;">第5〜6週<small>④Webアプリ</small></div>
+  <div class="wm" style="flex:4; background:#3a9188;">第7〜10週<small>⑤生成AI・RAG</small></div>
+  <div class="wm" style="flex:3; background:#b0682f;">第11〜13週<small>⑥コンサル基礎</small></div>
+  <div class="wm" style="flex:3; background:#e8734a;">第14〜16週<small>⑦総合演習</small></div>
+</div>
+
+<h2>目次</h2>
+<ol class="toc">
+  <li><strong>第1章</strong> Python基礎(第1〜2週)<br><small>環境構築/演習の進め方/CSV集計課題</small></li>
+  <li><strong>第2章</strong> Git・GitHub・ターミナル(第3週)<br><small>ブランチ→コミット→PR→レビューの一連の流れ</small></li>
+  <li><strong>第3章</strong> SQLとデータモデリング(第4週)<br><small>サンプルDBへの問い合わせ演習</small></li>
+  <li><strong>第4章</strong> Webアプリ基礎(第5〜6週)<br><small>Streamlitで社内FAQアプリをゼロから作る</small></li>
+  <li><strong>第5章</strong> 生成AI・RAG入門(第7〜10週)<br><small>OpenAI API/教材アプリの起動と改修</small></li>
+  <li><strong>第6章</strong> コンサルティング基礎(第11〜13週)<br><small>ロジックツリー/ヒアリング/要件定義書/プレゼン</small></li>
+  <li><strong>第7章</strong> 総合演習(第14〜16週)<br><small>課題・スケジュール・成果物・評価基準</small></li>
+</ol>
+
+<!-- ============================================================ -->
+<!-- 第1章 Python -->
+<!-- ============================================================ -->
+<div class="chapter">
+  <div class="ch-num">01</div>
+  <span class="ch-week">第 1〜2 週</span>
+  <h2>第1章 Python基礎</h2>
+  <p>すべての土台。環境を整え、100本ノックで文法を体に覚えさせ、CSV集計スクリプトで「実データを扱う」最初の一歩を踏み出します。</p>
+</div>
+
+<div class="goal">
+  <div class="goal-title">🎯 この章の学習ゴール</div>
+  <ul>
+    <li>自分のPCに Python の開発環境を構築できる</li>
+    <li>変数・条件分岐・繰り返し・関数を使った 20〜30 行のプログラムを自力で書ける</li>
+    <li>CSVファイルを読み込んで集計するスクリプトを完成させ、結果を説明できる</li>
+  </ul>
+</div>
+
+<h3>1-1. 開発環境の構築(所要:半日)</h3>
+
+<div class="step"><div class="step-num">1</div><div class="step-body">
+  <div class="step-title">Python がインストールされているか確認する</div>
+  <p>ターミナル(Windows は「PowerShell」、Mac は「ターミナル」アプリ)を開き、次のコマンドを入力して Enter キーを押します。</p>
+  <pre>python --version</pre>
+  <p class="small">※ Mac では <code>python3 --version</code> と入力してください。以降のコマンドも同様に読み替えます。</p>
+</div></div>
+
+<div class="screen">
+  <div class="window terminal">
+    <div class="win-titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">PowerShell — 研修用ターミナル</span></div>
+    <div class="term-body"><span class="ps">PS C:\Users\trainee></span> <span class="cmd">python --version</span>
+<span class="ok">Python 3.11.9</span>
+
+<span class="ps">PS C:\Users\trainee></span> _</div>
+  </div>
+  <div class="screen-caption">バージョン番号(3.10以上ならOK)が表示されれば成功。「認識されません」と出たら Python 未インストールなので、python.org からインストールします(下のつまずき対処参照)。</div>
+</div>
+
+<div class="step"><div class="step-num">2</div><div class="step-body">
+  <div class="step-title">研修用の作業フォルダと仮想環境を作る</div>
+  <p>デスクトップではなくホームフォルダ直下に <code>fde-training</code> フォルダを作り、その中に「仮想環境」を作ります。仮想環境とは、<strong>このプロジェクト専用の Python 環境</strong>のこと。他のプロジェクトとライブラリが混ざる事故を防げます。</p>
+  <pre>mkdir fde-training
+cd fde-training
+python -m venv .venv
+.venv\Scripts\activate        <span class="cm"># Mac の場合: source .venv/bin/activate</span></pre>
+</div></div>
+
+<div class="screen">
+  <div class="window terminal">
+    <div class="win-titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">PowerShell — 研修用ターミナル</span></div>
+    <div class="term-body"><span class="ps">PS C:\Users\trainee></span> <span class="cmd">mkdir fde-training</span>
+<span class="ps">PS C:\Users\trainee></span> <span class="cmd">cd fde-training</span>
+<span class="ps">PS C:\Users\trainee\fde-training></span> <span class="cmd">python -m venv .venv</span>
+<span class="ps">PS C:\Users\trainee\fde-training></span> <span class="cmd">.venv\Scripts\activate</span>
+<span class="ok">(.venv)</span> <span class="ps">PS C:\Users\trainee\fde-training></span> _</div>
+  </div>
+  <div class="screen-caption">行の先頭に <strong>(.venv)</strong> と表示されたら仮想環境が有効になっています。研修の作業は常にこの状態で行います。</div>
+</div>
+
+<div class="step"><div class="step-num">3</div><div class="step-body">
+  <div class="step-title">エディタ(VS Code)を準備し、最初のプログラムを書く</div>
+  <p>VS Code(Visual Studio Code)をインストールし、拡張機能「Python」「Japanese Language Pack」を追加します。<code>fde-training</code> フォルダを VS Code で開き、<code>hello.py</code> という名前のファイルを作って次の3行を書きます。</p>
+  <span class="code-label">hello.py</span>
+  <pre><span class="cm"># はじめてのプログラム</span>
+name = <span class="st">"山田"</span>
+<span class="fn">print</span>(<span class="st">f"こんにちは、{name}さん!FDE研修へようこそ。"</span>)</pre>
+</div></div>
+
+<div class="screen">
+  <div class="window">
+    <div class="win-titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">hello.py — fde-training — Visual Studio Code</span></div>
+    <div class="vsc">
+      <div class="vsc-side">
+        <div class="vsc-side-title">エクスプローラー</div>
+        <div class="f dir">▾ FDE-TRAINING</div>
+        <div class="f indent dir">▸ .venv</div>
+        <div class="f indent sel">🐍 hello.py</div>
+      </div>
+      <div class="vsc-main">
+        <div class="vsc-tabs"><div class="vsc-tab sel">hello.py</div></div>
+        <div class="vsc-code"><span class="ln">1</span><span class="cm"># はじめてのプログラム</span>
+<span class="ln">2</span>name = <span class="st">"山田"</span>
+<span class="ln">3</span><span class="fn">print</span>(<span class="st">f"こんにちは、{name}さん!FDE研修へようこそ。"</span>)</div>
+      </div>
+    </div>
+  </div>
+  <div class="screen-caption">VS Code の画面。左が「エクスプローラー」(ファイル一覧)、右がエディタ。ファイル名の拡張子は必ず <code>.py</code> にします。</div>
+</div>
+
+<div class="step"><div class="step-num">4</div><div class="step-body">
+  <div class="step-title">プログラムを実行する</div>
+  <p>ターミナルに戻り(VS Code 内蔵ターミナルでも可:メニュー「ターミナル → 新しいターミナル」)、実行します。</p>
+  <pre>python hello.py</pre>
+</div></div>
+
+<div class="screen">
+  <div class="window terminal">
+    <div class="win-titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">ターミナル</span></div>
+    <div class="term-body"><span class="ok">(.venv)</span> <span class="ps">PS C:\Users\trainee\fde-training></span> <span class="cmd">python hello.py</span>
+<span class="out">こんにちは、山田さん!FDE研修へようこそ。</span>
+<span class="ok">(.venv)</span> <span class="ps">PS C:\Users\trainee\fde-training></span> _</div>
+  </div>
+  <div class="screen-caption">自分の書いたプログラムが動いた瞬間。ここからすべてが始まります。</div>
+</div>
+
+<div class="check">
+  <div class="check-title">✅ 確認ポイント(1-1完了の条件)</div>
+  <ul>
+    <li><code>python --version</code> で 3.10 以上が表示される</li>
+    <li>プロンプトの先頭に <code>(.venv)</code> が付いた状態で作業できている</li>
+    <li><code>hello.py</code> の <code>name</code> を自分の名前に変えて再実行し、出力が変わることを確認した</li>
+  </ul>
+</div>
+
+<h3>1-2. 演習100本ノックの進め方(第1週後半〜第2週前半)</h3>
+<p>1問5〜15分の小さな問題を大量に解いて、文法を「思い出す」のではなく「手が勝手に動く」状態にします。問題は研修用リポジトリの <code>exercises/</code> から配布されます。進め方のルールは次の3つです。</p>
+<ol>
+  <li><strong>1問ごとに必ず実行する。</strong>書いて満足せず、動かして結果を見る</li>
+  <li><strong>エラーは友達。</strong>エラーメッセージを最後の行から読む習慣をつける(下の例を参照)</li>
+  <li><strong>解けた問題も音読する。</strong>「この行は何をしているか」を声に出して説明できたら次へ</li>
+</ol>
+
+<h4>例題:こんな問題を解いていきます</h4>
+<table>
+  <tr><th style="width:70px;">No.</th><th>問題</th><th style="width:290px;">学べること</th></tr>
+  <tr><td>012</td><td>1から100までの数字のうち、3の倍数だけを表示してください</td><td>for文・if文・剰余演算子(%)</td></tr>
+  <tr><td>034</td><td>社員名のリストから「田」を含む名前だけを新しいリストに集めてください</td><td>リスト・in演算子・append</td></tr>
+  <tr><td>058</td><td>「税抜価格を受け取り税込価格を返す関数」を定義し、3つの価格で試してください</td><td>関数定義・引数・戻り値</td></tr>
+  <tr><td>077</td><td>社員名と部署の辞書データから、部署ごとの人数を数えてください</td><td>辞書・集計の基本パターン</td></tr>
+</table>
+
+<h4>エラーメッセージの読み方(必修)</h4>
+<div class="screen">
+  <div class="window terminal">
+    <div class="win-titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">ターミナル — エラーの例</span></div>
+    <div class="term-body"><span class="ok">(.venv)</span> <span class="ps">PS C:\Users\trainee\fde-training></span> <span class="cmd">python knock_012.py</span>
+<span class="out">Traceback (most recent call last):
+  File "knock_012.py", line 3, in &lt;module&gt;
+    print(namae)</span>
+<span class="err">NameError: name 'namae' is not defined</span>
+<span class="ok">(.venv)</span> <span class="ps">PS C:\Users\trainee\fde-training></span> _</div>
+  </div>
+  <div class="screen-caption">エラーは<strong>最後の行から</strong>読む。「NameError: 'namae' という名前は定義されていない」→ 3行目で変数名を打ち間違えている、と特定できます。エラー文で検索する練習もここで身につけます。</div>
+</div>
+
+<h3>1-3. 週末課題:CSV集計スクリプト(第2週後半)</h3>
+
+<div class="step"><div class="step-num">1</div><div class="step-body">
+  <div class="step-title">課題データを確認する</div>
+  <p>配布される社員名簿 <code>employees.csv</code> を VS Code で開いて中身を確認します。<strong>コードを書く前にデータを目で見る</strong>のは、FDE の実務でも鉄則です。</p>
+  <span class="code-label">employees.csv(先頭5行)</span>
+  <pre>社員ID,氏名,部署,役職,入社年
+E001,山田太郎,営業部,課長,2015
+E002,佐藤花子,人事部,メンバー,2021
+E003,鈴木一郎,営業部,メンバー,2023
+E004,田中美咲,情報システム部,部長,2010</pre>
+</div></div>
+
+<div class="step"><div class="step-num">2</div><div class="step-body">
+  <div class="step-title">集計スクリプトを書く</div>
+  <p>「部署ごとの人数を数えて、多い順に表示する」プログラムを作ります。まずは下のコードを写経して動かし、その後で1行ずつ意味を説明できるようにします。</p>
+  <span class="code-label">aggregate.py</span>
+  <pre><span class="kw">import</span> csv
+
+<span class="cm"># 1. CSVファイルを読み込む</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="st">"employees.csv"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> f:
+    rows = <span class="fn">list</span>(csv.DictReader(f))
+
+<span class="cm"># 2. 部署ごとの人数を辞書で数える</span>
+counts = {}
+<span class="kw">for</span> row <span class="kw">in</span> rows:
+    dept = row[<span class="st">"部署"</span>]
+    counts[dept] = counts.get(dept, 0) + 1
+
+<span class="cm"># 3. 人数が多い順に表示する</span>
+<span class="fn">print</span>(<span class="st">f"社員数合計: {len(rows)}名"</span>)
+<span class="kw">for</span> dept, n <span class="kw">in</span> <span class="fn">sorted</span>(counts.items(), key=<span class="kw">lambda</span> x: x[1], reverse=<span class="kw">True</span>):
+    <span class="fn">print</span>(<span class="st">f"  {dept}: {n}名"</span>)</pre>
+</div></div>
+
+<div class="screen">
+  <div class="window terminal">
+    <div class="win-titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">ターミナル — 実行結果</span></div>
+    <div class="term-body"><span class="ok">(.venv)</span> <span class="ps">PS C:\Users\trainee\fde-training></span> <span class="cmd">python aggregate.py</span>
+<span class="out">社員数合計: 42名
+  営業部: 14名
+  製造部: 10名
+  情報システム部: 8名
+  人事部: 6名
+  経理部: 4名</span>
+<span class="ok">(.venv)</span> <span class="ps">PS C:\Users\trainee\fde-training></span> _</div>
+  </div>
+  <div class="screen-caption">集計結果が多い順に表示されれば成功。数字は配布データによって変わります。</div>
+</div>
+
+<div class="step"><div class="step-num">3</div><div class="step-body">
+  <div class="step-title">発展課題に挑戦する(模倣 → 自作)</div>
+  <p>写経したコードを改造して、次の3つを自力で実装します。分からない部分は100本ノックの類題に戻って確認しましょう。</p>
+  <ul>
+    <li><strong>発展1:</strong>「入社年が2020年以降」の社員だけを数える</li>
+    <li><strong>発展2:</strong>部署ごとに「役職が課長以上」の人数も併記する</li>
+    <li><strong>発展3:</strong>集計結果を画面表示ではなく <code>result.csv</code> に書き出す</li>
+  </ul>
+</div></div>
+
+<div class="trouble">
+  <div class="trouble-title">🔧 つまずきポイントと対処</div>
+  <table>
+    <tr><th style="width:290px;">症状</th><th>原因と対処</th></tr>
+    <tr><td><code>'python' は認識されません</code></td><td>Python未インストール、またはPATH未設定。python.org のインストーラーで「Add python.exe to PATH」に必ずチェックを入れて再インストール</td></tr>
+    <tr><td><code>UnicodeDecodeError</code> が出る</td><td>CSVの文字コード問題。<code>encoding="utf-8"</code> を <code>encoding="cp932"</code>(Excel保存のCSVの場合)に変えて試す</td></tr>
+    <tr><td><code>IndentationError</code> が出る</td><td>行頭の空白(インデント)のズレ。Pythonは字下げが文法の一部。スペース4つで統一する</td></tr>
+    <tr><td>実行しても何も表示されない</td><td><code>print()</code> を書き忘れているか、for文の中に入っていない。処理の途中に <code>print()</code> を差し込んで動きを確認する</td></tr>
+  </table>
+</div>
+
+<!-- ============================================================ -->
+<!-- 第2章 Git -->
+<!-- ============================================================ -->
+<div class="chapter">
+  <div class="ch-num">02</div>
+  <span class="ch-week">第 3 週</span>
+  <h2>第2章 Git・GitHub・ターミナル操作</h2>
+  <p>チーム開発の共通言語。「ブランチ→コミット→プルリクエスト→レビュー対応→マージ」の一連の流れを、この週は毎日1回転させて体で覚えます。</p>
+</div>
+
+<div class="goal">
+  <div class="goal-title">🎯 この章の学習ゴール</div>
+  <ul>
+    <li>ブランチを切って作業し、意味の通るメッセージでコミットできる</li>
+    <li>プルリクエスト(PR)を作成し、レビュー指摘に修正で応えてマージまで完走できる</li>
+    <li><code>git status</code> / <code>git diff</code> / <code>git log</code> で「今リポジトリがどんな状態か」を自分で確認できる</li>
+  </ul>
+</div>
+
+<h3>2-1. 初期設定と教材リポジトリの取得</h3>
+
+<div class="step"><div class="step-num">1</div><div class="step-body">
+  <div class="step-title">Git の初期設定をする(最初の1回だけ)</div>
+  <p>コミットに記録される自分の名前とメールアドレスを設定します。</p>
+  <pre>git config --global user.name "Taro Yamada"
+git config --global user.email "t.yamada@example.co.jp"</pre>
+</div></div>
+
+<div class="step"><div class="step-num">2</div><div class="step-body">
+  <div class="step-title">教材リポジトリをクローン(複製)する</div>
+  <p>GitHub 上の教材リポジトリを自分のPCにコピーします。これを<strong>クローン</strong>と呼びます。</p>
+  <pre>git clone https://github.com/koheiashikari/company_inner_search_app2.git
+cd company_inner_search_app2</pre>
+</div></div>
+
+<div class="screen">
+  <div class="window terminal">
+    <div class="win-titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">ターミナル</span></div>
+    <div class="term-body"><span class="ok">(.venv)</span> <span class="ps">PS C:\Users\trainee\fde-training></span> <span class="cmd">git clone https://github.com/koheiashikari/company_inner_search_app2.git</span>
+<span class="out">Cloning into 'company_inner_search_app2'...
+remote: Enumerating objects: 128, done.
+remote: Counting objects: 100% (128/128), done.
+Receiving objects: 100% (128/128), 1.24 MiB | 4.02 MiB/s, done.</span>
+<span class="ok">(.venv)</span> <span class="ps">PS C:\Users\trainee\fde-training></span> <span class="cmd">cd company_inner_search_app2</span>
+<span class="ok">(.venv)</span> <span class="ps">PS C:\Users\trainee\fde-training\company_inner_search_app2></span> _</div>
+  </div>
+  <div class="screen-caption">クローン完了。フォルダに移動して以降の作業を行います。</div>
+</div>
+
+<h3>2-2. 毎日回す「開発の1サイクル」</h3>
+<p>今週の課題は「READMEに自己紹介を追記する」「コメントの誤字を直す」など小さなものですが、<strong>流れは実務とまったく同じ</strong>です。以下のサイクルを毎日1回転します。</p>
+
+<div class="step"><div class="step-num">1</div><div class="step-body">
+  <div class="step-title">作業用ブランチを作る</div>
+  <p>本体(mainブランチ)を直接触らず、作業用の「枝」を作ってそこで作業します。ブランチ名は「何をするための枝か」が分かる名前にします。</p>
+  <pre>git switch -c feature/add-profile-yamada</pre>
+</div></div>
+
+<div class="step"><div class="step-num">2</div><div class="step-body">
+  <div class="step-title">ファイルを編集し、変更状態を確認する</div>
+  <p>VS Code でファイルを編集して保存したら、<strong>コミットの前に必ず</strong> <code>git status</code>(何が変わったか)と <code>git diff</code>(どう変わったか)で確認します。</p>
+  <pre>git status
+git diff</pre>
+</div></div>
+
+<div class="screen">
+  <div class="window terminal">
+    <div class="win-titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">ターミナル — git status / git diff</span></div>
+    <div class="term-body"><span class="ok">(.venv)</span> <span class="ps">PS ...\company_inner_search_app2></span> <span class="cmd">git status</span>
+<span class="out">On branch feature/add-profile-yamada
+Changes not staged for commit:</span>
+<span class="err">        modified:   README.md</span>
+
+<span class="ok">(.venv)</span> <span class="ps">PS ...\company_inner_search_app2></span> <span class="cmd">git diff</span>
+<span class="out">--- a/README.md
++++ b/README.md
+@@ -1,2 +1,4 @@
+ # company_inner_search_app2</span>
+<span class="ok">+
++## 研修生自己紹介: 山田太郎(2026年度 未経験者コース)</span>
+<span class="ok">(.venv)</span> <span class="ps">PS ...\company_inner_search_app2></span> _</div>
+  </div>
+  <div class="screen-caption"><code>git diff</code> では追加した行が <strong>+付きの緑色</strong>で表示されます。「自分が何を変えたか」を提出前に自分の目で確認する習慣が重要です。</div>
+</div>
+
+<div class="step"><div class="step-num">3</div><div class="step-body">
+  <div class="step-title">コミットして GitHub にプッシュする</div>
+  <p>変更を「ステージング(コミット対象に載せる)」してからコミットします。メッセージは「何をなぜ変えたか」が伝わる日本語でOKです。</p>
+  <pre>git add README.md
+git commit -m "READMEに研修生の自己紹介欄を追加"
+git push -u origin feature/add-profile-yamada</pre>
+</div></div>
+
+<div class="step"><div class="step-num">4</div><div class="step-body">
+  <div class="step-title">GitHub でプルリクエスト(PR)を作る</div>
+  <p>ブラウザで GitHub のリポジトリを開くと「Compare &amp; pull request」ボタンが表示されるので、クリックしてPR作成画面へ。<strong>タイトル</strong>と<strong>説明(何を・なぜ・確認方法)</strong>を書いて「Create pull request」を押します。</p>
+</div></div>
+
+<div class="screen">
+  <div class="window browser">
+    <div class="win-titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">GitHub — Pull Request 作成</span></div>
+    <div class="urlbar"><span class="navbtn">← → ⟳</span><span class="url">https://github.com/koheiashikari/company_inner_search_app2/compare/main...feature/add-profile-yamada</span></div>
+    <div class="browser-body gh">
+      <div class="gh-header"><span class="gh-logo">🐙</span><span class="gh-crumb">koheiashikari / <b>company_inner_search_app2</b></span></div>
+      <div class="gh-body">
+        <div class="gh-pr-title">Open a pull request</div>
+        <div class="gh-meta">base: <b>main</b> ← compare: <b>feature/add-profile-yamada</b> &nbsp;<span style="color:#1a7f37;">✓ Able to merge</span></div>
+        <div class="gh-field">READMEに研修生の自己紹介欄を追加</div>
+        <div class="gh-field" style="min-height:84px;">## 何を変えたか<br>README.md に研修生の自己紹介セクションを追加しました。<br><br>## 確認方法<br>README.md をプレビュー表示し、見出しが正しく表示されることを確認済みです。</div>
+        <span class="gh-btn">Create pull request</span>
+      </div>
+    </div>
+  </div>
+  <div class="screen-caption">PR作成画面。説明欄に「何を変えたか」「確認方法」を書くのがチームのルール。レビュアーの時間を節約するのも仕事のうちです。</div>
+</div>
+
+<div class="step"><div class="step-num">5</div><div class="step-body">
+  <div class="step-title">レビュー指摘に対応し、マージする</div>
+  <p>メンターがコードを確認し、コメントで指摘が入ります。<strong>指摘はコードへの指摘であって人格への指摘ではありません。</strong>修正して再度 push すると、同じPRに自動で反映されます。承認(Approve)が出たら「Merge pull request」ボタンでマージして完了です。</p>
+</div></div>
+
+<div class="screen">
+  <div class="window browser">
+    <div class="win-titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">GitHub — Pull Request レビュー</span></div>
+    <div class="urlbar"><span class="navbtn">← → ⟳</span><span class="url">https://github.com/koheiashikari/company_inner_search_app2/pull/12</span></div>
+    <div class="browser-body gh">
+      <div class="gh-header"><span class="gh-logo">🐙</span><span class="gh-crumb">koheiashikari / <b>company_inner_search_app2</b></span></div>
+      <div class="gh-body">
+        <div class="gh-pr-title">READMEに研修生の自己紹介欄を追加 <span class="gh-prnum">#12</span></div>
+        <div class="gh-meta"><span class="gh-badge">Open</span> yamada-taro が main へのマージを希望しています</div>
+        <div class="gh-box">
+          <div class="gh-box-head">💬 mentor-sato さんがレビューしました(変更を依頼)</div>
+          <div class="gh-box-body">
+            <div class="gh-diff"><span class="ctx">@@ README.md @@</span><span class="add">+## 研修生自己紹介: 山田太郎(2026年度 未経験者コース)</span></div>
+            <div style="margin-top:8px;"><span class="gh-comment-meta">mentor-sato • 10 minutes ago</span><br>見出しレベルは他のセクションに合わせて <code>###</code> にしましょう。あと入社月も入れると名簿として使えます 👍</div>
+          </div>
+        </div>
+        <div class="gh-box">
+          <div class="gh-box-head">✅ mentor-sato さんが承認しました(2回目のレビュー)</div>
+          <div class="gh-box-body"><span class="gh-comment-meta">mentor-sato • 2 minutes ago</span><br>修正確認しました。LGTM!(Looks Good To Me = 問題ありません)</div>
+        </div>
+        <span class="gh-btn">Merge pull request</span>
+      </div>
+    </div>
+  </div>
+  <div class="screen-caption">レビューの往復の実例。1回目で指摘 → 修正して push → 2回目で承認、が典型的な流れです。</div>
+</div>
+
+<div class="check">
+  <div class="check-title">✅ 確認ポイント(第3週修了の条件)</div>
+  <ul>
+    <li>ブランチ作成 → コミット → PR → レビュー対応 → マージ、を<strong>1人で5回以上</strong>完走した</li>
+    <li>コミットメッセージを見れば、コードを見なくても変更内容が想像できる</li>
+    <li>「今どのブランチにいるか」を <code>git status</code> で常に確認する癖がついた</li>
+  </ul>
+</div>
+
+<div class="trouble">
+  <div class="trouble-title">🔧 つまずきポイントと対処</div>
+  <table>
+    <tr><th style="width:290px;">症状</th><th>原因と対処</th></tr>
+    <tr><td>mainブランチで直接編集してしまった</td><td>コミット前なら <code>git stash</code> で変更を退避 → ブランチを切ってから <code>git stash pop</code> で復元</td></tr>
+    <tr><td><code>push</code> が <code>rejected</code> される</td><td>リモートに自分の知らない更新がある。<code>git pull origin ブランチ名</code> で取り込んでから再push</td></tr>
+    <tr><td>コミットメッセージを打ち間違えた</td><td>直前のものなら <code>git commit --amend -m "正しいメッセージ"</code> で修正できる(push前に限る)</td></tr>
+  </table>
+</div>
+
+<!-- ============================================================ -->
+<!-- 第3章 SQL -->
+<!-- ============================================================ -->
+<div class="chapter">
+  <div class="ch-num">03</div>
+  <span class="ch-week">第 4 週</span>
+  <h2>第3章 SQLとデータモデリング基礎</h2>
+  <p>FDEの仕事は「データに始まりデータに終わる」。教材リポジトリの data/ を元にしたサンプルDBを使い、データを取り出す言語=SQLを習得します。</p>
+</div>
+
+<div class="goal">
+  <div class="goal-title">🎯 この章の学習ゴール</div>
+  <ul>
+    <li>SELECT / WHERE / JOIN / GROUP BY を使った問い合わせが自力で書ける</li>
+    <li>「社員と部署を別テーブルに分けてIDでつなぐ」理由(正規化)を自分の言葉で説明できる</li>
+    <li>日本語の質問(例:「部署ごとの平均勤続年数は?」)をSQLに翻訳できる</li>
+  </ul>
+</div>
+
+<h3>3-1. サンプルDBの準備</h3>
+
+<div class="step"><div class="step-num">1</div><div class="step-body">
+  <div class="step-title">SQLite でデータベースを開く</div>
+  <p>研修ではインストール不要で使える <strong>SQLite</strong> を使います。配布された <code>training.db</code>(教材リポジトリの data/ フォルダの社員・部署・顧客データをDB化したもの)を開き、テーブルの一覧を確認します。</p>
+  <pre>sqlite3 training.db
+.tables          <span class="cm">-- テーブル一覧を表示</span>
+.headers on      <span class="cm">-- 結果に列名を表示する設定</span>
+.mode column     <span class="cm">-- 結果を表形式で表示する設定</span></pre>
+</div></div>
+
+<div class="screen">
+  <div class="window terminal">
+    <div class="win-titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">ターミナル — SQLite</span></div>
+    <div class="term-body"><span class="ps">PS C:\Users\trainee\fde-training></span> <span class="cmd">sqlite3 training.db</span>
+<span class="out">SQLite version 3.45.1
+Enter ".help" for usage hints.</span>
+<span class="ps">sqlite></span> <span class="cmd">.tables</span>
+<span class="out">customers  departments  employees  services</span>
+<span class="ps">sqlite></span> _</div>
+  </div>
+  <div class="screen-caption">4つのテーブル(顧客・部署・社員・サービス)が入っています。プロンプトが <code>sqlite&gt;</code> に変わったらSQLを直接入力できます。</div>
+</div>
+
+<div class="step"><div class="step-num">2</div><div class="step-body">
+  <div class="step-title">テーブルの構造(データモデル)を理解する</div>
+  <p>社員テーブルには部署の「名前」ではなく「部署ID」だけが入っています。部署の情報は部署テーブルに1回だけ書く——これが<strong>正規化</strong>(1つの事実は1か所にだけ書く)です。部署名が変わっても1か所直せば済みます。</p>
+  <table>
+    <tr><th style="width:280px;">employees(社員)</th><th style="width:250px;">departments(部署)</th><th>つながり</th></tr>
+    <tr>
+      <td><code>emp_id</code> 社員ID(主キー)<br><code>name</code> 氏名<br><code>dept_id</code> 部署ID<br><code>hire_year</code> 入社年<br><code>title</code> 役職</td>
+      <td><code>dept_id</code> 部署ID(主キー)<br><code>dept_name</code> 部署名<br><code>floor</code> フロア</td>
+      <td>社員の <code>dept_id</code> と部署の <code>dept_id</code> が同じ値同士で結びつく(これを <strong>JOIN</strong> でつなぐ)</td>
+    </tr>
+  </table>
+</div></div>
+
+<h3>3-2. 問い合わせ演習(基本 → 応用)</h3>
+
+<div class="step"><div class="step-num">1</div><div class="step-body">
+  <div class="step-title">基本:絞り込んで取り出す(SELECT / WHERE)</div>
+  <p>「入社が2023年以降の社員の氏名と入社年」を取り出します。</p>
+  <pre><span class="kw">SELECT</span> name, hire_year
+<span class="kw">FROM</span> employees
+<span class="kw">WHERE</span> hire_year >= 2023;</pre>
+</div></div>
+
+<div class="step"><div class="step-num">2</div><div class="step-body">
+  <div class="step-title">応用:テーブルをつないで集計する(JOIN / GROUP BY)</div>
+  <p>「部署ごとの社員数を多い順に」。2つのテーブルを <code>JOIN</code> でつなぎ、<code>GROUP BY</code> でまとめて数えます。</p>
+  <pre><span class="kw">SELECT</span> d.dept_name, <span class="fn">COUNT</span>(*) <span class="kw">AS</span> members
+<span class="kw">FROM</span> employees e
+<span class="kw">JOIN</span> departments d <span class="kw">ON</span> e.dept_id = d.dept_id
+<span class="kw">GROUP BY</span> d.dept_name
+<span class="kw">ORDER BY</span> members <span class="kw">DESC</span>;</pre>
+</div></div>
+
+<div class="screen">
+  <div class="window terminal">
+    <div class="win-titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">ターミナル — SQLite 実行結果</span></div>
+    <div class="term-body"><span class="ps">sqlite></span> <span class="cmd">SELECT d.dept_name, COUNT(*) AS members</span>
+<span class="ps">   ...></span> <span class="cmd">FROM employees e JOIN departments d ON e.dept_id = d.dept_id</span>
+<span class="ps">   ...></span> <span class="cmd">GROUP BY d.dept_name ORDER BY members DESC;</span>
+<span class="out">dept_name       members
+--------------  -------
+営業部          14
+製造部          10
+情報システム部  8
+人事部          6
+経理部          4</span>
+<span class="ps">sqlite></span> _</div>
+  </div>
+  <div class="screen-caption">第1章でPythonで書いた集計と同じ結果を、SQLなら3行で取り出せます。「どちらの道具をいつ使うか」の感覚もここで養います。</div>
+</div>
+
+<div class="step"><div class="step-num">3</div><div class="step-body">
+  <div class="step-title">演習課題(自力で書く)</div>
+  <p>次の日本語の質問をSQLに翻訳してください。答え合わせはメンターとのペア作業で行います。</p>
+  <ol>
+    <li>「営業部の社員一覧を、入社年の古い順に」(JOIN + WHERE + ORDER BY)</li>
+    <li>「入社3年以内(2024年以降)で営業部の社員の氏名」(条件の組み合わせ)</li>
+    <li>「部署ごとの平均勤続年数」(2026 - hire_year の平均。AVGと計算式)</li>
+    <li>「顧客ごとの契約サービス数」(customers と services のJOIN)</li>
+    <li><strong>発展:</strong>「社員が1人もいない部署」(LEFT JOIN と IS NULL)</li>
+  </ol>
+</div></div>
+
+<div class="check">
+  <div class="check-title">✅ 確認ポイント(第4週修了の条件)</div>
+  <ul>
+    <li>演習課題1〜4を、ヒントなしで正しい結果が出るまで書けた</li>
+    <li>「なぜ社員テーブルに部署名を直接書かないのか」を後輩に説明するつもりで話せた</li>
+    <li>間違ったSQLを書いたとき、結果の行数や中身から「何がおかしいか」を推測できた</li>
+  </ul>
+</div>
+
+<!-- ============================================================ -->
+<!-- 第4章 Streamlit -->
+<!-- ============================================================ -->
+<div class="chapter">
+  <div class="ch-num">04</div>
+  <span class="ch-week">第 5〜6 週</span>
+  <h2>第4章 Webアプリ基礎(Streamlit)</h2>
+  <p>「自分の作ったものが画面で動く」体験をつくる2週間。HTTP と API の全体像を学んだうえで、Streamlit を使って社内FAQアプリをゼロから作ります。</p>
+</div>
+
+<div class="goal">
+  <div class="goal-title">🎯 この章の学習ゴール</div>
+  <ul>
+    <li>「ブラウザ ⇄ サーバー」の関係と、リクエスト/レスポンスの流れを図で説明できる</li>
+    <li>Streamlit の基本部品(タイトル・入力欄・ボタン・表)で画面が作れる</li>
+    <li>CSVデータを読み込んで検索できる「社内FAQアプリ」を完成させ、同期にデモできる</li>
+  </ul>
+</div>
+
+<h3>4-1. Streamlit を動かしてみる(第5週前半)</h3>
+
+<div class="step"><div class="step-num">1</div><div class="step-body">
+  <div class="step-title">インストールして Hello アプリを作る</div>
+  <pre>pip install streamlit pandas</pre>
+  <span class="code-label">app_hello.py</span>
+  <pre><span class="kw">import</span> streamlit <span class="kw">as</span> st
+
+st.title(<span class="st">"はじめての Streamlit"</span>)
+name = st.text_input(<span class="st">"あなたの名前は?"</span>)
+<span class="kw">if</span> st.button(<span class="st">"あいさつする"</span>):
+    st.success(<span class="st">f"こんにちは、{name} さん!"</span>)</pre>
+</div></div>
+
+<div class="step"><div class="step-num">2</div><div class="step-body">
+  <div class="step-title">アプリを起動する</div>
+  <p><code>python</code> ではなく <code>streamlit run</code> で起動します。ブラウザが自動で開き、<code>http://localhost:8501</code> でアプリが表示されます。<strong>localhost とは「自分のPC自身」のこと</strong>。今は自分のPCがサーバー役をしています。</p>
+  <pre>streamlit run app_hello.py</pre>
+</div></div>
+
+<h3>4-2. 週末課題:社内FAQアプリを作る(第5週後半〜第6週)</h3>
+
+<div class="step"><div class="step-num">1</div><div class="step-body">
+  <div class="step-title">FAQデータを準備する</div>
+  <span class="code-label">faq.csv(抜粋)</span>
+  <pre>カテゴリ,質問,回答
+経費,交通費の精算期限はいつですか?,利用月の翌月10日までに精算システムで申請してください。
+勤怠,有給休暇の申請は何日前までですか?,原則3営業日前までに上長へ申請してください。
+IT,社内Wi-Fiのパスワードを忘れました,情報システム部のポータルから再発行申請ができます。
+総務,会議室の予約方法を教えてください,グループウェアの「施設予約」から予約できます。</pre>
+</div></div>
+
+<div class="step"><div class="step-num">2</div><div class="step-body">
+  <div class="step-title">アプリ本体を実装する</div>
+  <p>まず下のコードを写経して動かし、その後「カテゴリの絞り込み」を自力で追加します。</p>
+  <span class="code-label">app_faq.py</span>
+  <pre><span class="kw">import</span> streamlit <span class="kw">as</span> st
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+st.title(<span class="st">"💬 社内FAQ検索"</span>)
+st.caption(<span class="st">"よくある質問をキーワードで検索できます"</span>)
+
+<span class="cm"># 1. FAQデータを読み込む</span>
+df = pd.read_csv(<span class="st">"faq.csv"</span>)
+
+<span class="cm"># 2. 検索キーワードの入力欄</span>
+keyword = st.text_input(<span class="st">"キーワードを入力"</span>, placeholder=<span class="st">"例: 交通費"</span>)
+
+<span class="cm"># 3. キーワードで絞り込んで表示</span>
+<span class="kw">if</span> keyword:
+    hit = df[df[<span class="st">"質問"</span>].str.contains(keyword) | df[<span class="st">"回答"</span>].str.contains(keyword)]
+    st.write(<span class="st">f"検索結果: {len(hit)} 件"</span>)
+    <span class="kw">for</span> _, row <span class="kw">in</span> hit.iterrows():
+        <span class="kw">with</span> st.expander(<span class="st">f"【{row['カテゴリ']}】{row['質問']}"</span>):
+            st.write(row[<span class="st">"回答"</span>])
+<span class="kw">else</span>:
+    st.dataframe(df)</pre>
+</div></div>
+
+<div class="screen">
+  <div class="window browser">
+    <div class="win-titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">社内FAQ検索 — Streamlit</span></div>
+    <div class="urlbar"><span class="navbtn">← → ⟳</span><span class="url">http://localhost:8501</span></div>
+    <div class="browser-body">
+      <div class="stl">
+        <div class="stl-main" style="max-width:640px; margin:0 auto;">
+          <div class="stl-h1">💬 社内FAQ検索</div>
+          <div style="font-size:11.5px; color:#8a8fa0; margin-bottom:10px;">よくある質問をキーワードで検索できます</div>
+          <div style="font-size:12px; margin-bottom:2px;">キーワードを入力</div>
+          <div class="stl-textinput">交通費</div>
+          <div style="font-size:12.5px; margin:6px 0;">検索結果: 2 件</div>
+          <div class="stl-btn" style="display:block; text-align:left;">▾ 【経費】交通費の精算期限はいつですか?</div>
+          <div style="border:1px solid #d5d9e2; border-top:none; border-radius:0 0 8px 8px; padding:8px 14px; font-size:12.5px; margin-bottom:6px;">利用月の翌月10日までに精算システムで申請してください。</div>
+          <div class="stl-btn" style="display:block; text-align:left;">▸ 【経費】出張時の交通費に上限はありますか?</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="screen-caption">完成した社内FAQアプリ。キーワード「交通費」で2件がヒットし、クリックで回答が開閉します。第6週末に同期の前で3分デモを行います。</div>
+</div>
+
+<div class="step"><div class="step-num">3</div><div class="step-body">
+  <div class="step-title">発展課題(第6週)</div>
+  <ul>
+    <li><strong>発展1:</strong>カテゴリのプルダウン(<code>st.selectbox</code>)で絞り込みを追加</li>
+    <li><strong>発展2:</strong>ヒット0件のときに「見つかりませんでした」と案内を表示(<code>st.warning</code>)</li>
+    <li><strong>発展3:</strong>「よく見られている質問トップ3」を集計して先頭に表示(第1章の集計の応用)</li>
+    <li>完成したら第2章の手順どおり<strong>ブランチを切ってPRで提出</strong>(復習を兼ねる)</li>
+  </ul>
+</div></div>
+
+<div class="trouble">
+  <div class="trouble-title">🔧 つまずきポイントと対処</div>
+  <table>
+    <tr><th style="width:290px;">症状</th><th>原因と対処</th></tr>
+    <tr><td>ブラウザに「接続できません」と出る</td><td>アプリが起動していない。ターミナルで <code>streamlit run</code> が動いているか、エラーで止まっていないかを確認</td></tr>
+    <tr><td>コードを直したのに画面が変わらない</td><td>ブラウザ右上の「Rerun」をクリック(または画面上で R キー)。保存(Ctrl+S)を忘れていないかも確認</td></tr>
+    <tr><td><code>KeyError: '質問'</code></td><td>CSVの列名とコード内の列名が一致していない。全角/半角や余分なスペースに注意</td></tr>
+  </table>
+</div>
+
+<!-- ============================================================ -->
+<!-- 第5章 RAG -->
+<!-- ============================================================ -->
+<div class="chapter">
+  <div class="ch-num">05</div>
+  <span class="ch-week">第 7〜10 週</span>
+  <h2>第5章 生成AI・RAG入門</h2>
+  <p>いよいよ教材アプリ(社内情報検索アプリ)の世界へ。LLMをプログラムから呼び出し、RAGの仕組みを理解し、実際にアプリを起動・改修してPRを出すところまで進みます。</p>
+</div>
+
+<div class="goal">
+  <div class="goal-title">🎯 この章の学習ゴール</div>
+  <ul>
+    <li>OpenAI API をプログラムから呼び出し、プロンプトの違いによる回答の変化を実験・報告できる</li>
+    <li>教材アプリの起動時処理(initialize.py)の流れを図解して人に説明できる</li>
+    <li>教材アプリに小さな機能改修を加え、PRとして提出しマージまで完走できる</li>
+  </ul>
+</div>
+
+<h3>5-1. LLMをプログラムから呼び出す(第7週)</h3>
+
+<div class="step"><div class="step-num">1</div><div class="step-body">
+  <div class="step-title">APIキーを安全に管理する</div>
+  <p>研修事務局から配布される OpenAI の APIキー(利用のための合鍵)を、<strong>コードに直接書かず</strong> <code>.env</code> ファイルに保存します。<code>.env</code> は Git にコミットしない約束のファイルです(<code>.gitignore</code> に登録済み)。</p>
+  <span class="code-label">.env</span>
+  <pre>OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxx</pre>
+  <div class="note">⚠️ <strong>APIキーは絶対にコミット・チャット共有しない。</strong>漏えいすると第三者に不正利用され、高額請求につながります。誤ってコミットした場合は即メンターへ報告(キーの無効化が必要)。</div>
+</div></div>
+
+<div class="step"><div class="step-num">2</div><div class="step-body">
+  <div class="step-title">最小の呼び出しスクリプトを書く</div>
+  <span class="code-label">ask_llm.py</span>
+  <pre><span class="kw">import</span> os
+<span class="kw">from</span> dotenv <span class="kw">import</span> load_dotenv
+<span class="kw">from</span> openai <span class="kw">import</span> OpenAI
+
+load_dotenv()                          <span class="cm"># .env から環境変数を読み込む</span>
+client = OpenAI()                      <span class="cm"># APIキーは環境変数から自動で使われる</span>
+
+response = client.chat.completions.create(
+    model=<span class="st">"gpt-4o-mini"</span>,
+    messages=[
+        {<span class="st">"role"</span>: <span class="st">"system"</span>, <span class="st">"content"</span>: <span class="st">"あなたは新人研修の講師です。専門用語を使わず説明してください。"</span>},
+        {<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: <span class="st">"RAGとは何ですか?3行で教えてください。"</span>},
+    ],
+)
+<span class="fn">print</span>(response.choices[0].message.content)</pre>
+</div></div>
+
+<div class="screen">
+  <div class="window terminal">
+    <div class="win-titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">ターミナル — LLM呼び出し</span></div>
+    <div class="term-body"><span class="ok">(.venv)</span> <span class="ps">PS C:\Users\trainee\fde-training></span> <span class="cmd">python ask_llm.py</span>
+<span class="out">RAGは、AIが答える前にまず関係する資料を探してくる仕組みです。
+見つけた資料を根拠にして回答を作るので、でたらめな答えが減ります。
+社内文書の検索アプリなど、会社の中の情報を扱うときによく使われます。</span>
+<span class="ok">(.venv)</span> <span class="ps">PS C:\Users\trainee\fde-training></span> _</div>
+  </div>
+  <div class="screen-caption">プログラムからAIを呼び出せた状態。ChatGPTの画面で使うのと中身は同じAIですが、これで「自分のアプリにAIを組み込む」ことができるようになりました。</div>
+</div>
+
+<div class="step"><div class="step-num">3</div><div class="step-body">
+  <div class="step-title">プロンプト比較実験(レポート課題)</div>
+  <p>同じ質問に対して system プロンプト(AIへの役割指示)を3パターン変えて実行し、回答の違いを表にまとめて提出します。</p>
+  <ul>
+    <li>パターンA:役割指示なし</li>
+    <li>パターンB:「小学生にも分かるように」</li>
+    <li>パターンC:「箇条書き3点、各30字以内で。根拠がない場合は『分かりません』と答えること」</li>
+  </ul>
+  <p>レポートには「業務で使うならどのパターンをなぜ選ぶか」の考察を必ず含めます。</p>
+</div></div>
+
+<h3>5-2. 教材アプリの読解(第8週)</h3>
+<p>教材アプリの起動時処理 <code>initialize.py</code> を読み、「起動時に何がどの順で起きるか」をA4一枚に図解して発表します。読解の観点は次のとおりです。</p>
+<table>
+  <tr><th style="width:240px;">読解の問い</th><th>見るべき場所</th></tr>
+  <tr><td>検索対象の文書はどこから読み込まれる?</td><td><code>initialize.py</code> のデータ読み込み処理と <code>constants.py</code> のフォルダ設定</td></tr>
+  <tr><td>文書はどんな単位に分割される?</td><td>チャンク分割の設定値(チャンクサイズ/オーバーラップ)</td></tr>
+  <tr><td>「意味で検索できる形」はどこで作られる?</td><td>Embedding の生成とベクトルストア(検索用データベース)への格納</td></tr>
+  <tr><td>会話の記憶はどう保持される?</td><td>st.session_state(画面を再描画しても消えない保存場所)の初期化</td></tr>
+</table>
+
+<h3>5-3. 教材アプリを起動する(第9週)</h3>
+
+<div class="step"><div class="step-num">1</div><div class="step-body">
+  <div class="step-title">ライブラリを一括インストールして起動する</div>
+  <p>アプリに必要なライブラリの一覧(requirements ファイル)を使って一括インストールし、起動します。</p>
+  <pre>cd company_inner_search_app2
+pip install -r requirements_windows.txt   <span class="cm"># Mac の場合: requirements_mac.txt</span>
+streamlit run main.py</pre>
+</div></div>
+
+<div class="screen">
+  <div class="window browser">
+    <div class="win-titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">社内情報検索アプリ — Streamlit</span></div>
+    <div class="urlbar"><span class="navbtn">← → ⟳</span><span class="url">http://localhost:8501</span></div>
+    <div class="browser-body">
+      <div class="stl">
+        <div class="stl-sidebar">
+          <div class="stl-side-title">利用目的</div>
+          <div class="stl-radio sel"><span class="rb"></span>社内文書検索</div>
+          <div class="stl-radio"><span class="rb"></span>社内問い合わせ</div>
+          <div style="margin-top:14px; font-size:11px; color:#6a6f7a;">【「社内文書検索」を選択した場合】<br>入力内容と関連性が高い社内文書のありかを検索できます。</div>
+        </div>
+        <div class="stl-main">
+          <div class="stl-h1">🔍 社内情報検索アプリ</div>
+          <div class="stl-info">こちらは社内文書の検索を行うアプリです。サイドバーで利用目的を選択し、画面下部のチャット欄から質問を入力してください。</div>
+          <div class="stl-chat-user"><div class="stl-avatar">🧑</div><div class="stl-bubble">人事部に所属している社員を教えて</div></div>
+          <div class="stl-chat-ai"><div class="stl-avatar">🤖</div><div class="stl-bubble">人事部には6名の社員が所属しています。主なメンバーは佐藤花子(メンバー、2021年入社)、高橋健(課長、2016年入社)…(以下略)
+            <div class="stl-src">📄 参照元: data/社員について/社員名簿.csv</div>
+          </div></div>
+          <div class="stl-input"><span>こちらからメッセージを送信できます。</span><span>➤</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="screen-caption">教材アプリの起動画面。左のサイドバーで利用目的を切り替え、下のチャット欄から質問します。回答の下に「参照元」の文書名が表示される点に注目——これがRAGの「根拠を示す」機能です。</div>
+</div>
+
+<div class="check">
+  <div class="check-title">✅ 確認ポイント(起動確認)</div>
+  <ul>
+    <li>「社員について教えて」など3種類の質問をして、それぞれ参照元付きの回答が返る</li>
+    <li>わざと社内文書にない質問(例:「今日の天気は?」)をして、アプリがどう振る舞うか観察した</li>
+    <li>ターミナル側に出るログ(処理の記録)を眺め、1回の質問で何が起きているか推測した</li>
+  </ul>
+</div>
+
+<h3>5-4. 改修課題:回答に参照元ページ番号を表示する(第9〜10週)</h3>
+
+<div class="step"><div class="step-num">1</div><div class="step-body">
+  <div class="step-title">現状を観察し、Issue を起票する</div>
+  <p>現在はPDF文書の回答で「ファイル名」しか表示されません。「何ページ目か」も出せば利用者が原文を探しやすくなります。この改善提案を GitHub の Issue に書きます(タイトル例:「回答の参照元にページ番号を表示したい」)。</p>
+</div></div>
+
+<div class="step"><div class="step-num">2</div><div class="step-body">
+  <div class="step-title">アタリをつける → 直す → 確かめる</div>
+  <p>改修の基本は「①どこを直すかアタリをつける → ②最小限直す → ③動かして確かめる」の繰り返しです。</p>
+  <ul>
+    <li><strong>アタリ:</strong>参照元の表示は画面系の <code>components.py</code> にある。「参照元」「source」などの語で検索(VS Code の Ctrl+Shift+F)</li>
+    <li><strong>調査:</strong>検索結果の文書データが持つ付加情報(メタデータ)に <code>page</code> が含まれているか、<code>print()</code> を仕込んで確認</li>
+    <li><strong>修正:</strong>ファイル名の後ろに「(◯ページ)」を付けて表示するよう1〜数行変更</li>
+    <li><strong>確認:</strong>PDFに関する質問を3つ試し、ページ番号が正しく出ることを目視確認</li>
+  </ul>
+</div></div>
+
+<div class="step"><div class="step-num">3</div><div class="step-body">
+  <div class="step-title">PRを提出してマージまで完走する</div>
+  <p>第2章の手順どおり、ブランチ → コミット → PR。PRの説明には<strong>変更前後のスクリーンショット</strong>を貼ります(百聞は一見にしかず)。レビュー指摘に対応してマージされたら、この章は修了です。</p>
+</div></div>
+
+<div class="trouble">
+  <div class="trouble-title">🔧 つまずきポイントと対処</div>
+  <table>
+    <tr><th style="width:290px;">症状</th><th>原因と対処</th></tr>
+    <tr><td><code>AuthenticationError</code>(401)</td><td>APIキーの設定ミス。<code>.env</code> のキー名のつづり、値の前後の余分なスペースを確認</td></tr>
+    <tr><td>ライブラリのインストールに失敗する</td><td>仮想環境が有効か確認(先頭に <code>(.venv)</code>)。エラー文の最後の行をメンターに共有</td></tr>
+    <tr><td>アプリの起動が異常に遅い</td><td>初回はEmbedding作成に時間がかかるのが正常。2回目以降も遅い場合は data/ の容量とログを確認</td></tr>
+    <tr><td>直したのに画面が変わらない</td><td>別ファイルの同名処理を直している可能性。<code>print()</code> で自分の修正箇所が通っているか確認</td></tr>
+  </table>
+</div>
+
+<!-- ============================================================ -->
+<!-- 第6章 コンサル -->
+<!-- ============================================================ -->
+<div class="chapter">
+  <div class="ch-num">06</div>
+  <span class="ch-week">第 11〜13 週</span>
+  <h2>第6章 コンサルティング基礎</h2>
+  <p>技術を「顧客の価値」に変換するもう半分の武器。課題の構造化 → ヒアリング → 要件定義 → 経営層向けプレゼン、と実務の順番どおりに演習します。</p>
+</div>
+
+<div class="goal">
+  <div class="goal-title">🎯 この章の学習ゴール</div>
+  <ul>
+    <li>曖昧な課題をロジックツリーで「モレなくダブりなく」分解できる</li>
+    <li>ヒアリングを設計・実施し、議事録と要件定義書に落とせる</li>
+    <li>技術を知らない経営層に5枚のスライドで提案を伝えられる</li>
+  </ul>
+</div>
+
+<h3>6-1. 課題の構造化(第11週)</h3>
+
+<div class="step"><div class="step-num">1</div><div class="step-body">
+  <div class="step-title">お題:「社内の情報検索に時間がかかる」を分解する</div>
+  <p>いきなり解決策(「検索アプリを作ろう!」)に飛びつかず、まず<strong>原因の候補を構造化</strong>します。「なぜ時間がかかるのか?」を大きな枝(中分類)に分け、それぞれをさらに具体的な原因に分けます。各枝がMECE(モレなくダブりなく)になっているか、隣同士で意味が重なっていないかを確認します。</p>
+</div></div>
+
+<div class="screen">
+  <div class="ltree">
+    <div class="root">社内の情報検索に<br>時間がかかる</div>
+    <div class="conn">─</div>
+    <div class="l2col">
+      <div class="branch">
+        <div class="b2">情報が見つからない</div>
+        <div class="conn">─</div>
+        <div class="b3list">
+          <div class="b3">保存場所が部署ごとにバラバラ</div>
+          <div class="b3">ファイル名に規則がない</div>
+          <div class="b3">検索機能がキーワード完全一致のみ</div>
+        </div>
+      </div>
+      <div class="branch">
+        <div class="b2">見つけても使えない</div>
+        <div class="conn">─</div>
+        <div class="b3list">
+          <div class="b3">どれが最新版か分からない</div>
+          <div class="b3">閲覧権限の申請に時間がかかる</div>
+        </div>
+      </div>
+      <div class="branch">
+        <div class="b2">人に聞くしかない</div>
+        <div class="conn">─</div>
+        <div class="b3list">
+          <div class="b3">情報が特定の人の頭の中にある</div>
+          <div class="b3">問い合わせ窓口が不明確</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="screen-caption">ロジックツリーの完成イメージ。「どの枝が一番インパクトが大きいか」「どの枝ならデータとソフトウェアで解けるか」を議論する土台になります。</div>
+</div>
+
+<div class="step"><div class="step-num">2</div><div class="step-body">
+  <div class="step-title">ドキュメント化して相互レビュー</div>
+  <p>ツリーをドキュメントにまとめ、同期同士で相互レビューします。レビュー観点:①枝はMECEか ②「原因」と「解決策」が混ざっていないか ③各末端の枝は「検証可能」か(データや聞き取りで確かめられるか)。</p>
+</div></div>
+
+<h3>6-2. ヒアリングと要件定義(第12週)</h3>
+
+<div class="step"><div class="step-num">1</div><div class="step-body">
+  <div class="step-title">ヒアリングを「設計」する</div>
+  <p>ヒアリングは出たとこ勝負ではなく準備が9割。事前に「仮説」と「確認したいこと」を書き出した準備シートを作ります。</p>
+  <table>
+    <tr><th style="width:170px;">項目</th><th>記入例</th></tr>
+    <tr><td>相手の立場・関心</td><td>人事部長。採用資料作成の工数削減に関心。ITには詳しくない</td></tr>
+    <tr><td>仮説</td><td>過去の資料が見つからず、毎回ゼロから作り直しているのでは?</td></tr>
+    <tr><td>確認したい事実</td><td>資料作成の頻度/1回あたりの検索時間/どこに保存しているか</td></tr>
+    <tr><td>聞く順番</td><td>現状の業務の流れ → 困りごと → 理想の状態 → 制約(予算・期限)</td></tr>
+  </table>
+</div></div>
+
+<div class="step"><div class="step-num">2</div><div class="step-body">
+  <div class="step-title">ロールプレイ実施 → 議事録を24時間以内に出す</div>
+  <p>先輩社員が顧客役の30分ロールプレイを実施。終了後24時間以内に議事録を提出します。議事録の鉄則は<strong>「決まったこと」「宿題(誰が・何を・いつまでに)」「次回の予定」を必ず書く</strong>こと。発言の書き起こしではありません。</p>
+</div></div>
+
+<div class="step"><div class="step-num">3</div><div class="step-body">
+  <div class="step-title">要件定義書にまとめて顧客役の承認を得る</div>
+  <p>ヒアリング結果を要件定義書に落とします。下の様式を使い、<strong>「やらないこと」を必ず明記</strong>するのがポイントです(スコープの合意)。</p>
+</div></div>
+
+<div class="screen">
+  <div class="docmock">
+    <div class="doc-title">要件定義書(研修様式)</div>
+    <div class="doc-meta">案件名:人事部 社内文書検索の効率化 | 作成:山田太郎 | 承認:顧客役・メンター | 2026/xx/xx</div>
+    <table>
+      <tr><th>1. 背景・課題</th><td>採用資料の作成時に過去資料が見つからず、1回あたり平均40分の検索時間が発生している(ヒアリングで確認済み)。</td></tr>
+      <tr><th>2. 目的(成功基準)</th><td>資料検索の時間を平均40分 → 5分以内に短縮する。効果は導入1ヶ月後にアンケートで測定する。</td></tr>
+      <tr><th>3. やること(スコープ)</th><td>①人事部の共有フォルダ内文書を対象にした検索アプリの構築 ②検索結果に文書名・更新日・ページ番号を表示 ③人事部15名への説明会の実施</td></tr>
+      <tr><th>4. やらないこと</th><td>①他部署の文書は対象外(次フェーズで検討) ②文書の新規作成支援機能 ③スマートフォン対応</td></tr>
+      <tr><th>5. 前提・制約</th><td>予算:研修範囲内 / 納期:2週間 / 個人情報を含む文書は対象から除外する</td></tr>
+      <tr><th>6. 体制・スケジュール</th><td>開発:山田 / レビュー:メンター佐藤 / 週次で人事部長に進捗デモ(毎週金曜15:00)</td></tr>
+    </table>
+  </div>
+  <div class="screen-caption">要件定義書の完成イメージ。特に「4. やらないこと」が書けているかが評価ポイント。ここが曖昧だと後から作業が際限なく増えます(スコープクリープ)。</div>
+</div>
+
+<h3>6-3. 資料作成とプレゼン(第13週)</h3>
+<p>要件定義の内容を<strong>経営層向けの5枚スライド</strong>にまとめて発表します。経営層は技術の詳細ではなく「いくらかけて、何がどう良くなるのか」を知りたい——この視点の切り替えが本週のテーマです。</p>
+<table>
+  <tr><th style="width:110px;">スライド</th><th style="width:220px;">タイトル</th><th>書く内容</th></tr>
+  <tr><td>1枚目</td><td>結論(サマリー)</td><td>「検索時間を1/8にする社内検索アプリを2週間で導入します」— 結論を最初に言い切る</td></tr>
+  <tr><td>2枚目</td><td>課題</td><td>現状の困りごとを数字で示す(検索に平均40分 × 月30回 = 月20時間の損失)</td></tr>
+  <tr><td>3枚目</td><td>解決策</td><td>何を作るか。画面イメージ1枚+「AIが文書を根拠付きで答える」の一言。技術用語は使わない</td></tr>
+  <tr><td>4枚目</td><td>効果と費用</td><td>期待効果(時間換算・金額換算)と、かかる費用・リスク・その対策</td></tr>
+  <tr><td>5枚目</td><td>スケジュールと依頼事項</td><td>2週間の計画と、経営層に「決めてほしいこと」を明確に書く</td></tr>
+</table>
+<div class="check">
+  <div class="check-title">✅ 発表の評価観点</div>
+  <ul>
+    <li>専門用語(RAG、Embedding等)を一度も使わずに説明しきれたか</li>
+    <li>質疑で「分からないことを正直に分からないと言い、持ち帰り方を提示」できたか</li>
+    <li>5分の持ち時間を守れたか(実務では時間超過=準備不足と見なされます)</li>
+  </ul>
+</div>
+
+<!-- ============================================================ -->
+<!-- 第7章 総合演習 -->
+<!-- ============================================================ -->
+<div class="chapter">
+  <div class="ch-num">07</div>
+  <span class="ch-week">第 14〜16 週</span>
+  <h2>第7章 総合演習</h2>
+  <p>16週間の集大成。架空の顧客に対し、ヒアリングから実装・デモ・プレゼンまでを一人で完走します。ここでの成果物がそのまま修了判定の材料になります。</p>
+</div>
+
+<div class="goal">
+  <div class="goal-title">🎯 演習課題</div>
+  <p style="font-size:16px; font-weight:700; color:var(--navy); margin:0;">「架空の顧客(例:製造業の人事部)の社内文書検索を効率化せよ」</p>
+  <ul style="margin-top:8px;">
+    <li>顧客役(先輩FDE)は業務上の困りごとは話すが、<strong>作ってほしいものは言わない</strong>。要件はヒアリングで自分が引き出す</li>
+    <li>実装は教材アプリをベースにした機能追加(例:部署別の検索フィルタ、CSV社員名簿の横断検索)</li>
+  </ul>
+</div>
+
+<h3>7-1. 3週間のスケジュール</h3>
+<table>
+  <tr><th style="width:110px;">週</th><th style="width:250px;">やること</th><th>提出物(締切)</th></tr>
+  <tr><td><strong>第14週</strong></td><td>ヒアリング(2回まで)→ 課題の構造化 → 要件定義</td><td>ロジックツリー(水曜)/ 要件定義書・顧客役の承認(金曜)</td></tr>
+  <tr><td><strong>第15週</strong></td><td>実装スプリント</td><td>中間デモ(水曜)/ 動く機能一式のPR(金曜)</td></tr>
+  <tr><td><strong>第16週</strong></td><td>仕上げ・リハーサル → 最終発表</td><td>最終デモ+プレゼン15分・質疑10分(金曜)/ 振り返りシート(翌月曜)</td></tr>
+</table>
+<div class="note">💡 <strong>週次のメンター壁打ち(毎週火曜30分)</strong>は必ず使うこと。「順調です」で終わらせず、一番不安な点を1つ持ち込むのがルールです。</div>
+
+<h3>7-2. 成果物チェックリスト</h3>
+<table>
+  <tr><th style="width:210px;">成果物</th><th>合格の目安</th></tr>
+  <tr><td>① ロジックツリー</td><td>枝がMECEで、「データとソフトウェアで解ける枝」を根拠付きで選定している</td></tr>
+  <tr><td>② 要件定義書</td><td>成功基準が数値で書かれ、「やらないこと」が明記され、顧客役の承認を得ている</td></tr>
+  <tr><td>③ 実装(PR)</td><td>要件定義書のスコープと一致し、レビュー指摘対応まで完了。動作確認の手順がPRに書かれている</td></tr>
+  <tr><td>④ 最終デモ・プレゼン</td><td>実物のアプリで顧客の業務シナリオを再現。質疑で誠実に応答できる</td></tr>
+  <tr><td>⑤ 振り返りシート</td><td>うまくいったこと/いかなかったこと/次に変えることが具体的に書かれている</td></tr>
+</table>
+
+<h3>7-3. 評価ルーブリック(抜粋)</h3>
+<table>
+  <tr><th style="width:110px;">軸</th><th>レベル3(修了ライン)</th><th>レベル4〜5(優秀)</th></tr>
+  <tr><td><strong>技術</strong></td><td>レビュー指摘が軽微な修正のみでPRをマージできる</td><td>代替案を比較して設計判断を説明できる/テストを自発的に書いている</td></tr>
+  <tr><td><strong>コンサル</strong></td><td>ヒアリングから要件定義書を作り、顧客役の承認を得られる</td><td>顧客役の想定外の要求に対し、スコープ交渉で着地させられる</td></tr>
+  <tr><td><strong>ドメイン</strong></td><td>顧客(人事部)の業務の流れを踏まえた提案ができる</td><td>業務指標(工数・コスト)で効果を定量化して語れる</td></tr>
+</table>
+
+<div class="check">
+  <div class="check-title">✅ 修了判定(カリキュラム共通基準の再掲)</div>
+  <ul>
+    <li>顧客役へのヒアリングから要件定義書を作成できる</li>
+    <li>教材アプリ相当のRAGアプリを自力で改修・機能追加できる</li>
+    <li>成果物を顧客役の前でデモ・プレゼンし、質疑に答えられる</li>
+  </ul>
+  <p style="margin-top:8px; margin-bottom:0;">修了者は配属後3ヶ月間、月1回のフォローアップ会に参加します。本書と自分の成果物(ポートフォリオ)は配属先での最初の武器になります。</p>
+</div>
+
+<p class="small" style="margin-top:40px; text-align:center;">FDE実践研修プログラム 未経験者コース ハンズオン教材 — 関連資料: docs/fde-training-program.md / docs/fde-training-slides.html</p>
+
+</div>
+</body>
+</html>

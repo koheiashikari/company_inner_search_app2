@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FDE実践研修プログラム 研修スライド</title>
+<style>
+  :root {
+    --navy: #1a2b4a;
+    --navy-light: #2d4370;
+    --accent: #e8734a;
+    --accent-soft: #fdf0ea;
+    --teal: #2a7f7f;
+    --teal-soft: #e8f4f4;
+    --bg: #f4f2ee;
+    --card: #ffffff;
+    --text: #2b2b2b;
+    --muted: #6b6b6b;
+    --line: #ddd8d0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    height: 100%;
+    background: #22222a;
+    font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+    color: var(--text);
+    overflow: hidden;
+  }
+  #stage {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .slide {
+    width: 1280px; height: 720px;
+    background: var(--bg);
+    display: none;
+    flex-direction: column;
+    padding: 52px 68px 64px;
+    position: relative;
+    box-shadow: 0 8px 40px rgba(0,0,0,.5);
+    overflow: hidden;
+  }
+  .slide.active { display: flex; }
+
+  /* ---------- typography ---------- */
+  h1 { font-size: 54px; color: var(--navy); line-height: 1.3; }
+  h2 { font-size: 36px; color: var(--navy); margin-bottom: 22px; line-height: 1.3; }
+  h3 { font-size: 22px; color: var(--navy); margin-bottom: 8px; }
+  p, li { font-size: 19px; line-height: 1.65; }
+  ul { padding-left: 26px; }
+  li { margin-bottom: 7px; }
+  li ul { margin-top: 5px; }
+  li li { font-size: 17px; margin-bottom: 4px; color: #444; }
+  strong { color: var(--navy); }
+  .accent { color: var(--accent); }
+  small, .small { font-size: 15px; color: var(--muted); }
+  code {
+    font-family: "SF Mono", Consolas, Menlo, monospace;
+    font-size: .88em;
+    background: #ecebe6;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 1px 6px;
+  }
+
+  /* ---------- header parts ---------- */
+  .kicker {
+    display: inline-block;
+    font-size: 15px; font-weight: 700; letter-spacing: .12em;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .slide-head {
+    border-bottom: 3px solid var(--navy);
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+  }
+  .slide-head h2 { margin-bottom: 2px; }
+  .slide-head .sub { font-size: 16px; color: var(--muted); }
+
+  /* ---------- footer ---------- */
+  .pagefoot {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 68px;
+    font-size: 13px; color: var(--muted);
+    border-top: 1px solid var(--line);
+    background: rgba(255,255,255,.5);
+  }
+
+  /* ---------- term memo box ---------- */
+  .terms {
+    margin-top: auto;
+    background: var(--teal-soft);
+    border-left: 6px solid var(--teal);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 18px;
+  }
+  .terms .terms-title {
+    font-size: 14px; font-weight: 700; color: var(--teal);
+    letter-spacing: .08em; margin-bottom: 6px;
+  }
+  .terms dl { display: grid; grid-template-columns: max-content 1fr; gap: 3px 14px; }
+  .terms dt { font-size: 14.5px; font-weight: 700; color: var(--navy); white-space: nowrap; }
+  .terms dd { font-size: 14.5px; color: #333; line-height: 1.5; }
+
+  /* ---------- boxes / cards ---------- */
+  .cards { display: grid; gap: 18px; }
+  .cards.c2 { grid-template-columns: 1fr 1fr; }
+  .cards.c3 { grid-template-columns: 1fr 1fr 1fr; }
+  .cards.c4 { grid-template-columns: repeat(4, 1fr); }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 18px 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.05);
+  }
+  .card .card-tag {
+    display: inline-block;
+    font-size: 13px; font-weight: 700;
+    color: #fff; background: var(--navy);
+    border-radius: 20px; padding: 2px 12px;
+    margin-bottom: 10px;
+  }
+  .card.hl { border-top: 5px solid var(--accent); }
+  .card p, .card li { font-size: 16.5px; }
+
+  .goalbox {
+    background: var(--accent-soft);
+    border: 2px solid var(--accent);
+    border-radius: 10px;
+    padding: 18px 24px;
+    margin: 8px 0 18px;
+  }
+  .goalbox p { font-size: 21px; font-weight: 700; color: var(--navy); }
+
+  .notebox {
+    background: #fffbe8;
+    border-left: 6px solid #d9a520;
+    border-radius: 0 8px 8px 0;
+    padding: 10px 16px;
+    margin-top: 14px;
+    font-size: 15.5px;
+  }
+
+  /* ---------- tables ---------- */
+  table { border-collapse: collapse; width: 100%; background: var(--card); }
+  th, td { border: 1px solid var(--line); padding: 9px 14px; font-size: 16.5px; line-height: 1.5; text-align: left; vertical-align: top; }
+  th { background: var(--navy); color: #fff; font-size: 15.5px; letter-spacing: .04em; }
+  tr:nth-child(even) td { background: #faf9f6; }
+  td .td-note { display: block; font-size: 13.5px; color: var(--muted); margin-top: 3px; }
+  table.compact th, table.compact td { padding: 7px 12px; font-size: 15px; }
+
+  /* ---------- flow diagram ---------- */
+  .flow { display: flex; align-items: stretch; gap: 0; margin: 14px 0; }
+  .flow .step {
+    flex: 1;
+    background: var(--card);
+    border: 2px solid var(--navy);
+    border-radius: 10px;
+    padding: 12px 14px;
+    text-align: center;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .flow .step b { font-size: 17px; color: var(--navy); display: block; margin-bottom: 4px; }
+  .flow .step span { font-size: 13.5px; color: var(--muted); line-height: 1.45; }
+  .flow .arr {
+    align-self: center;
+    font-size: 26px; color: var(--accent);
+    padding: 0 8px; font-weight: 700;
+  }
+
+  /* ---------- phase timeline bar ---------- */
+  .timeline { display: flex; gap: 6px; margin: 12px 0 20px; }
+  .timeline .ph {
+    color: #fff; font-size: 15px; font-weight: 700;
+    padding: 10px 12px; border-radius: 8px;
+    text-align: center; line-height: 1.4;
+  }
+  .timeline .ph small { display: block; color: rgba(255,255,255,.85); font-size: 12.5px; font-weight: 400; }
+  .ph1 { background: var(--navy); }
+  .ph2 { background: var(--teal); }
+  .ph3 { background: #b0682f; }
+  .ph4 { background: var(--accent); }
+
+  /* ---------- section divider ---------- */
+  .divider { background: var(--navy); color: #fff; justify-content: center; }
+  .divider .kicker { color: #f0a586; }
+  .divider h1 { color: #fff; font-size: 48px; }
+  .divider p { color: #c9d2e4; font-size: 20px; margin-top: 16px; max-width: 900px; }
+  .divider .secnum {
+    font-size: 100px; font-weight: 800; color: rgba(255,255,255,.14);
+    position: absolute; top: 30px; right: 60px;
+  }
+
+  /* ---------- title slide ---------- */
+  .title-slide { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%); color: #fff; justify-content: center; }
+  .title-slide h1 { color: #fff; font-size: 58px; margin: 18px 0 10px; }
+  .title-slide .subtitle { font-size: 24px; color: #c9d2e4; margin-bottom: 40px; }
+  .title-slide .meta { font-size: 16px; color: #8fa0c0; }
+  .title-bar { width: 90px; height: 8px; background: var(--accent); border-radius: 4px; }
+
+  /* ---------- nav UI ---------- */
+  #hud {
+    position: fixed; bottom: 14px; right: 18px; z-index: 50;
+    display: flex; gap: 8px; align-items: center;
+    font-family: inherit;
+  }
+  #hud button {
+    background: rgba(255,255,255,.12); color: #fff;
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 6px; padding: 6px 14px;
+    font-size: 14px; cursor: pointer;
+  }
+  #hud button:hover { background: rgba(255,255,255,.25); }
+  #counter { color: #aaa; font-size: 13px; padding: 0 6px; }
+  #progress {
+    position: fixed; top: 0; left: 0; height: 4px;
+    background: var(--accent); z-index: 60; transition: width .2s;
+  }
+  #help {
+    position: fixed; bottom: 14px; left: 18px; z-index: 50;
+    color: #888; font-size: 12.5px;
+  }
+
+  /* ---------- print: 1 slide / page ---------- */
+  @media print {
+    @page { size: 1280px 720px; margin: 0; }
+    html, body { background: #fff; overflow: visible; height: auto; }
+    #stage { position: static; display: block; }
+    .slide {
+      display: flex !important;
+      box-shadow: none;
+      page-break-after: always;
+      margin: 0 auto;
+      transform: none !important;
+    }
+    #hud, #help, #progress { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="stage">
+
+<!-- ======================================================= -->
+<!-- 1. タイトル -->
+<!-- ======================================================= -->
+<section class="slide title-slide">
+  <div class="title-bar"></div>
+  <h1>FDE 実践研修プログラム</h1>
+  <p class="subtitle">Forward Deployed Engineer を育てる、レベル別・実践型カリキュラム</p>
+  <p class="meta">対象:新卒 / 中途 / 未経験者 &nbsp;|&nbsp; 教材:社内情報検索アプリ(company_inner_search_app2)</p>
+  <div class="pagefoot" style="border-top-color: rgba(255,255,255,.2); background: transparent; color:#8fa0c0;">
+    <span>FDE実践研修プログラム</span><span class="pageno"></span>
+  </div>
+</section>
+
+<!-- ======================================================= -->
+<!-- 2. このスライドの使い方 -->
+<!-- ======================================================= -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>このスライドの使い方</h2>
+    <div class="sub">研修講師・受講者の両方が参照できる説明資料です</div>
+  </div>
+  <div class="cards c2">
+    <div class="card">
+      <span class="card-tag">対象読者</span>
+      <ul>
+        <li><strong>研修講師・メンター</strong>:カリキュラムの説明・進行に使用</li>
+        <li><strong>受講者</strong>:研修全体の見取り図として、初日のオリエンテーションで配布</li>
+        <li><strong>マネージャー</strong>:育成計画・アサイン判断の参考資料として</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="card-tag">操作方法</span>
+      <ul>
+        <li>ページ送り:<strong>← → キー</strong>、スペースキー、画面右下のボタン</li>
+        <li><strong>ブラウザの印刷機能で PDF 化</strong>できます(1スライド=1ページ)</li>
+        <li>ファイルを開くだけで動作します(ネット接続不要)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="terms">
+    <div class="terms-title">📘 用語メモ — このボックスについて</div>
+    <dl>
+      <dt>用語メモ</dt><dd>各スライドの下部にあるこの水色のボックスでは、そのスライドに登場する<strong>専門用語を初心者向けに解説</strong>しています。分からない言葉が出てきたら、まずここを確認してください。巻末には全用語をまとめた「用語集」もあります。</dd>
+      <dt>FDE</dt><dd>Forward Deployed Engineer(フォワード・デプロイド・エンジニア)の略。「顧客の現場に前方展開(forward deploy)するエンジニア」という意味。詳しくは次のセクションで説明します。</dd>
+    </dl>
+  </div>
+  <div class="pagefoot"><span>FDE実践研修プログラム</span><span class="pageno"></span></div>
+</section>
+
+<!-- ======================================================= -->
+<!-- 3. アジェンダ -->
+<!-- ======================================================= -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>アジェンダ</h2>
+  </div>
+  <div class="cards c2" style="flex:1;">
+    <div class="card">
+      <ul style="list-style:none; padding-left:0;">
+        <li><strong style="color:var(--accent);">1.</strong> &nbsp;<strong>FDE という仕事を知る</strong><br><small>FDE の定義・働き方・求められる 3 つのスキル</small></li>
+        <li style="margin-top:14px;"><strong style="color:var(--accent);">2.</strong> &nbsp;<strong>研修の全体設計</strong><br><small>ゴール・修了判定基準・レベル別の 3 コース・教材アプリの紹介</small></li>
+        <li style="margin-top:14px;"><strong style="color:var(--accent);">3.</strong> &nbsp;<strong>未経験者向けコース(16週間)</strong><br><small>プログラミングの基礎から総合演習まで、4 フェーズの詳細</small></li>
+        <li style="margin-top:14px;"><strong style="color:var(--accent);">4.</strong> &nbsp;<strong>新卒向けコース(12週間)</strong><br><small>実務レベルの開発プラクティスとコンサルスキルの習得</small></li>
+      </ul>
+    </div>
+    <div class="card">
+      <ul style="list-style:none; padding-left:0;">
+        <li><strong style="color:var(--accent);">5.</strong> &nbsp;<strong>中途向けコース(6週間)</strong><br><small>アセスメント → 出身別ブリッジ研修 → 独り立ち判定</small></li>
+        <li style="margin-top:14px;"><strong style="color:var(--accent);">6.</strong> &nbsp;<strong>研修の運営設計</strong><br><small>評価制度・メンター制度・卒業後フォロー</small></li>
+        <li style="margin-top:14px;"><strong style="color:var(--accent);">7.</strong> &nbsp;<strong>付録:用語集</strong><br><small>IT 基礎・生成 AI・コンサル・開発プラクティスの用語を一覧で解説</small></li>
+      </ul>
+    </div>
+  </div>
+  <div class="pagefoot"><span>FDE実践研修プログラム</span><span class="pageno"></span></div>
+</section>
+
+<!-- ======================================================= -->
+<!-- SECTION 1 divider -->
+<!-- ======================================================= -->
+<section class="slide divider">
+  <div class="secnum">01</div>
+  <span class="kicker">SECTION 1</span>
+  <h1>FDE という仕事を知る</h1>
+  <p>まずは「FDE とは何者か」「普通のエンジニアやコンサルタントと何が違うのか」を理解します。ここが全研修の出発点です。</p>
+  <div class="pagefoot" style="border-top-color: rgba(255,255,255,.2); background: transparent; color:#8fa0c0;"><span>FDE実践研修プログラム</span><span class="pageno"></span></div>
+</section>
+
+<!-- 4. FDEとは -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>FDE(Forward Deployed Engineer)とは</h2>
+    <div class="sub">「顧客の現場に入り込んで、技術で課題を解決するエンジニア」</div>
+  </div>
+  <div class="goalbox">
+    <p>顧客のオフィスや現場に自ら出向き(= forward deploy)、顧客と一緒に課題を見つけ、その場でソフトウェアを作って解決する職種。</p>
+  </div>
+  <div class="cards c3">
+    <div class="card">
+      <h3>従来のエンジニア</h3>
+      <p style="font-size:16px;">自社オフィスで、<strong>決められた仕様書どおり</strong>に開発する。顧客と直接話す機会は少ない。</p>
+    </div>
+    <div class="card">
+      <h3>従来のコンサルタント</h3>
+      <p style="font-size:16px;">顧客の課題を分析し<strong>提案資料を作る</strong>が、実際にモノを作るのは別のエンジニア。</p>
+    </div>
+    <div class="card hl">
+      <h3>FDE</h3>
+      <p style="font-size:16px;"><strong>提案から実装までを一人(一チーム)で担う。</strong>「話せるエンジニア」「作れるコンサル」のハイブリッド。</p>
+    </div>
+  </div>
+  <div class="terms">
+    <div class="terms-title">📘 用語メモ</div>
+    <dl>
+      <dt>Forward Deploy</dt><dd>軍事用語の「前方展開」が由来。本社で待つのではなく「顧客の最前線に配置される」ことを表します。</dd>
+      <dt>Palantir(パランティア)</dt><dd>米国のデータ分析ソフトウェア企業。FDE という職種を確立したことで有名。同社の FDE は顧客先に常駐し、自社製品(Foundry など)を顧客の業務に合わせて実装します。</dd>
+    </dl>
+  </div>
+  <div class="pagefoot"><span>1. FDE という仕事を知る</span><span class="pageno"></span></div>
+</section>
+
+<!-- 5. FDEの働き方 -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>FDE の働き方 — 典型的なプロジェクトの流れ</h2>
+    <div class="sub">この流れ全体を一人で回せるようになることが、研修のゴールイメージです</div>
+  </div>
+  <div class="flow">
+    <div class="step"><b>① ヒアリング</b><span>顧客の現場で困りごとを聞く。課題はたいてい曖昧なまま語られる</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>② 課題の構造化</b><span>聞いた内容を整理し「本当に解くべき問題」を特定する</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>③ 要件定義・提案</b><span>「何を作るか」を文書化し、顧客と合意する</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>④ 実装</b><span>データを整備し、動くソフトウェアを短期間で作る</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>⑤ デモ・定着</b><span>顧客に見せてフィードバックをもらい、現場で使われる状態にする</span></div>
+  </div>
+  <ul>
+    <li>ポイントは <strong>①〜⑤ を高速に何度も回す</strong>こと。最初から完璧なものは作らず、小さく作って見せて直す</li>
+    <li>⑤ で「作ったのに使われない」となるのが最大の失敗。<strong>現場に定着するまでが FDE の仕事</strong></li>
+  </ul>
+  <div class="terms">
+    <div class="terms-title">📘 用語メモ</div>
+    <dl>
+      <dt>要件定義</dt><dd>「システムで何を実現するか」を顧客と合意して文書にまとめる工程。あとの工程すべての土台になります。</dd>
+      <dt>デモ</dt><dd>デモンストレーション。作ったものを実際に動かして顧客に見せること。口頭説明より何倍も伝わります。</dd>
+      <dt>定着(ていちゃく)</dt><dd>作ったシステムが現場で日常的に使われ続ける状態になること。導入(リリース)して終わり、ではありません。</dd>
+    </dl>
+  </div>
+  <div class="pagefoot"><span>1. FDE という仕事を知る</span><span class="pageno"></span></div>
+</section>
+
+<!-- 6. 3つのスキル領域 -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>FDE に求められる 3 つのスキル領域</h2>
+    <div class="sub">本研修はこの 3 領域をバランスよく鍛える構成になっています</div>
+  </div>
+  <div class="cards c3">
+    <div class="card" style="border-top:5px solid var(--navy);">
+      <h3>① エンジニアリング</h3>
+      <ul>
+        <li>Python / SQL / Git</li>
+        <li>API 設計</li>
+        <li>データパイプライン</li>
+        <li>LLM・RAG(生成 AI)</li>
+        <li>クラウド基礎</li>
+      </ul>
+    </div>
+    <div class="card" style="border-top:5px solid var(--teal);">
+      <h3>② コンサルティング</h3>
+      <ul>
+        <li>要件ヒアリング</li>
+        <li>課題の構造化</li>
+        <li>提案資料作成</li>
+        <li>ステークホルダー管理</li>
+        <li>ファシリテーション</li>
+      </ul>
+    </div>
+    <div class="card" style="border-top:5px solid var(--accent);">
+      <h3>③ ドメイン・プロダクト</h3>
+      <ul>
+        <li>顧客業界の業務知識</li>
+        <li>自社プロダクトの深い理解<br><small>(例:Palantir Foundry、生成 AI 基盤)</small></li>
+      </ul>
+    </div>
+  </div>
+  <div class="terms">
+    <div class="terms-title">📘 用語メモ</div>
+    <dl>
+      <dt>API</dt><dd>Application Programming Interface。プログラム同士が会話するための「窓口」。例:天気アプリは気象庁の API を呼び出して天気データを受け取っています。</dd>
+      <dt>データパイプライン</dt><dd>バラバラの場所・形式にあるデータを、集めて・変換して・使える形に流し込む一連の処理の流れのこと。</dd>
+      <dt>ステークホルダー</dt><dd>プロジェクトの利害関係者。顧客の担当者・その上司・実際に使う現場の人など、立場の異なる関係者全員を指します。</dd>
+      <dt>ドメイン</dt><dd>ここでは「事業領域・業界」の意味。製造、金融、医療など、顧客のビジネスの世界のこと。</dd>
+    </dl>
+  </div>
+  <div class="pagefoot"><span>1. FDE という仕事を知る</span><span class="pageno"></span></div>
+</section>
+
+<!-- 7. 共通ゴール -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>研修の共通ゴールと修了判定基準</h2>
+    <div class="sub">新卒・中途・未経験者、すべてのコースに共通する到達目標</div>
+  </div>
+  <div class="goalbox">
+    <p>「顧客の曖昧な課題を聞き取り、データとソフトウェアで動くものを短期間で作り、現場に定着させられる」状態になること。</p>
+  </div>
+  <h3 style="margin-top:6px;">修了判定:以下 3 つの最終アウトプットで判定します</h3>
+  <table>
+    <tr><th style="width:60px;">#</th><th style="width:390px;">判定項目</th><th>合格の目安</th></tr>
+    <tr><td><strong>1</strong></td><td>顧客役へのヒアリングから<strong>要件定義書</strong>を作成できる</td><td>課題・スコープ・成功基準が明文化され、顧客役が「これで合っている」と承認できる品質</td></tr>
+    <tr><td><strong>2</strong></td><td>本リポジトリ相当の <strong>RAG アプリを自力で改修・機能追加</strong>できる</td><td>他人の助けなしに、動く機能をプルリクエストとして提出できる</td></tr>
+    <tr><td><strong>3</strong></td><td>成果物を顧客役の前で<strong>デモ・プレゼンし、質疑に答えられる</strong></td><td>技術に詳しくない相手にも伝わる説明ができ、想定外の質問に誠実に対応できる</td></tr>
+  </table>
+  <div class="terms">
+    <div class="terms-title">📘 用語メモ</div>
+    <dl>
+      <dt>RAG(ラグ)</dt><dd>Retrieval-Augmented Generation(検索拡張生成)。AI が回答する前に社内文書などを「検索」し、その内容を根拠にして回答を「生成」する仕組み。セクション 2 で図解します。</dd>
+      <dt>スコープ</dt><dd>プロジェクトで「やること」と「やらないこと」の範囲。ここが曖昧だと、あとから作業が際限なく増えます。</dd>
+      <dt>プルリクエスト(PR)</dt><dd>「私が書いたこのコード変更を、チームの正式なコードに取り込んでください」という依頼。取り込む前にレビュー(他人のチェック)を受けるのが一般的です。</dd>
+    </dl>
+  </div>
+  <div class="pagefoot"><span>1. FDE という仕事を知る</span><span class="pageno"></span></div>
+</section>
+
+<!-- ======================================================= -->
+<!-- SECTION 2 divider -->
+<!-- ======================================================= -->
+<section class="slide divider">
+  <div class="secnum">02</div>
+  <span class="kicker">SECTION 2</span>
+  <h1>研修の全体設計</h1>
+  <p>受講者のレベルに合わせた 3 つのコースと、全コース共通で使うハンズオン教材(社内情報検索アプリ)を紹介します。</p>
+  <div class="pagefoot" style="border-top-color: rgba(255,255,255,.2); background: transparent; color:#8fa0c0;"><span>FDE実践研修プログラム</span><span class="pageno"></span></div>
+</section>
+
+<!-- 8. レベル定義 -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>対象者のレベル定義 — 3 つのコース</h2>
+    <div class="sub">スタート地点が違えば、必要な研修も違う。一律の研修は行いません</div>
+  </div>
+  <table>
+    <tr><th style="width:150px;">コース</th><th>想定プロフィール</th><th style="width:130px;">期間</th><th>研修の重点</th></tr>
+    <tr>
+      <td><strong>未経験者</strong></td>
+      <td>プログラミング経験なし。営業・バックオフィスなどからの職種転換組</td>
+      <td><strong>16 週間</strong></td>
+      <td>技術の土台作りに最も時間を割く。「写経 → 模倣 → 自作」の 3 段階で無理なく積み上げる</td>
+    </tr>
+    <tr>
+      <td><strong>新卒</strong></td>
+      <td>情報系学部の出身、または独学でプログラミング基礎あり。実務経験なし</td>
+      <td><strong>12 週間</strong></td>
+      <td>「動くコードが書ける」から「実務で通用する」へ。チーム開発の作法とコンサルスキル</td>
+    </tr>
+    <tr>
+      <td><strong>中途</strong></td>
+      <td>エンジニアまたはコンサルタントとして実務経験 3 年以上</td>
+      <td><strong>6 週間</strong></td>
+      <td>既存スキルを前提に「自社のやり方」と「不足領域の補完」に絞った短期集中型</td>
+    </tr>
+  </table>
+  <div class="notebox">💡 <strong>コースの決め方:</strong>自己申告ではなく、入社時のスキルチェック(簡単なコーディング課題+ケース面接)で客観的に判定します。新卒でもプログラミング未経験に近い場合は未経験者コースからスタートして構いません。</div>
+  <div class="terms">
+    <div class="terms-title">📘 用語メモ</div>
+    <dl>
+      <dt>写経(しゃきょう)</dt><dd>お手本のコードをそのまま自分の手で書き写して動かす学習法。読むだけより格段に身につきます。</dd>
+      <dt>ケース面接</dt><dd>「ある企業の売上を伸ばすには?」のようなお題に対し、その場で考えを構造化して答える面接形式。コンサル的思考力を測ります。</dd>
+    </dl>
+  </div>
+  <div class="pagefoot"><span>2. 研修の全体設計</span><span class="pageno"></span></div>
+</section>
+
+<!-- 9. 教材アプリ紹介 -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>ハンズオン教材:「社内情報検索アプリ」</h2>
+    <div class="sub">全コース共通で、実在のリポジトリ company_inner_search_app2 を教材に使います</div>
+  </div>
+  <div class="cards c2">
+    <div class="card">
+      <h3>どんなアプリ?</h3>
+      <p style="font-size:16.5px;">社内の文書(社員名簿・会議の議事録・サービス資料など)に対して、<strong>チャットで質問すると AI が文書を検索して答えてくれる</strong> Web アプリ。生成 AI 活用案件の最も典型的な形です。</p>
+      <p style="font-size:16.5px; margin-top:8px;">技術構成:<strong>Python + Streamlit + LangChain + OpenAI API</strong>(RAG 構成)</p>
+    </div>
+    <div class="card">
+      <h3>主なファイル構成</h3>
+      <table class="compact">
+        <tr><td><code>main.py</code></td><td>アプリの入口。画面全体の流れ</td></tr>
+        <tr><td><code>initialize.py</code></td><td>起動時の準備(文書の読み込みなど)</td></tr>
+        <tr><td><code>components.py</code></td><td>画面の部品(表示まわり)</td></tr>
+        <tr><td><code>utils.py</code></td><td>便利な関数のまとめ</td></tr>
+        <tr><td><code>constants.py</code></td><td>設定値・定数のまとめ</td></tr>
+        <tr><td><code>data/</code></td><td>検索対象の社内文書(教材データ)</td></tr>
+        <tr><td><code>test_parantia_ontology.py</code></td><td>Palantir OSDK の検証スクリプト</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="terms">
+    <div class="terms-title">📘 用語メモ</div>
+    <dl>
+      <dt>リポジトリ</dt><dd>プログラムのソースコード一式を保管する「入れ物」。GitHub 上でチーム全員が同じリポジトリを共有して開発します。</dd>
+      <dt>Streamlit</dt><dd>Python だけで Web アプリの画面が作れるツール。HTML や JavaScript を書かなくてよいので、データ系アプリの試作に最適。</dd>
+      <dt>LangChain</dt><dd>生成 AI アプリを組み立てるための Python ライブラリ(部品集)。文書の読み込み・検索・AI への質問などの部品が揃っています。</dd>
+      <dt>OpenAI API</dt><dd>ChatGPT を提供する OpenAI 社の AI を、自分のプログラムから呼び出すためのサービス。</dd>
+    </dl>
+  </div>
+  <div class="pagefoot"><span>2. 研修の全体設計</span><span class="pageno"></span></div>
+</section>
+
+<!-- 10. RAGとは -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>基礎知識:RAG の仕組み</h2>
+    <div class="sub">教材アプリの心臓部。この図を自分の言葉で説明できることが最初の関門です</div>
+  </div>
+  <div class="flow">
+    <div class="step"><b>① 質問</b><span>「経理部の山田さんの内線番号は?」とユーザーが入力</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>② 検索(Retrieval)</b><span>社内文書の中から質問に関係が深い部分を探し出す</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>③ 材料を渡す</b><span>見つけた文書の断片を LLM に「参考資料」として渡す</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>④ 生成(Generation)</b><span>LLM が参考資料に基づいて回答文を作る</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>⑤ 回答</b><span>根拠となった文書名と一緒に回答を表示</span></div>
+  </div>
+  <ul>
+    <li><strong>なぜ検索を挟むのか?</strong> LLM は社内情報を知らないため、そのまま聞くと「もっともらしい嘘(ハルシネーション)」を答えることがある。実在の文書を根拠にさせることで正確さを高める</li>
+    <li>検索の準備として、文書を細かく分割(<strong>チャンク分割</strong>)し、意味を数値化(<strong>Embedding</strong>)して保存しておく。この事前準備が教材アプリの <code>initialize.py</code> の役割</li>
+  </ul>
+  <div class="terms">
+    <div class="terms-title">📘 用語メモ</div>
+    <dl>
+      <dt>LLM</dt><dd>Large Language Model(大規模言語モデル)。ChatGPT の中身にあたる、文章を理解・生成する AI のこと。</dd>
+      <dt>ハルシネーション</dt><dd>AI が事実でないことを、さも本当のように答えてしまう現象。「幻覚」が語源。RAG はこの対策として有効です。</dd>
+      <dt>チャンク分割</dt><dd>長い文書を数百文字程度の「かたまり(チャンク)」に切り分けること。検索の精度に大きく影響します。</dd>
+      <dt>Embedding(埋め込み)</dt><dd>文章の「意味」を数百個の数値の並び(ベクトル)に変換する技術。意味が近い文章は近い数値になるため、「意味で検索」できるようになります。</dd>
+    </dl>
+  </div>
+  <div class="pagefoot"><span>2. 研修の全体設計</span><span class="pageno"></span></div>
+</section>
+
+<!-- ======================================================= -->
+<!-- SECTION 3 divider: 未経験者 -->
+<!-- ======================================================= -->
+<section class="slide divider">
+  <div class="secnum">03</div>
+  <span class="kicker">SECTION 3</span>
+  <h1>未経験者向けコース(16週間)</h1>
+  <p>プログラミング経験ゼロからのスタート。技術の土台作りに最も時間を割き、「写経 → 模倣 → 自作」の 3 段階で着実に積み上げます。</p>
+  <div class="pagefoot" style="border-top-color: rgba(255,255,255,.2); background: transparent; color:#8fa0c0;"><span>FDE実践研修プログラム</span><span class="pageno"></span></div>
+</section>
+
+<!-- 11. 未経験者 全体像 -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>未経験者コース:16 週間の全体像</h2>
+  </div>
+  <div class="timeline">
+    <div class="ph ph1" style="flex:6;">フェーズ 1(第1〜6週)<small>エンジニアリング基礎</small></div>
+    <div class="ph ph2" style="flex:4;">フェーズ 2(第7〜10週)<small>生成AI・RAG入門</small></div>
+    <div class="ph ph3" style="flex:3;">フェーズ 3(第11〜13週)<small>コンサル基礎</small></div>
+    <div class="ph ph4" style="flex:3;">フェーズ 4(第14〜16週)<small>総合演習</small></div>
+  </div>
+  <div class="cards c3">
+    <div class="card">
+      <span class="card-tag">STEP 1 写経</span>
+      <p style="font-size:16px;">お手本のコードを<strong>そのまま書き写して動かす</strong>。まず「動く体験」を積み、コードへの恐怖心をなくす段階。</p>
+    </div>
+    <div class="card">
+      <span class="card-tag">STEP 2 模倣</span>
+      <p style="font-size:16px;">お手本を<strong>少し変えて別の課題を解く</strong>。「この行を変えるとどうなる?」を繰り返し、仕組みの理解に進む段階。</p>
+    </div>
+    <div class="card">
+      <span class="card-tag">STEP 3 自作</span>
+      <p style="font-size:16px;">お手本なしで<strong>ゼロから自分で作る</strong>。調べながら自力で完成させる。総合演習はこの段階の集大成。</p>
+    </div>
+  </div>
+  <div class="notebox">💡 <strong>運営メモ:</strong>未経験者は「分からないことが分からない」状態に陥りやすいため、<strong>毎日 15 分の朝会</strong>で詰まりを共有し、30 分悩んだら質問するルール(タイムボックス)を徹底します。</div>
+  <div class="pagefoot"><span>3. 未経験者向けコース(16週間)</span><span class="pageno"></span></div>
+</section>
+
+<!-- 12. 未経験 F1 python -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>フェーズ 1-a(第 1〜2 週):Python 基礎</h2>
+    <div class="sub">すべての土台。ここは焦らず、手を動かす量で勝負します</div>
+  </div>
+  <div class="cards c2">
+    <div class="card">
+      <h3>学ぶこと</h3>
+      <ul style="font-size:16.5px;">
+        <li><strong>変数</strong>:データに名前を付けて保存する箱</li>
+        <li><strong>制御構文</strong>:条件分岐(if)と繰り返し(for)</li>
+        <li><strong>関数</strong>:処理に名前を付けて再利用する仕組み</li>
+        <li><strong>クラス</strong>:データと処理をひとまとめにする設計図</li>
+        <li>リスト・辞書などのデータ構造、ファイルの読み書き</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>実践課題</h3>
+      <ul style="font-size:16.5px;">
+        <li><strong>演習問題 100 本ノック</strong>:1 問 5〜15 分の小問を大量にこなし、文法を体に覚えさせる</li>
+        <li><strong>CSV 集計スクリプト</strong>:社員名簿の CSV を読み込み、部署ごとの人数を集計して表示するプログラムを作成</li>
+        <li>毎日の成果はすべて Git にコミット(次週の練習も兼ねる)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="terms">
+    <div class="terms-title">📘 用語メモ</div>
+    <dl>
+      <dt>Python(パイソン)</dt><dd>世界で最も使われているプログラミング言語のひとつ。文法がシンプルで読みやすく、AI・データ分析分野の標準語。FDE の主力言語です。</dd>
+      <dt>CSV</dt><dd>Comma-Separated Values。カンマ区切りのテキストでできた表データのファイル形式。Excel でも開ける、データ受け渡しの定番。</dd>
+      <dt>スクリプト</dt><dd>比較的小さな、上から順に実行されるプログラムのこと。</dd>
+    </dl>
+  </div>
+  <div class="pagefoot"><span>3. 未経験者向けコース(16週間)</span><span class="pageno"></span></div>
+</section>
+
+<!-- 13. 未経験 F1 git -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>フェーズ 1-b(第 3 週):Git・GitHub・ターミナル操作</h2>
+    <div class="sub">チーム開発の共通言語。この週の流れを「毎日」繰り返して体で覚えます</div>
+  </div>
+  <div class="flow">
+    <div class="step"><b>① ブランチ作成</b><span>作業用の「枝」を作り、本体に影響させず開発</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>② コミット</b><span>変更に説明を付けて記録(セーブポイント)</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>③ プルリクエスト</b><span>「取り込んでください」とチームに依頼</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>④ レビュー対応</b><span>指摘をもらい、修正して再提出</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>⑤ マージ</b><span>承認され、本体のコードに合流</span></div>
+  </div>
+  <ul>
+    <li>あわせて<strong>ターミナル(黒い画面)の基本操作</strong>を習得:フォルダ移動、ファイル操作、プログラムの実行</li>
+    <li>レビューの受け方も練習:「指摘=人格否定ではない」。コードへの指摘を歓迎するマインドセットを作る</li>
+  </ul>
+  <div class="terms">
+    <div class="terms-title">📘 用語メモ</div>
+    <dl>
+      <dt>Git(ギット)</dt><dd>ソースコードの変更履歴を記録・管理するツール。「いつ・誰が・何を・なぜ変えたか」が全部残り、いつでも過去に戻れます。</dd>
+      <dt>GitHub(ギットハブ)</dt><dd>Git のリポジトリをインターネット上で共有できるサービス。チーム開発の世界標準プラットフォーム。</dd>
+      <dt>ブランチ</dt><dd>「枝」の意味。本体(main ブランチ)から枝分かれして安全に作業し、完成したら合流(マージ)させます。</dd>
+      <dt>ターミナル</dt><dd>文字だけでコンピュータに命令する画面。マウス操作より速く正確に作業でき、エンジニアの必須ツール。</dd>
+    </dl>
+  </div>
+  <div class="pagefoot"><span>3. 未経験者向けコース(16週間)</span><span class="pageno"></span></div>
+</section>
+
+<!-- 14. 未経験 F1 SQL -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>フェーズ 1-c(第 4 週):SQL とデータモデリング基礎</h2>
+    <div class="sub">FDE の仕事は「データに始まりデータに終わる」。データを扱う共通言語を学びます</div>
+  </div>
+  <div class="cards c2">
+    <div class="card">
+      <h3>学ぶこと</h3>
+      <ul style="font-size:16.5px;">
+        <li>SELECT / WHERE / JOIN / GROUP BY などの基本文法</li>
+        <li><strong>テーブル設計の基礎</strong>:データをどう表に分けて持つか(例:社員表と部署表を分けて ID でつなぐ)</li>
+        <li>「1 つの事実は 1 か所にだけ書く」という正規化の考え方</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>実践課題</h3>
+      <ul style="font-size:16.5px;">
+        <li>教材リポジトリの <code>data/</code> フォルダ(社員・顧客・サービスのデータ)をデータベース化した<strong>サンプル DB への問い合わせ演習</strong></li>
+        <li>例:「入社 3 年以内で営業部の社員一覧」「顧客ごとの契約サービス数」を SQL で取り出す</li>
+      </ul>
+    </div>
+  </div>
+  <div class="terms">
+    <div class="terms-title">📘 用語メモ</div>
+    <dl>
+      <dt>SQL(エスキューエル)</dt><dd>データベースに「こういうデータをください」と依頼するための言語。ほぼすべての企業システムの裏側で使われています。</dd>
+      <dt>データベース(DB)</dt><dd>大量のデータを整理して保存し、高速に取り出せるようにした仕組み。Excel の超強力版とイメージすると近いです。</dd>
+      <dt>テーブル</dt><dd>データベースの中の「表」。行(レコード)と列(カラム)でできています。</dd>
+      <dt>データモデリング</dt><dd>現実の業務(社員、顧客、契約…)を、どのような表とつながりで表現するか設計すること。</dd>
+    </dl>
+  </div>
+  <div class="pagefoot"><span>3. 未経験者向けコース(16週間)</span><span class="pageno"></span></div>
+</section>
+
+<!-- 15. 未経験 F1 web -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>フェーズ 1-d(第 5〜6 週):Web アプリ基礎</h2>
+    <div class="sub">「自分の作ったものが画面で動く」体験で、学習の推進力を作ります</div>
+  </div>
+  <div class="cards c2">
+    <div class="card">
+      <h3>学ぶこと</h3>
+      <ul style="font-size:16.5px;">
+        <li><strong>Web の仕組み</strong>:ブラウザとサーバーが HTTP で会話している、という全体像</li>
+        <li><strong>API の概念</strong>:プログラム同士がデータをやりとりする窓口</li>
+        <li><strong>Streamlit 入門</strong>:Python だけで画面(ボタン、入力欄、表)を作る方法</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>実践課題</h3>
+      <ul style="font-size:16.5px;">
+        <li><strong>社内 FAQ 表示アプリをゼロから作る</strong>
+          <ul>
+            <li>質問一覧を表示し、キーワードで絞り込める</li>
+            <li>FAQ データは CSV から読み込む(第 1〜2 週の復習)</li>
+            <li>完成したら同期の前でミニデモ(プレゼンの練習も兼ねる)</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="terms">
+    <div class="terms-title">📘 用語メモ</div>
+    <dl>
+      <dt>HTTP</dt><dd>ブラウザとサーバーの間の通信ルール。「このページをください(リクエスト)」「はいどうぞ(レスポンス)」のやりとりの決まりごと。</dd>
+      <dt>サーバー</dt><dd>ネットワーク越しにサービスを提供するコンピュータ。Web ページやデータを求めに応じて返してくれます。</dd>
+      <dt>FAQ</dt><dd>Frequently Asked Questions(よくある質問)。</dd>
+    </dl>
+  </div>
+  <div class="pagefoot"><span>3. 未経験者向けコース(16週間)</span><span class="pageno"></span></div>
+</section>
+
+<!-- 16. 未経験 F2 -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>フェーズ 2(第 7〜10 週):生成 AI・RAG 入門</h2>
+    <div class="sub">いよいよ教材アプリの世界へ。「使う」から「作る側」に回ります</div>
+  </div>
+  <table>
+    <tr><th style="width:110px;">週</th><th style="width:340px;">テーマ</th><th>実践課題</th></tr>
+    <tr>
+      <td><strong>第 7 週</strong></td>
+      <td>LLM の仕組みとプロンプトエンジニアリング</td>
+      <td>OpenAI API を呼び出す最小スクリプト(20 行程度)を作成。同じ質問でもプロンプトの書き方で回答がどう変わるか<strong>比較実験レポート</strong>を作る</td>
+    </tr>
+    <tr>
+      <td><strong>第 8 週</strong></td>
+      <td>RAG の概念(Embedding / ベクトル検索 / チャンク分割)</td>
+      <td>教材アプリの <code>initialize.py</code> を読解し、<strong>処理フローを図解して発表</strong>。「起動時に何がどの順番で起きているか」を人に説明できるようにする</td>
+    </tr>
+    <tr>
+      <td><strong>第 9〜10 週</strong></td>
+      <td>教材アプリを動かす・改修する</td>
+      <td>環境構築 → 起動 → 小さな機能改修(例:<strong>回答に参照元のページ番号を表示する</strong>)を実装し、プルリクエストで提出。レビューを受けてマージまで完走する</td>
+    </tr>
+  </table>
+  <div class="terms">
+    <div class="terms-title">📘 用語メモ</div>
+    <dl>
+      <dt>プロンプト</dt><dd>AI への指示文のこと。「あなたは社内ヘルプデスクです。以下の資料に基づいて答えてください」のような文章。</dd>
+      <dt>プロンプトエンジニアリング</dt><dd>AI から狙い通りの回答を引き出すために、プロンプトを工夫・設計する技術。</dd>
+      <dt>環境構築</dt><dd>プログラムを自分のパソコンで動かすための準備作業。Python のインストール、ライブラリの導入、API キーの設定など。実案件でも最初のつまずきポイントなので研修で体験しておきます。</dd>
+      <dt>ベクトル検索</dt><dd>文章を数値(ベクトル)に変換したもの同士を比べ、「意味が近い」文書を探す検索方法。キーワードが一致しなくても意味が近ければヒットします。</dd>
+    </dl>
+  </div>
+  <div class="pagefoot"><span>3. 未経験者向けコース(16週間)</span><span class="pageno"></span></div>
+</section>
+
+<!-- 17. 未経験 F3 -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>フェーズ 3(第 11〜13 週):コンサルティング基礎</h2>
+    <div class="sub">技術を「顧客の価値」に変換するスキル。FDE のもう半分の武器です</div>
+  </div>
+  <table>
+    <tr><th style="width:110px;">週</th><th style="width:340px;">テーマ</th><th>実践課題</th></tr>
+    <tr>
+      <td><strong>第 11 週</strong></td>
+      <td>課題の構造化(ロジックツリー / MECE)</td>
+      <td>「社内の情報検索に時間がかかる」という曖昧な課題を、原因の候補に分解してロジックツリーでドキュメント化する</td>
+    </tr>
+    <tr>
+      <td><strong>第 12 週</strong></td>
+      <td>ヒアリングと要件定義</td>
+      <td>先輩社員が顧客役を演じる<strong>ロールプレイ</strong>。ヒアリング → 議事録作成 → <strong>要件定義書の作成</strong>まで一気通貫で実施</td>
+    </tr>
+    <tr>
+      <td><strong>第 13 週</strong></td>
+      <td>資料作成とプレゼン</td>
+      <td>要件定義の内容を<strong>経営層向け 5 枚スライド</strong>にまとめて発表。「技術の詳細ではなく、相手が知りたいこと」を語る訓練</td>
+    </tr>
+  </table>
+  <div class="terms">
+    <div class="terms-title">📘 用語メモ</div>
+    <dl>
+      <dt>ロジックツリー</dt><dd>大きな問題を「なぜ?」「どうやって?」で枝分かれさせて整理する図。原因の見落としや重複を防ぎます。</dd>
+      <dt>MECE(ミーシー)</dt><dd>Mutually Exclusive, Collectively Exhaustive の略。「モレなく、ダブりなく」分類できている状態。構造化の基本原則です。</dd>
+      <dt>ロールプレイ</dt><dd>役割を演じる練習方式。ここでは先輩が「顧客役」になり、本番さながらのヒアリングを体験します。</dd>
+      <dt>議事録</dt><dd>会議で「何が話され、何が決まり、誰が何をいつまでにやるか」を記録した文書。FDE の新人が最初に任される重要な仕事です。</dd>
+    </dl>
+  </div>
+  <div class="pagefoot"><span>3. 未経験者向けコース(16週間)</span><span class="pageno"></span></div>
+</section>
+
+<!-- 18. 未経験 F4 -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>フェーズ 4(第 14〜16 週):総合演習</h2>
+    <div class="sub">16 週間の集大成。ヒアリングから実装・プレゼンまでを一人で完走します</div>
+  </div>
+  <div class="goalbox">
+    <p>課題:「架空の顧客(例:製造業の人事部)の社内文書検索を効率化せよ」</p>
+  </div>
+  <div class="cards c2">
+    <div class="card">
+      <h3>進め方(3 週間)</h3>
+      <ul style="font-size:16.5px;">
+        <li><strong>第 14 週:</strong>顧客役へのヒアリング → 課題の構造化 → 要件定義書の作成・合意</li>
+        <li><strong>第 15 週:</strong>教材アプリをベースに機能追加を実装<br><small>例:部署別の検索フィルタ、CSV 社員名簿の横断検索</small></li>
+        <li><strong>第 16 週:</strong>仕上げ → 顧客役へのデモ → 最終プレゼン・質疑応答</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>サポート体制と評価</h3>
+      <ul style="font-size:16.5px;">
+        <li>メンター(中途研修修了者など)が<strong>週次でコードレビューと壁打ち</strong>を実施</li>
+        <li>評価は修了判定基準(要件定義書 / 実装 / デモ)のルーブリックで実施</li>
+        <li>「完璧だが未完成」より「粗くても動いて説明できる」を高く評価する</li>
+      </ul>
+    </div>
+  </div>
+  <div class="terms">
+    <div class="terms-title">📘 用語メモ</div>
+    <dl>
+      <dt>壁打ち(かべうち)</dt><dd>考えを人に話して整理すること。テニスの壁打ちのように、相手に打ち返してもらいながら思考を磨きます。</dd>
+      <dt>コードレビュー</dt><dd>書いたコードを他人がチェックし、バグや改善点を指摘してもらうこと。品質向上と学習の両方に効く、チーム開発の基本文化。</dd>
+    </dl>
+  </div>
+  <div class="pagefoot"><span>3. 未経験者向けコース(16週間)</span><span class="pageno"></span></div>
+</section>
+
+<!-- ======================================================= -->
+<!-- SECTION 4 divider: 新卒 -->
+<!-- ======================================================= -->
+<section class="slide divider">
+  <div class="secnum">04</div>
+  <span class="kicker">SECTION 4</span>
+  <h1>新卒向けコース(12週間)</h1>
+  <p>プログラミング基礎は習得済みの前提。「動くコードが書ける」と「実務で通用する」の間にある壁を越えるための、実務プラクティスとコンサルスキル中心の構成です。</p>
+  <div class="pagefoot" style="border-top-color: rgba(255,255,255,.2); background: transparent; color:#8fa0c0;"><span>FDE実践研修プログラム</span><span class="pageno"></span></div>
+</section>
+
+<!-- 19. 新卒 全体像 -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>新卒コース:12 週間の全体像</h2>
+  </div>
+  <div class="timeline">
+    <div class="ph ph1" style="flex:4;">フェーズ 1(第1〜4週)<small>実務エンジニアリング</small></div>
+    <div class="ph ph2" style="flex:3;">フェーズ 2(第5〜7週)<small>プロダクト・プラットフォーム</small></div>
+    <div class="ph ph3" style="flex:2;">フェーズ 3(第8〜9週)<small>コンサル実践</small></div>
+    <div class="ph ph4" style="flex:3;">フェーズ 4(第10〜12週)<small>模擬プロジェクト</small></div>
+  </div>
+  <div class="cards c2">
+    <div class="card">
+      <h3>未経験者コースとの違い</h3>
+      <ul style="font-size:16.5px;">
+        <li>文法学習はスキップし、初週から<strong>チーム開発の実務フロー</strong>に入る</li>
+        <li>「書ける」の先にある<strong>「読める・テストできる・運用できる」</strong>を鍛える</li>
+        <li>コンサルパートは、要件が曖昧・途中で変わるという<strong>実戦的な設定</strong>で行う</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>この 12 週間で越えるべき 3 つの壁</h3>
+      <ul style="font-size:16.5px;">
+        <li><strong>他人のコードの壁</strong>:自分が書いたことのない大きなコードを読み解く</li>
+        <li><strong>品質の壁</strong>:テスト・ログ・エラー処理まで含めて「完成」とする</li>
+        <li><strong>顧客の壁</strong>:技術の言葉を、顧客のビジネスの言葉に翻訳する</li>
+      </ul>
+    </div>
+  </div>
+  <div class="pagefoot"><span>4. 新卒向けコース(12週間)</span><span class="pageno"></span></div>
+</section>
+
+<!-- 20. 新卒 F1 -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>フェーズ 1(第 1〜4 週):実務エンジニアリング</h2>
+    <div class="sub">教材アプリを「読み・テストし・チューニングする」4 週間</div>
+  </div>
+  <table class="compact">
+    <tr><th style="width:90px;">週</th><th style="width:280px;">テーマ</th><th>実践課題</th></tr>
+    <tr>
+      <td><strong>第 1 週</strong></td>
+      <td>開発環境・チーム開発の作法</td>
+      <td>教材リポジトリを clone し、<strong>Issue 起票 → ブランチ作成 → PR 提出 → レビュー対応</strong>のサイクルを体験。コミットメッセージの書き方も指導</td>
+    </tr>
+    <tr>
+      <td><strong>第 2 週</strong></td>
+      <td>コードリーディング</td>
+      <td><code>main.py</code> / <code>initialize.py</code> / <code>utils.py</code> / <code>components.py</code> の<strong>責務分離を読み解き、アーキテクチャ図を作成して発表</strong></td>
+    </tr>
+    <tr>
+      <td><strong>第 3 週</strong></td>
+      <td>テスト・ログ・エラーハンドリング</td>
+      <td><code>test_parantia_ontology.py</code> を参考に、<code>utils.py</code> の関数へ <strong>pytest のテストを追加</strong>。ログ設計をレビューし「障害時に原因を追える出力か」を確認</td>
+    </tr>
+    <tr>
+      <td><strong>第 4 週</strong></td>
+      <td>RAG の内部理解</td>
+      <td><strong>チャンクサイズ・Embedding モデル・検索件数(top-k)を変えて回答品質を比較</strong>し、評価レポートを作成。「なんとなく動く」から「根拠を持って調整できる」へ</td>
+    </tr>
+  </table>
+  <div class="terms">
+    <div class="terms-title">📘 用語メモ</div>
+    <dl>
+      <dt>Issue(イシュー)</dt><dd>GitHub 上の「課題チケット」。バグ報告や機能要望を 1 件ずつ記録し、作業の単位として管理します。</dd>
+      <dt>責務分離</dt><dd>「このファイルは画面担当」「このファイルは計算担当」のように、役割ごとにコードを分けて整理する設計の考え方。</dd>
+      <dt>pytest</dt><dd>Python のテストを自動実行するツール。「この関数にこれを入れたらこれが返るはず」を検証するコードを書き、変更のたびに自動チェックできます。</dd>
+      <dt>top-k</dt><dd>検索結果の上位何件を AI に渡すかを決める数値。多すぎるとノイズが増え、少なすぎると根拠が足りなくなります。</dd>
+    </dl>
+  </div>
+  <div class="pagefoot"><span>4. 新卒向けコース(12週間)</span><span class="pageno"></span></div>
+</section>
+
+<!-- 21. 新卒 F2 -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>フェーズ 2(第 5〜7 週):プロダクト・プラットフォーム研修</h2>
+    <div class="sub">個々の技術から一段上がり、「データ基盤」というプラットフォームの視点を獲得します</div>
+  </div>
+  <table class="compact">
+    <tr><th style="width:90px;">週</th><th style="width:280px;">テーマ</th><th>実践課題</th></tr>
+    <tr>
+      <td><strong>第 5 週</strong></td>
+      <td>データ基盤とオントロジー概念</td>
+      <td>Palantir Foundry 等のプラットフォーム概説。<code>test_parantia_ontology.py</code> を題材に <strong>OSDK / オントロジー(Object・Link・Action)の構造</strong>を学習</td>
+    </tr>
+    <tr>
+      <td><strong>第 6 週</strong></td>
+      <td>データパイプライン演習</td>
+      <td><code>data/</code> 配下の雑多なファイル(PDF / Word / CSV / 会議議事録)を<strong>構造化データに変換するパイプラインを実装</strong>。実案件の「汚いデータとの格闘」を体験</td>
+    </tr>
+    <tr>
+      <td><strong>第 7 週</strong></td>
+      <td>クラウドデプロイ基礎</td>
+      <td>アプリを Streamlit Cloud 等に<strong>デプロイ</strong>し、<strong>環境変数・シークレット管理</strong>を実践。「自分の PC でしか動かない」を卒業する</td>
+    </tr>
+  </table>
+  <div class="terms">
+    <div class="terms-title">📘 用語メモ</div>
+    <dl>
+      <dt>オントロジー</dt><dd>企業のデータを「モノ(Object:社員・工場・注文など)」「つながり(Link:社員は部署に所属する)」「操作(Action:注文を承認する)」として整理した“業務の地図”。Palantir Foundry の中核概念です。</dd>
+      <dt>OSDK</dt><dd>Ontology SDK。オントロジー上のデータをプログラムから操作するための開発キット(SDK = Software Development Kit)。</dd>
+      <dt>構造化データ</dt><dd>行と列が決まった、プログラムで扱いやすい形式のデータ。PDF や議事録のような「非構造化データ」から構造化データを作るのが FDE の頻出業務です。</dd>
+      <dt>デプロイ</dt><dd>作ったアプリをサーバーに配置し、他の人も使える状態にすること。「配備」の意味。</dd>
+      <dt>環境変数・シークレット</dt><dd>API キーやパスワードなどの秘密情報を、コードに直接書かずに外側から渡す仕組み。漏えい事故防止の必須知識。</dd>
+    </dl>
+  </div>
+  <div class="pagefoot"><span>4. 新卒向けコース(12週間)</span><span class="pageno"></span></div>
+</section>
+
+<!-- 22. 新卒 F3 -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>フェーズ 3(第 8〜9 週):コンサルティング実践</h2>
+    <div class="sub">きれいな教科書どおりには進まない、実戦形式の 2 週間</div>
+  </div>
+  <div class="cards c2">
+    <div class="card">
+      <h3>実戦型ロールプレイ</h3>
+      <ul style="font-size:16.5px;">
+        <li>顧客役の要件が<strong>曖昧で、途中で変わる</strong>設定で実施</li>
+        <li>ヒアリング → 要件定義 → <strong>スコープ交渉</strong>までを体験<br><small>「それは今回の範囲外とし、次フェーズのご提案とさせてください」と言う練習</small></li>
+        <li>「技術的にできること」と「顧客が本当に必要なこと」の<strong>ギャップを埋める提案書</strong>を作成</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>シャドーイング(現場観察)</h3>
+      <ul style="font-size:16.5px;">
+        <li>先輩 FDE の<strong>商談・定例会議に週 2 回以上同席</strong></li>
+        <li>観察ポイントを事前に決めて臨む:<br><small>質問の順番/難しい質問のかわし方/宿題の引き取り方/会議の締め方</small></li>
+        <li>同席後は必ず<strong>気づきメモを提出</strong>し、メンターと振り返り</li>
+      </ul>
+    </div>
+  </div>
+  <div class="terms">
+    <div class="terms-title">📘 用語メモ</div>
+    <dl>
+      <dt>スコープ交渉</dt><dd>プロジェクトの範囲(やること・やらないこと)を顧客とすり合わせる交渉。安請け合いは炎上のもと、断りすぎは信頼低下。バランス感覚が必要です。</dd>
+      <dt>シャドーイング</dt><dd>先輩に影(shadow)のように同行し、実際の仕事ぶりを間近で観察する学習法。</dd>
+      <dt>定例(ていれい)</dt><dd>顧客と定期的に行う進捗確認の会議。週次定例が一般的。FDE の主戦場のひとつです。</dd>
+    </dl>
+  </div>
+  <div class="pagefoot"><span>4. 新卒向けコース(12週間)</span><span class="pageno"></span></div>
+</section>
+
+<!-- 23. 新卒 F4 -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>フェーズ 4(第 10〜12 週):模擬プロジェクト</h2>
+    <div class="sub">チームで実在の社内課題に取り組む、研修の総仕上げ</div>
+  </div>
+  <div class="cards c2">
+    <div class="card">
+      <h3>プロジェクト設計</h3>
+      <ul style="font-size:16.5px;">
+        <li><strong>3〜4 名のチーム</strong>で実施(役割分担と協働を経験する)</li>
+        <li>題材は<strong>実在の社内課題</strong>(例:営業部の過去提案書検索の効率化)</li>
+        <li>顧客役はマネージャーが担当し、本気でダメ出しをする</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>進め方と評価</h3>
+      <ul style="font-size:16.5px;">
+        <li><strong>週次で顧客役への進捗報告・デモ</strong>を行い、フィードバックを反映(小さく作って見せるサイクルの実践)</li>
+        <li>最終週:<strong>成果発表会</strong>+個人ごとの振り返り</li>
+        <li><strong>360 度フィードバック</strong>:チームメンバー・メンター・顧客役の全方向から評価を受ける</li>
+      </ul>
+    </div>
+  </div>
+  <div class="notebox">💡 <strong>運営メモ:</strong>チーム編成は技術力が偏らないように調整します。また「全員が一度は顧客の前で話す」ことをルール化し、実装担当に閉じこもるメンバーを作らないようにします。</div>
+  <div class="terms">
+    <div class="terms-title">📘 用語メモ</div>
+    <dl>
+      <dt>360 度フィードバック</dt><dd>上司だけでなく、同僚・後輩・関係者など全方向から評価コメントをもらう仕組み。自分では気づけない強み・弱みが見えます。</dd>
+    </dl>
+  </div>
+  <div class="pagefoot"><span>4. 新卒向けコース(12週間)</span><span class="pageno"></span></div>
+</section>
+
+<!-- ======================================================= -->
+<!-- SECTION 5 divider: 中途 -->
+<!-- ======================================================= -->
+<section class="slide divider">
+  <div class="secnum">05</div>
+  <span class="kicker">SECTION 5</span>
+  <h1>中途向けコース(6週間)</h1>
+  <p>実務経験 3 年以上が対象。既存スキルを前提に、「自社のやり方」の習得と「不足領域の補完」に絞った短期集中型プログラムです。</p>
+  <div class="pagefoot" style="border-top-color: rgba(255,255,255,.2); background: transparent; color:#8fa0c0;"><span>FDE実践研修プログラム</span><span class="pageno"></span></div>
+</section>
+
+<!-- 24. 中途 全体像+W1 -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>中途コース:6 週間の全体像と第 1 週(アセスメント)</h2>
+  </div>
+  <div class="timeline">
+    <div class="ph ph1" style="flex:1;">第 1 週<small>アセスメント</small></div>
+    <div class="ph ph2" style="flex:2;">第 2〜3 週<small>出身別ブリッジ研修</small></div>
+    <div class="ph ph3" style="flex:2;">第 4〜5 週<small>実案件シャドーイング(OJT)</small></div>
+    <div class="ph ph4" style="flex:1;">第 6 週<small>独り立ち判定</small></div>
+  </div>
+  <div class="cards c2">
+    <div class="card">
+      <h3>第 1 週:アセスメント(実力診断)</h3>
+      <ul style="font-size:16.5px;">
+        <li><strong>コーディングテスト+ケース面接形式</strong>のアセスメントで、個人ごとの不足領域を特定</li>
+        <li>結果に基づき、第 2〜3 週の研修内容を個別に調整する</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>第 1 週:オンボーディング課題</h3>
+      <ul style="font-size:16.5px;">
+        <li>教材アプリの<strong>環境構築 → 起動 → 小改修 PR を初週中に提出</strong></li>
+        <li>目的は開発フローへの習熟確認。「経験者でも当社の進め方に乗れるか」を早期に見る</li>
+      </ul>
+    </div>
+  </div>
+  <div class="terms">
+    <div class="terms-title">📘 用語メモ</div>
+    <dl>
+      <dt>アセスメント</dt><dd>能力・スキルの客観的な評価・診断のこと。研修を「全員一律」ではなく「個人の穴埋め」にするための出発点。</dd>
+      <dt>オンボーディング</dt><dd>新しく加わったメンバーが早く戦力になるための立ち上がり支援プロセス全般。</dd>
+      <dt>OJT</dt><dd>On the Job Training。座学ではなく、実際の仕事の中で学ぶ育成方法。</dd>
+    </dl>
+  </div>
+  <div class="pagefoot"><span>5. 中途向けコース(6週間)</span><span class="pageno"></span></div>
+</section>
+
+<!-- 25. 中途 W2-3 -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>第 2〜3 週:出身別ブリッジ研修</h2>
+    <div class="sub">エンジニア出身とコンサル出身では「足りない半分」が逆。重点を入れ替えて実施します</div>
+  </div>
+  <div class="cards c2">
+    <div class="card" style="border-top:5px solid var(--navy);">
+      <h3>エンジニア出身の方</h3>
+      <p class="small" style="margin-bottom:8px;">技術はある → <strong>コンサル力を集中補強</strong></p>
+      <ul style="font-size:16.5px;">
+        <li>課題構造化・提案書作成・顧客折衝の<strong>ロールプレイ集中訓練</strong></li>
+        <li><strong>価格・スコープ交渉の模擬演習</strong><br><small>「技術的にはできます」で安請け合いしない訓練</small></li>
+        <li>非エンジニアへの説明トレーニング(専門用語の翻訳)</li>
+      </ul>
+    </div>
+    <div class="card" style="border-top:5px solid var(--teal);">
+      <h3>コンサル出身の方</h3>
+      <p class="small" style="margin-bottom:8px;">顧客対応はできる → <strong>実装力を集中補強</strong></p>
+      <ul style="font-size:16.5px;">
+        <li><strong>Python / Git / RAG 実装のブートキャンプ</strong>(未経験者コースの教材を高速で消化)</li>
+        <li>教材アプリへの機能追加を<strong>毎週 1 本 PR 提出</strong><br><small>例:会話履歴の永続化、検索精度の改善</small></li>
+      </ul>
+    </div>
+  </div>
+  <div class="notebox">💡 <strong>共通プログラム:</strong>自社プロダクト・過去案件のケーススタディを実施。<strong>成功案件だけでなく“炎上案件”も教材化</strong>し、「何をすると失敗するか」を先に学びます。</div>
+  <div class="terms">
+    <div class="terms-title">📘 用語メモ</div>
+    <dl>
+      <dt>ブリッジ研修</dt><dd>今あるスキルと目標(FDE)の間の「橋渡し」をする研修。足りない部分だけを埋める効率重視の設計。</dd>
+      <dt>永続化(えいぞくか)</dt><dd>アプリを閉じてもデータが消えないように、ファイルやデータベースに保存すること。</dd>
+      <dt>炎上案件</dt><dd>納期遅延・品質問題・顧客との関係悪化などでプロジェクトが混乱状態になった案件のこと。</dd>
+    </dl>
+  </div>
+  <div class="pagefoot"><span>5. 中途向けコース(6週間)</span><span class="pageno"></span></div>
+</section>
+
+<!-- 26. 中途 W4-6 -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>第 4〜5 週:実案件シャドーイング / 第 6 週:独り立ち判定</h2>
+  </div>
+  <div class="cards c2">
+    <div class="card">
+      <h3>第 4〜5 週:OJT 型実案件シャドーイング</h3>
+      <ul style="font-size:16.5px;">
+        <li>実案件に<strong>「準メンバー」としてアサイン</strong>し、議事録作成・小タスクの実装を実際に担当</li>
+        <li><strong>週次でメンター FDE との 1on1</strong>を実施
+          <ul>
+            <li>案件での動き方のレビュー</li>
+            <li>顧客とのコミュニケーションの振り返り</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="card hl">
+      <h3>第 6 週:独り立ち判定</h3>
+      <ul style="font-size:16.5px;">
+        <li>実案件の <strong>1 テーマを単独で担当</strong>し、顧客(または顧客役)向けにデモ・報告を実施</li>
+        <li><strong>判定基準(4 項目)</strong>
+          <ul>
+            <li>要件把握の正確さ</li>
+            <li>実装品質</li>
+            <li>説明の分かりやすさ</li>
+            <li>期日管理</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="terms">
+    <div class="terms-title">📘 用語メモ</div>
+    <dl>
+      <dt>1on1(ワンオンワン)</dt><dd>上司やメンターと 1 対 1 で行う定期面談。進捗確認だけでなく、悩みや成長テーマを話す場。</dd>
+      <dt>アサイン</dt><dd>プロジェクトや役割に人を割り当てること。</dd>
+      <dt>独り立ち</dt><dd>メンターの常時サポートなしで、案件の一部を任せられる状態になること。</dd>
+    </dl>
+  </div>
+  <div class="pagefoot"><span>5. 中途向けコース(6週間)</span><span class="pageno"></span></div>
+</section>
+
+<!-- ======================================================= -->
+<!-- SECTION 6 divider -->
+<!-- ======================================================= -->
+<section class="slide divider">
+  <div class="secnum">06</div>
+  <span class="kicker">SECTION 6</span>
+  <h1>研修の運営設計</h1>
+  <p>研修は「やって終わり」にしない。評価・メンター制度・卒業後フォローまで含めて、育成を仕組み化します。</p>
+  <div class="pagefoot" style="border-top-color: rgba(255,255,255,.2); background: transparent; color:#8fa0c0;"><span>FDE実践研修プログラム</span><span class="pageno"></span></div>
+</section>
+
+<!-- 27. 評価 -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>評価とレベル判定</h2>
+    <div class="sub">「なんとなく良かった」を排除し、観点と基準を明文化して評価します</div>
+  </div>
+  <div class="cards c2">
+    <div class="card">
+      <h3>ルーブリック評価</h3>
+      <ul style="font-size:16.5px;">
+        <li>各フェーズ末に<strong>技術 / コンサル / ドメインの 3 軸 × 5 段階</strong>で評価</li>
+        <li>評価基準は事前に受講者へ公開する(何を目指せばいいか明確に)</li>
+        <li>例)技術軸レベル 3:「レビュー指摘が軽微な修正のみで PR をマージできる」</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>ポートフォリオの蓄積</h3>
+      <ul style="font-size:16.5px;">
+        <li>成果物(<strong>PR・要件定義書・プレゼン資料</strong>)はすべてポートフォリオとして蓄積</li>
+        <li>研修後の<strong>案件アサイン判断の材料</strong>として活用<br><small>「この人は検索チューニングの評価レポートが強い → データ品質案件へ」など</small></li>
+      </ul>
+    </div>
+  </div>
+  <div class="terms">
+    <div class="terms-title">📘 用語メモ</div>
+    <dl>
+      <dt>ルーブリック</dt><dd>「観点 × 到達レベル」の表形式で作る評価基準表。評価者による採点のブレを減らし、受講者には成長の地図になります。</dd>
+      <dt>ポートフォリオ</dt><dd>自分の成果物を集めた作品集。エンジニアの世界では GitHub 上のコードや資料がそのまま実力の証明になります。</dd>
+    </dl>
+  </div>
+  <div class="pagefoot"><span>6. 研修の運営設計</span><span class="pageno"></span></div>
+</section>
+
+<!-- 28. メンター -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>メンター制度 —「教えることで定着させる」サイクル</h2>
+  </div>
+  <div class="cards c2">
+    <div class="card">
+      <h3>体制</h3>
+      <ul style="font-size:16.5px;">
+        <li>受講者 <strong>2〜3 名に対しメンター FDE 1 名</strong></li>
+        <li><strong>週 1 回の 1on1</strong> + 日常的な <strong>PR レビュー</strong></li>
+        <li>メンターの役割は「答えを教える」ではなく「考え方を引き出す」<br><small>まず自分で調べる → 30 分詰まったら質問、のバランスを作る</small></li>
+      </ul>
+    </div>
+    <div class="card hl">
+      <h3>育成の循環</h3>
+      <ul style="font-size:16.5px;">
+        <li><strong>中途コース修了者が、次期の未経験者・新卒コースのメンターを務める</strong></li>
+        <li>「人に教える」ことが最も深い学習になる(学習定着率が最も高いのは“他人に教える”こと)</li>
+        <li>メンター経験自体を FDE のコンサル力(説明力・伴走力)のトレーニングと位置づける</li>
+      </ul>
+    </div>
+  </div>
+  <div class="terms">
+    <div class="terms-title">📘 用語メモ</div>
+    <dl>
+      <dt>メンター</dt><dd>経験者として学習者に伴走し、助言する役割の人。指示命令する上司とは異なる立場です。</dd>
+    </dl>
+  </div>
+  <div class="pagefoot"><span>6. 研修の運営設計</span><span class="pageno"></span></div>
+</section>
+
+<!-- 29. 教材まとめ+フォロー -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>教材リポジトリの使い方(まとめ)と卒業後フォロー</h2>
+  </div>
+  <table class="compact">
+    <tr><th style="width:420px;">教材</th><th>研修での用途</th></tr>
+    <tr><td><code>main.py</code> / <code>initialize.py</code> / <code>components.py</code> / <code>utils.py</code> / <code>constants.py</code></td><td>コードリーディング、責務分離・設定管理の学習、改修課題のベース</td></tr>
+    <tr><td><code>data/</code>(社員・顧客・サービス・MTG 議事録)</td><td>データパイプライン演習、RAG の検索品質評価の題材</td></tr>
+    <tr><td><code>test_parantia_ontology.py</code></td><td>テストの書き方、Palantir OSDK / オントロジー概念の学習</td></tr>
+    <tr><td><code>requirements_mac.txt</code> / <code>requirements_windows.txt</code></td><td>OS 別の環境構築演習</td></tr>
+  </table>
+  <div class="cards c2" style="margin-top:16px;">
+    <div class="card">
+      <h3>卒業後のフォロー</h3>
+      <ul style="font-size:16px;">
+        <li>修了後 3 ヶ月間は<strong>月 1 回のフォローアップ会</strong>(案件での詰まりを共有・相談)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>研修資産の再利用</h3>
+      <ul style="font-size:16px;">
+        <li>研修課題・模範解答は<strong>本リポジトリのブランチとして蓄積</strong>し、次期研修で再利用。回を重ねるほど研修が良くなる仕組み</li>
+      </ul>
+    </div>
+  </div>
+  <div class="terms">
+    <div class="terms-title">📘 用語メモ</div>
+    <dl>
+      <dt>requirements ファイル</dt><dd>そのアプリが必要とする Python ライブラリの一覧表。これを使うと誰のパソコンでも同じ環境を再現できます。</dd>
+    </dl>
+  </div>
+  <div class="pagefoot"><span>6. 研修の運営設計</span><span class="pageno"></span></div>
+</section>
+
+<!-- ======================================================= -->
+<!-- SECTION 7: 用語集 -->
+<!-- ======================================================= -->
+<section class="slide divider">
+  <div class="secnum">07</div>
+  <span class="kicker">APPENDIX</span>
+  <h1>付録:用語集</h1>
+  <p>研修中に出てくる用語を 4 カテゴリでまとめました。迷子になったらここに戻ってきてください。</p>
+  <div class="pagefoot" style="border-top-color: rgba(255,255,255,.2); background: transparent; color:#8fa0c0;"><span>FDE実践研修プログラム</span><span class="pageno"></span></div>
+</section>
+
+<!-- 30. 用語集A -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>用語集 A:IT 基礎</h2>
+  </div>
+  <table class="compact">
+    <tr><th style="width:220px;">用語</th><th>意味</th></tr>
+    <tr><td><strong>Python</strong></td><td>AI・データ分析分野で標準的なプログラミング言語。文法がシンプルで初学者にも学びやすい</td></tr>
+    <tr><td><strong>SQL</strong></td><td>データベースからデータを取り出す・書き込むための言語</td></tr>
+    <tr><td><strong>データベース(DB)</strong></td><td>大量のデータを整理して保存し、高速に取り出せる仕組み</td></tr>
+    <tr><td><strong>API</strong></td><td>プログラム同士がデータをやりとりするための「窓口」</td></tr>
+    <tr><td><strong>HTTP</strong></td><td>ブラウザとサーバーが会話するための通信ルール</td></tr>
+    <tr><td><strong>サーバー</strong></td><td>ネットワーク越しにサービスを提供するコンピュータ</td></tr>
+    <tr><td><strong>ターミナル</strong></td><td>文字コマンドでコンピュータを操作する画面</td></tr>
+    <tr><td><strong>CSV</strong></td><td>カンマ区切りの表データファイル。データ受け渡しの定番形式</td></tr>
+    <tr><td><strong>クラウド</strong></td><td>自前でサーバーを持たず、インターネット経由で借りて使うコンピュータ資源(AWS、Google Cloud など)</td></tr>
+    <tr><td><strong>デプロイ</strong></td><td>作ったアプリをサーバーに配置して、他の人が使える状態にすること</td></tr>
+    <tr><td><strong>環境変数・シークレット</strong></td><td>パスワードや API キーなどの秘密情報を、コードの外側から安全に渡す仕組み</td></tr>
+  </table>
+  <div class="pagefoot"><span>付録:用語集</span><span class="pageno"></span></div>
+</section>
+
+<!-- 31. 用語集B -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>用語集 B:生成 AI・RAG</h2>
+  </div>
+  <table class="compact">
+    <tr><th style="width:220px;">用語</th><th>意味</th></tr>
+    <tr><td><strong>LLM</strong></td><td>大規模言語モデル。ChatGPT の中身にあたる、文章を理解・生成する AI</td></tr>
+    <tr><td><strong>プロンプト</strong></td><td>AI への指示文。書き方の工夫で回答の質が大きく変わる</td></tr>
+    <tr><td><strong>RAG</strong></td><td>検索拡張生成。AI が回答前に文書を検索し、その内容を根拠に回答する仕組み</td></tr>
+    <tr><td><strong>ハルシネーション</strong></td><td>AI が事実でないことを、もっともらしく答えてしまう現象</td></tr>
+    <tr><td><strong>Embedding(埋め込み)</strong></td><td>文章の意味を数値の並び(ベクトル)に変換する技術。「意味で検索」を可能にする</td></tr>
+    <tr><td><strong>ベクトル検索</strong></td><td>Embedding 同士を比較して、意味が近い文書を探す検索方法</td></tr>
+    <tr><td><strong>チャンク分割</strong></td><td>長い文書を検索しやすい小さな「かたまり」に切り分けること</td></tr>
+    <tr><td><strong>top-k</strong></td><td>検索結果の上位何件を AI に渡すかの設定値</td></tr>
+    <tr><td><strong>LangChain</strong></td><td>生成 AI アプリを組み立てるための Python ライブラリ(部品集)</td></tr>
+    <tr><td><strong>Streamlit</strong></td><td>Python だけで Web アプリの画面を作れるツール</td></tr>
+    <tr><td><strong>オントロジー</strong></td><td>企業データを「モノ・つながり・操作」で整理した業務の地図(Palantir Foundry の中核概念)</td></tr>
+    <tr><td><strong>OSDK</strong></td><td>Ontology SDK。オントロジーをプログラムから操作する開発キット</td></tr>
+  </table>
+  <div class="pagefoot"><span>付録:用語集</span><span class="pageno"></span></div>
+</section>
+
+<!-- 32. 用語集C -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>用語集 C:コンサルティング</h2>
+  </div>
+  <table class="compact">
+    <tr><th style="width:220px;">用語</th><th>意味</th></tr>
+    <tr><td><strong>要件定義</strong></td><td>「システムで何を実現するか」を顧客と合意して文書化する工程</td></tr>
+    <tr><td><strong>スコープ</strong></td><td>プロジェクトで「やること・やらないこと」の範囲</td></tr>
+    <tr><td><strong>ロジックツリー</strong></td><td>大きな問題を枝分かれさせて整理する図。原因の見落とし・重複を防ぐ</td></tr>
+    <tr><td><strong>MECE(ミーシー)</strong></td><td>「モレなく、ダブりなく」分類できている状態。構造化の基本原則</td></tr>
+    <tr><td><strong>ステークホルダー</strong></td><td>プロジェクトの利害関係者(担当者・上司・現場の利用者など)</td></tr>
+    <tr><td><strong>ファシリテーション</strong></td><td>会議や議論を円滑に進行し、結論に導く技術</td></tr>
+    <tr><td><strong>議事録</strong></td><td>会議の内容・決定事項・宿題(誰が・何を・いつまでに)の記録</td></tr>
+    <tr><td><strong>定例</strong></td><td>顧客と定期的に行う進捗確認会議</td></tr>
+    <tr><td><strong>壁打ち</strong></td><td>考えを人に話して整理すること</td></tr>
+    <tr><td><strong>ケース面接</strong></td><td>お題に対しその場で考えを構造化して答える面接形式</td></tr>
+    <tr><td><strong>ドメイン</strong></td><td>顧客の事業領域・業界(製造、金融、医療など)</td></tr>
+  </table>
+  <div class="pagefoot"><span>付録:用語集</span><span class="pageno"></span></div>
+</section>
+
+<!-- 33. 用語集D -->
+<section class="slide">
+  <div class="slide-head">
+    <h2>用語集 D:開発プラクティス・育成</h2>
+  </div>
+  <table class="compact">
+    <tr><th style="width:220px;">用語</th><th>意味</th></tr>
+    <tr><td><strong>Git / GitHub</strong></td><td>コードの変更履歴を管理するツール / それをチームで共有するサービス</td></tr>
+    <tr><td><strong>リポジトリ</strong></td><td>ソースコード一式を保管する入れ物</td></tr>
+    <tr><td><strong>ブランチ</strong></td><td>本体に影響を与えず作業するための「枝分かれ」</td></tr>
+    <tr><td><strong>コミット</strong></td><td>変更内容に説明を付けて記録すること(セーブポイント)</td></tr>
+    <tr><td><strong>プルリクエスト(PR)</strong></td><td>自分の変更を本体に取り込んでもらう依頼。レビューを経てマージされる</td></tr>
+    <tr><td><strong>コードレビュー</strong></td><td>他人のコードをチェックし改善点を指摘し合う、品質と学習のための文化</td></tr>
+    <tr><td><strong>Issue</strong></td><td>GitHub 上の課題チケット。作業を 1 件ずつ管理する単位</td></tr>
+    <tr><td><strong>pytest</strong></td><td>Python のテストを自動実行するツール</td></tr>
+    <tr><td><strong>OJT</strong></td><td>実際の仕事の中で学ぶ育成方法(On the Job Training)</td></tr>
+    <tr><td><strong>1on1</strong></td><td>メンター・上司と 1 対 1 で行う定期面談</td></tr>
+    <tr><td><strong>シャドーイング</strong></td><td>先輩に同行して仕事ぶりを間近で観察する学習法</td></tr>
+    <tr><td><strong>ルーブリック</strong></td><td>「観点 × 到達レベル」で作る評価基準表</td></tr>
+    <tr><td><strong>360 度フィードバック</strong></td><td>上司・同僚・関係者など全方向から評価をもらう仕組み</td></tr>
+  </table>
+  <div class="pagefoot"><span>付録:用語集</span><span class="pageno"></span></div>
+</section>
+
+<!-- 34. クロージング -->
+<section class="slide title-slide">
+  <div class="title-bar"></div>
+  <h1 style="font-size:44px;">さいごに — FDE への最短ルートは「作って、見せる」</h1>
+  <p class="subtitle" style="font-size:20px; line-height:1.8; margin-top:10px;">
+    この研修で一貫しているのは「小さく作って、顧客(役)に見せて、直す」というサイクルです。<br>
+    完璧な準備より、動くものと素直なフィードバックの往復が、FDE を最速で育てます。
+  </p>
+  <p class="meta">運営・カリキュラムへの質問は研修事務局まで &nbsp;|&nbsp; 詳細ドキュメント:docs/fde-training-program.md</p>
+  <div class="pagefoot" style="border-top-color: rgba(255,255,255,.2); background: transparent; color:#8fa0c0;">
+    <span>FDE実践研修プログラム</span><span class="pageno"></span>
+  </div>
+</section>
+
+</div>
+
+<div id="hud">
+  <button id="prev">← 前へ</button>
+  <span id="counter"></span>
+  <button id="next">次へ →</button>
+</div>
+<div id="help">← → キー / スペースでページ送り&nbsp;|&nbsp;ブラウザの印刷で PDF 化できます</div>
+
+<script>
+(function () {
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var idx = 0;
+
+  // page numbers in footers
+  slides.forEach(function (s, i) {
+    var pn = s.querySelector('.pageno');
+    if (pn) pn.textContent = (i + 1) + ' / ' + slides.length;
+  });
+
+  function fit() {
+    var s = Math.min(window.innerWidth / 1280, window.innerHeight / 720) * 0.97;
+    slides.forEach(function (el) { el.style.transform = 'scale(' + s + ')'; });
+  }
+
+  function show(i) {
+    idx = Math.max(0, Math.min(slides.length - 1, i));
+    slides.forEach(function (el, j) { el.classList.toggle('active', j === idx); });
+    document.getElementById('counter').textContent = (idx + 1) + ' / ' + slides.length;
+    document.getElementById('progress').style.width = ((idx + 1) / slides.length * 100) + '%';
+    if (history.replaceState) history.replaceState(null, '', '#' + (idx + 1));
+  }
+
+  document.getElementById('prev').addEventListener('click', function () { show(idx - 1); });
+  document.getElementById('next').addEventListener('click', function () { show(idx + 1); });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); show(idx + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); show(idx - 1); }
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End') show(slides.length - 1);
+  });
+
+  window.addEventListener('resize', fit);
+
+  var start = parseInt((location.hash || '').replace('#', ''), 10);
+  fit();
+  show(isNaN(start) ? 0 : start - 1);
+})();
+</script>
+</body>
+</html>
